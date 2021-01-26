@@ -1,3 +1,4 @@
 certifi==2020.12.5
+pathlib==1.0.1
 PyPDF2==1.26.0
 wincertstore==0.2
