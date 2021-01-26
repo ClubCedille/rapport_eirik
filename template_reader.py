@@ -16,3 +16,10 @@ if template_fields is None:
 	print("No fields")
 else:
 	print_dictionary(template_fields)
+
+template_field_values = template.getFormTextFields()
+print("\nTemplate document field values")
+if template_field_values is None:
+	print("No fields")
+else:
+	print_dictionary(template_field_values)
