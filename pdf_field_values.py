@@ -2,6 +2,10 @@ from pathlib import Path
 from PyPDF2 import PdfFileReader
 from sys import argv, exit
 
+# This script writes the name and value of a PDF file's fields in a .txt file.
+# argv[1]: path to the input PDF file
+# argv[2]: (optional) path to the output .txt file
+
 INPUT_EXTENSION = ".pdf"
 OUTPUT_EXTENSION = ".txt"
 
