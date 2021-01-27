@@ -1,8 +1,8 @@
 from PyPDF2 import PdfFileReader
 
 def print_dictionary(d):
-	for key in d:
-		print(str(key) + ": " + str(d[key]))
+	for key, value in d.items():
+		print(str(key) + ": " + str(value))
 
 template = PdfFileReader(open("rapport_depenses.pdf", "rb"))
 
