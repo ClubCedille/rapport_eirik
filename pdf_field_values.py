@@ -35,7 +35,12 @@ if not output_path.suffix == OUTPUT_EXTENSION: # False if not a file
 
 # Real work
 reader = PdfFileReader(input_path.open(mode="rb"))
-field_values = reader.getFormTextFields()
+
+try:
+	field_values = reader.getFormTextFields()
+except TypeError:
+	print("File " + str(input_path) + " does not have fields.")
+	exit()
 
 field_str = str()
 for field, value in field_values.items():
