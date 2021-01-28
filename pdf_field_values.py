@@ -41,13 +41,13 @@ if not output_path.suffix == OUTPUT_EXTENSION: # False if not a file
 reader = PdfFileReader(input_path.open(mode="rb"))
 
 try:
-	field_values = reader.getFormTextFields()
+	field_values = reader.getFields()
 except TypeError:
 	print("File " + str(input_path) + " does not have fields.")
 	exit()
 
 field_str = str()
-for field, value in field_values.items():
-	field_str += str(field) + ": " + str(value) + "\n"
+for mapping_name, field in field_values.items():
+	field_str += str(mapping_name) + " (" + str(field.fieldType) + "): " + str(field.value) + "\n"
 
 output_path.write_text(field_str)
