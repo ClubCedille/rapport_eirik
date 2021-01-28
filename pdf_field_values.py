@@ -49,4 +49,5 @@ field_str = str()
 for mapping_name, field in pdf_fields.items():
 	field_str += str(mapping_name) + " (" + str(field.fieldType) + "): " + str(field.value) + "\n"
 
-output_path.write_text(field_str)
+header = "Fields in file " + str(input_path) + "\n\n"
+output_path.write_text(header + field_str)
