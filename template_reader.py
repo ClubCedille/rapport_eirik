@@ -23,14 +23,8 @@ input_stream = open("rapport_depenses.pdf", "rb")
 template = PdfFileReader(input_stream)
 field_list = get_pdf_field_list(template)
 
-# TODO FIXME: garbage code
-print("*********************************************" )
-somelist = []
-for i in field_list:
-	j = str(i).split(" ")[0]
-	somelist.append(j)
-	print(j)
-print("*********************************************" )
+# Epurate this list to keep only the exact field names
+field_list = [str(i).split(" ")[0] for i in field_list]
 
 template_info = template.getDocumentInfo()
 print("Template document info")
@@ -46,7 +40,7 @@ writer.cloneDocumentFromReader(template)
 page = writer.getPage(0)
 
 # Create a zip object from two lists then convert to dictionary
-field_update = dict(zip(somelist, somelist))
+field_update = dict(zip(field_list, field_list))
 
 writer.updatePageFormFieldValues(page, field_update)
 set_need_appearances(writer, True) # To make field values visible
