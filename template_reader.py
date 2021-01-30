@@ -21,10 +21,7 @@ def set_need_appearances(pdf_writer, bool_val):
 
 input_stream = open("rapport_depenses.pdf", "rb")
 template = PdfFileReader(input_stream)
-field_list = get_pdf_field_list(template)
-
-# Epurate this list to keep only the exact field names
-field_list = [str(i).split(" ")[0] for i in field_list]
+field_list = template.getFields()
 
 template_info = template.getDocumentInfo()
 print("Template document info")
