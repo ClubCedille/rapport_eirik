@@ -6,48 +6,64 @@ from sys import argv, exit
 # argv[1]: path to the input PDF file
 # argv[2]: (optional) path to the output .txt file
 
-INPUT_EXTENSION = ".pdf"
-OUTPUT_EXTENSION = ".txt"
+class FieldRecord:
+	def __init__(self, name, val_type, value):
+		self.name = name if type(name) is str else str(name)
+		self.val_type = val_type
+		self.value = value
 
-def check_path_existence(path):
-	if not path.exists():
-		print("ERROR! " + str(path) + " does not exist.")
+	def __str__(self):
+		return self.name + " (" + str(self.val_type) + "): " + str(self.value)
+
+
+def get_pdf_field_list(pdf_reader):
+	pdf_fields = pdf_reader.getFields()
+	if pdf_fields is None:
+		return None
+
+	field_list = list()
+	for mapping_name, field in pdf_fields.items():
+		field_list.append(FieldRecord(mapping_name, field.fieldType, field.value))
+
+	return field_list
+
+
+if __name__ == "__main__":
+	INPUT_EXTENSION = ".pdf"
+	OUTPUT_EXTENSION = ".txt"
+
+	# Input path checks
+	try:
+		input_path = Path(argv[1])
+	except IndexError:
+		print("ERROR! Need the input file as the first argument.")
 		exit()
 
-# Input path checks
-try:
-	input_path = Path(argv[1])
-except IndexError:
-	print("ERROR! Need the input file as the first argument.")
-	exit()
+	if not input_path.exists():
+		print("ERROR! " + str(input_path) + " does not exist.")
+		exit()
 
-check_path_existence(input_path)
+	if not input_path.suffix == INPUT_EXTENSION: # False if not a file
+		print("ERROR! The input file must have the extension " + INPUT_EXTENSION + ".")
+		exit()
 
-if not input_path.suffix == INPUT_EXTENSION: # False if not a file
-	print("ERROR! The input file must have the extension " + INPUT_EXTENSION + ".")
-	exit()
+	# Output path checks
+	try:
+		output_path = Path(argv[2])
+	except IndexError:
+		output_path = Path("field_values.txt")
 
-# Output path checks
-try:
-	output_path = Path(argv[2])
-except IndexError:
-	output_path = Path("field_values.txt")
+	if not output_path.suffix == OUTPUT_EXTENSION: # False if not a file
+		print("ERROR! The output file must have the extension " + OUTPUT_EXTENSION + ".")
+		exit()
 
-if not output_path.suffix == OUTPUT_EXTENSION: # False if not a file
-	print("ERROR! The output file must have the extension " + OUTPUT_EXTENSION + ".")
-	exit()
+	# Real work
+	reader = PdfFileReader(input_path.open(mode="rb"))
+	field_list = get_pdf_field_list(reader)
+	field_str = str()
 
-# Real work
-reader = PdfFileReader(input_path.open(mode="rb"))
+	for field in field_list:
+		field_str += str(field) + "\n"
 
-pdf_fields = reader.getFields()
-if pdf_fields is None:
-	print("File " + str(input_path) + " does not have fields.")
-	exit()
-
-field_str = str()
-for mapping_name, field in pdf_fields.items():
-	field_str += str(mapping_name) + " (" + str(field.fieldType) + "): " + str(field.value) + "\n"
-
-header = "Fields in file " + str(input_path) + "\n\n"
-output_path.write_text(header + field_str)
+	header = "Fields in file " + str(input_path) + "\n\n"
+	output_path.write_text(header + field_str)
