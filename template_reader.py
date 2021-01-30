@@ -1,19 +1,5 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
-#https://github.com/mstamy2/PyPDF2/issues/355#issuecomment-360317085
-from PyPDF2.generic import BooleanObject, NameObject
-
-def make_reader_field_content_visible(pdf_reader):
-	#https://github.com/mstamy2/PyPDF2/issues/355#issuecomment-353217311
-	if "/AcroForm" in pdf_reader.trailer["/Root"]:
-		pdf_reader.trailer["/Root"]["/AcroForm"].update(
-			{NameObject("/NeedAppearances"): BooleanObject(True)})
-
-
-def make_writer_field_content_visible(pdf_writer):
-	#https://github.com/mstamy2/PyPDF2/issues/355#issuecomment-353217311
-	if "/AcroForm" in pdf_writer._root_object:
-		pdf_writer._root_object["/AcroForm"].update(
-			{NameObject("/NeedAppearances"): BooleanObject(True)})
+from PyPDF2.generic import BooleanObject, IndirectObject, NameObject
 
 
 def print_dictionary(d):
@@ -21,25 +7,40 @@ def print_dictionary(d):
 		print(str(key) + ": " + str(value))
 
 
+def set_need_appearances(pdf_writer, bool_val):
+	# https://stackoverflow.com/questions/47288578/pdf-form-filled-with-pypdf2-does-not-show-in-print
+	catalog = pdf_writer._root_object
+	# Get the AcroForm tree and add "/NeedAppearances attribute
+	if "/AcroForm" not in catalog:
+		pdf_writer._root_object.update({
+			NameObject("/AcroForm"): IndirectObject(len(pdf_writer._objects), 0, pdf_writer)})
+
+	need_appearances = NameObject("/NeedAppearances")
+	pdf_writer._root_object["/AcroForm"][need_appearances] = BooleanObject(bool_val)
+
+
 input_stream = open("rapport_depenses.pdf", "rb")
 template = PdfFileReader(input_stream)
-make_reader_field_content_visible(template)
 
 template_info = template.getDocumentInfo()
 print("Template document info")
 print_dictionary(template_info)
 
 writer = PdfFileWriter()
-#writer.cloneDocumentFromReader(template)
-#page = writer.getPage(0)
-page = template.getPage(0)
-writer.addPage(page)
+# Editable output file
+#page = template.getPage(0)
+#writer.addPage(page)
+
+# Non editable output file
+writer.cloneDocumentFromReader(template)
+page = writer.getPage(0)
+
 field_update = {"Nom": "Dupré",
-				"Prenom": "Jeanne",
+				"Prenom": "Raphaëlle",
 				"Group2": "\Choix2",
-				"CodePermanent": "DUPJ01060901"}
+				"CodePermanent": "DUPR01060901"}
 writer.updatePageFormFieldValues(page, field_update)
-make_writer_field_content_visible(writer)
+set_need_appearances(writer, True) # To make field values visible
 
 output_stream = open("rapport_depenses_essai.pdf", "wb")
 writer.write(output_stream)
