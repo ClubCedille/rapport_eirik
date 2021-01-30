@@ -1,6 +1,6 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from PyPDF2.generic import BooleanObject, IndirectObject, NameObject
-
+from pdf_field_values import get_pdf_field_list
 
 def print_dictionary(d):
 	for key, value in d.items():
@@ -21,6 +21,16 @@ def set_need_appearances(pdf_writer, bool_val):
 
 input_stream = open("rapport_depenses.pdf", "rb")
 template = PdfFileReader(input_stream)
+field_list = get_pdf_field_list(template)
+
+# TODO FIXME: garbage code
+print("*********************************************" )
+somelist = []
+for i in field_list:
+	j = str(i).split(" ")[0]
+	somelist.append(j)
+	print(j)
+print("*********************************************" )
 
 template_info = template.getDocumentInfo()
 print("Template document info")
@@ -35,10 +45,9 @@ writer = PdfFileWriter()
 writer.cloneDocumentFromReader(template)
 page = writer.getPage(0)
 
-field_update = {"Nom": "Dupré",
-				"Prenom": "Raphaëlle",
-				"Group2": "\Choix2",
-				"CodePermanent": "DUPR01060901"}
+# Create a zip object from two lists then convert to dictionary
+field_update = dict(zip(somelist, somelist))
+
 writer.updatePageFormFieldValues(page, field_update)
 set_need_appearances(writer, True) # To make field values visible
 
