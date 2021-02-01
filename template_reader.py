@@ -1,6 +1,6 @@
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfFileReader
 from PyPDF2.generic import BooleanObject, IndirectObject, NameObject
-from pypdf2_util import set_need_appearances
+from pypdf2_util import make_writer_from_reader, set_need_appearances
 
 
 def print_dictionary(d):
@@ -15,19 +15,14 @@ template_info = template.getDocumentInfo()
 print("Template document info")
 print_dictionary(template_info)
 
-writer = PdfFileWriter()
-# Editable output file
-#page = template.getPage(0)
-#writer.addPage(page)
-
-# Non editable output file
-writer.cloneDocumentFromReader(template)
-page = writer.getPage(0)
+writer = make_writer_from_reader(template, False)
 
 field_update = {"Nom": "Dupré",
 				"Prenom": "Raphaëlle",
 				"Group2": "\Choix2",
-				"CodePermanent": "DUPR01060901"}
+				"CodePermanent": "DUPR01060901",
+				"Détails1": "Hôtel"}
+page = writer.getPage(0)
 writer.updatePageFormFieldValues(page, field_update)
 set_need_appearances(writer, True) # To make field values visible
 
