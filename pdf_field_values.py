@@ -6,7 +6,7 @@ from sys import argv, exit
 # argv[1]: path to the input PDF file
 # argv[2]: (optional) path to the output .txt file
 
-class FieldRecord:
+class PdfField:
 	def __init__(self, name, val_type, value):
 		self.name = name if type(name) is str else str(name)
 		self.val_type = val_type
@@ -23,7 +23,7 @@ def get_pdf_field_list(pdf_reader):
 
 	field_list = list()
 	for mapping_name, field in pdf_fields.items():
-		field_list.append(FieldRecord(mapping_name, field.fieldType, field.value))
+		field_list.append(PdfField(mapping_name, field.fieldType, field.value))
 
 	return field_list
 
