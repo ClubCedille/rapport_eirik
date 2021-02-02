@@ -21,7 +21,8 @@ field_update = {"Nom": "Dupré",
 				"Prenom": "Raphaëlle",
 				"Group2": "\Choix2",
 				"CodePermanent": "DUPR01060901",
-				"Détails1": "Hôtel"}
+				"Détails1": "Hôtel",
+				"UBR1": "UBR1"}
 page = writer.getPage(0)
 writer.updatePageFormFieldValues(page, field_update)
 set_need_appearances(writer, True) # To make field values visible
