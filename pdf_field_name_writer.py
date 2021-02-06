@@ -8,6 +8,7 @@ from sys import argv, exit
 # argv[2]: (optional) path to the output PDF file
 
 PDF_EXTENSION = ".pdf"
+TEXT_FIELD_TYPE = "/Tx"
 
 def check_path_existence(path):
 	if not path.exists():
@@ -21,8 +22,9 @@ def make_field_name_list(pdf_reader):
 		return None
 
 	name_list = list()
-	for name in pdf_fields.keys():
-		name_list.append(str(name))
+	for name, field in pdf_fields.items():
+		if field.fieldType == TEXT_FIELD_TYPE:
+			name_list.append(name)
 
 	return name_list
 
