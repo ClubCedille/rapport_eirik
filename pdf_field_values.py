@@ -8,7 +8,7 @@ from sys import argv, exit
 
 class PdfField:
 	def __init__(self, name, val_type, value):
-		self.name = name if type(name) is str else str(name)
+		self.name = name# if type(name) is str else str(name)
 		self.val_type = val_type
 		self.value = value
 
