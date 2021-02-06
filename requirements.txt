@@ -1,0 +1,4 @@
+certifi==2020.12.5
+pathlib==1.0.1
+PyYAML==5.4.1
+wincertstore==0.2
