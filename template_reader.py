@@ -19,7 +19,7 @@ writer = make_writer_from_reader(template, False)
 
 field_update = {"Nom": "Dupré",
 				"Prenom": "Raphaëlle",
-				"Group2": "\Choix2",
+				"Group2": "/Choix2",
 				"CodePermanent": "DUPR01060901",
 				"Détails1": "Hôtel",
 				"UBR1": "UBR1"}
