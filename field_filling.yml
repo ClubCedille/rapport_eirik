@@ -1,33 +1,33 @@
-Valider-HAUT: None
-Initialisation: None
+Valider-HAUT:
+Initialisation:
 
-# None: aucun choix
+# "": aucun choix
 # /Choix1: remboursement de frais de voyage
 # /Choix2: autre remboursement
-Group1: None
+Group1:
 
-NoRef: NoRef
-NoDoc: NoDoc
+NoRef:
+NoDoc:
 
-# None: aucun choix
+# "": aucun choix
 # /Choix1: Employé(e)
 # /Choix2: Étudiant(e)
-Group2: None
-Matricule: Matricule
-CodePermanent: CodePermanent
-Date: Date
+Group2:
+Matricule:
+CodePermanent: DUPR01060901
+Date:
 
-Prenom: Prenom
-Nom: Nom
-NomUA: NomUA
+Prenom: Raphaëlle
+Nom: Dupré
+NomUA:
 
-libelSiEtudiant: libelSiEtudiant
-Adresse: Adresse
-Ville: Ville
-CodePostal: CodePostal
-Province: Province
-Courriel: Courriel
-Group4: None
+libelSiEtudiant:
+Adresse: 1100, rue Notre-Dame Ouest
+Ville: Montréal
+CodePostal: H3C 1K3
+Province: Québec
+Courriel:
+Group4:
 
 # 60 caractères maximum
 Description: Description
@@ -42,91 +42,91 @@ Retour: Retour
 
 # Boîte cochée: /Oui
 # Boîte non cochée: None
-Boite1: None
-Présentation: Présentation
-Boite2: None
-Conférence: Conférence
-Boite3: None
-Boite4: None
-Autres: Autres
+Boite1:
+Présentation:
+Boite2:
+Conférence:
+Boite3:
+Boite4:
+Autres:
 
 # Détails des dépenses
-Détails1: Détails1
-Montant$1: Montant$1
-Détails2: Détails2
-Montant$2: Montant$2
-Détails3: Détails3
-Montant$3: Montant$3
-Détails4: Détails4
-Montant$4: Montant$4
-Détails5: Détails5
-Montant$5: Montant$5
-Détails6: Détails6
-Montant$6: Montant$6
-Détails7: Détails7
-Montant$7: Montant$7
-Détails8: Détails8
-Montant$8: Montant$8
-TotalMontant: TotalMontant
-Avance: Avance
-Réclamation$: Réclamation$
-KM: KM
+Détails1: Hôtel
+Montant$1: 999
+Détails2:
+Montant$2:
+Détails3:
+Montant$3:
+Détails4:
+Montant$4:
+Détails5:
+Montant$5:
+Détails6:
+Montant$6:
+Détails7:
+Montant$7:
+Détails8:
+Montant$8:
+TotalMontant:
+Avance:
+Réclamation$:
+KM: 42
 
-UBR1: UBR1
-CC1: CC1
-DF1: DF1
-CBS1: CBS1
-ccMontant$1: ccMontant$1
-UBR2: UBR2
-CC2: CC2
-DF2: DF2
-CBS2: CBS2
-ccMontant$2: ccMontant$2
-UBR3: UBR3
-CC3: CC3
-DF3: DF3
-CBS3: CBS3
-ccMontant$3: ccMontant$3
-UBR4: UBR4
-CC4: CC4
-DF4: DF4
-CBS4: CBS4
-ccMontant$4: ccMontant$4
-UBR5: UBR5
-CC5: CC5
-DF5: DF5
-CBS5: CBS5
-ccMontant$5: ccMontant$5
-TotalccMontant$: TotalccMontant$
+UBR1:
+CC1:
+DF1:
+CBS1:
+ccMontant$1:
+UBR2:
+CC2:
+DF2:
+CBS2:
+ccMontant$2:
+UBR3:
+CC3:
+DF3:
+CBS3:
+ccMontant$3:
+UBR4:
+CC4:
+DF4:
+CBS4:
+ccMontant$4:
+UBR5:
+CC5:
+DF5:
+CBS5:
+ccMontant$5:
+TotalccMontant$:
 
-UBR: None
-Compte: None
-DemFin: None
-CBS: None
+UBR:
+Compte:
+DemFin:
+CBS:
 
-Verifié C/P: Verifié C/P
-Date vérifié C/P: Date vérifié C/P
-autorisation budgétaire: autorisation budgétaire
-Date autorisation budgétaire: Date autorisation budgétaire
+Verifié C/P:
+Date vérifié C/P:
+autorisation budgétaire:
+Date autorisation budgétaire:
 
 # Non classé
-aaaa-mm-jj: None
-aaaa-mm-jj-1: None
-aaaa-mm-jj-2: None
-aaaa-mm-jj-3: None
-aaaa-mm-jj-4: None
-barreH1: barreH1
-barreH2: barreH2
-barreV3: barreV3
-barreV2: barreV2
-barreV1: barreV1
+aaaa-mm-jj:
+aaaa-mm-jj-1:
+aaaa-mm-jj-2:
+aaaa-mm-jj-3:
+aaaa-mm-jj-4:
+barreH1:
+barreH2:
+barreV3:
+barreV2:
+barreV1:
 
 # Signatures
-SignatureDemandeur: SignatureDemandeur
-TelDemandeur: TelDemandeur
-SignatureRequérant: SignatureRequérant
-NomRequérant: NomRequérant
-SignatureSupHiérarchique: SignatureSupHiérarchique
-NomSupHiérarchique: NomSupHiérarchique
+SignatureDemandeur:
+TelDemandeur:
+SignatureRequérant:
+NomRequérant:
+SignatureSupHiérarchique:
+NomSupHiérarchique:
 
-Valider-BAS: None
+Valider-BAS:
