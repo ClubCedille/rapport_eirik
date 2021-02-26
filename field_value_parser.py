@@ -1,4 +1,5 @@
 from pathlib import Path
+from sys import argv
 from yaml import FullLoader, load
 
 
@@ -26,6 +27,12 @@ def print_dictionary(a_dict):
 
 
 if __name__ == "__main__":
-	field_values = parse_field_values("field_filling.yml")
+	try:
+		fild_file_path = argv[1]
+	except IndexError:
+		print("The path to a field file must be provided as an argument.")
+		exit()
+
+	field_values = parse_field_values(fild_file_path)
 	field_values = filter_nones_from_dict(field_values)
 	print_dictionary(field_values)
