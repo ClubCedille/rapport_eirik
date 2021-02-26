@@ -16,7 +16,7 @@ def parse_field_values(field_config_path):
 	if type(field_config_path) is not Path:
 		field_config_path = Path(field_config_path)
 
-	with field_config_path.open() as config_stream:
+	with field_config_path.open(encoding="utf8") as config_stream:
 		return load(config_stream, FullLoader)
 
 
