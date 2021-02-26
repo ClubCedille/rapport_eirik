@@ -34,10 +34,10 @@ def print_dictionary(a_dict):
 
 if __name__ == "__main__":
 	try:
-		fild_setting_path = argv[1]
+		field_setting_path = argv[1]
 	except IndexError:
 		print("The path to a field setting file must be provided as an argument.")
 		exit()
 
-	field_values = parse_field_values(fild_setting_path)
+	field_values = parse_field_values(field_setting_path)
 	print_dictionary(field_values)
