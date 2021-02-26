@@ -13,12 +13,18 @@ def filter_nones_from_dict(a_dict):
 	return no_nones
 
 
-def parse_field_values(field_config_path):
-	if type(field_config_path) is not Path:
-		field_config_path = Path(field_config_path)
+def parse_field_values(field_setting_path, allow_nones=False):
+	if type(field_setting_path) is not Path:
+		field_setting_path = Path(field_setting_path)
 
-	with field_config_path.open(encoding="utf8") as config_stream:
-		return load(config_stream, FullLoader)
+	field_values = None
+	with field_setting_path.open(encoding="utf8") as field_setting_stream:
+		field_values = load(field_setting_stream, FullLoader)
+
+		if not allow_nones:
+			field_values = filter_nones_from_dict(field_values)
+
+	return field_values
 
 
 def print_dictionary(a_dict):
@@ -28,11 +34,10 @@ def print_dictionary(a_dict):
 
 if __name__ == "__main__":
 	try:
-		fild_file_path = argv[1]
+		fild_setting_path = argv[1]
 	except IndexError:
-		print("The path to a field file must be provided as an argument.")
+		print("The path to a field setting file must be provided as an argument.")
 		exit()
 
-	field_values = parse_field_values(fild_file_path)
-	field_values = filter_nones_from_dict(field_values)
+	field_values = parse_field_values(fild_setting_path)
 	print_dictionary(field_values)
