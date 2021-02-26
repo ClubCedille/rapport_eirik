@@ -22,6 +22,8 @@ field_update = {"Nom": "Dupré",
 				"Group2": "/Choix2",
 				"CodePermanent": "DUPR01060901",
 				"Détails1": "Hôtel",
+				"Montant$1": 999.99,
+				"KM": 42,
 				"UBR1": "UBR1"}
 page = writer.getPage(0)
 writer.updatePageFormFieldValues(page, field_update)
