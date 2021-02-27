@@ -4,12 +4,19 @@ from PyPDF2.generic import PdfObject
 from sys import argv
 
 
+_DLST = (dict, list, set, tuple)
+
+
 def _make_tabs(n):
 	return "\t" * n
 
 
 def _obj_and_type_to_str(obj):
 	return str(obj) + " " + str(type(obj))
+
+
+def _obj_is_a_dlst(obj):
+	return isinstance(obj, _DLST)
 
 
 def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
@@ -25,7 +32,7 @@ def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 		for i in range(length):
 			item = obj_to_write[i]
 
-			if isinstance(item, (dict, list, set, tuple)):
+			if _obj_is_a_dlst(item):
 				_write_page_objects_rec(w_stream, item, indent)
 			else:
 				w_stream.write(tabs + "[" + str(i) + "]: " + _obj_and_type_to_str(item) + "\n")
@@ -34,7 +41,7 @@ def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 		for key, value in obj_to_write.items():
 			line = tabs + str(key) + ":"
 
-			if isinstance(value, dict):
+			if _obj_is_a_dlst(value):
 				_write_page_objects_rec(w_stream, value, indent)
 			else:
 				line += " " + _obj_and_type_to_str(value)
@@ -43,7 +50,7 @@ def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 
 	elif isinstance(obj_to_write, set):
 		for item in obj_to_write:
-			if isinstance(item, (dict, list, set, tuple)):
+			if _obj_is_a_dlst(item):
 				_write_page_objects_rec(w_stream, item, indent)
 			else:
 				w_stream.write(tabs + _obj_and_type_to_str(item) + "\n")
