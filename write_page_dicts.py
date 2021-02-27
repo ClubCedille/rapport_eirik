@@ -37,7 +37,7 @@ def _write_page_objs_rec(w_stream, obj_to_write, indent=0):
 			if isinstance(value, dict):
 				_write_page_objs_rec(w_stream, value, indent)
 			else:
-				line += _obj_and_type_to_str(value)
+				line += " " + _obj_and_type_to_str(value)
 
 			w_stream.write(line + "\n")
 
