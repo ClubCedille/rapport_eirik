@@ -35,7 +35,9 @@ def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 			if _obj_is_a_dlst(item):
 				_write_page_objects_rec(w_stream, item, indent)
 			else:
-				w_stream.write(tabs + "[" + str(i) + "]: " + _obj_and_type_to_str(item) + "\n")
+				line = tabs + "[" + str(i) + "]: "\
+					+ _obj_and_type_to_str(item)
+				w_stream.write(line + "\n")
 
 	elif isinstance(obj_to_write, dict):
 		for key, value in obj_to_write.items():
@@ -53,9 +55,12 @@ def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 			if _obj_is_a_dlst(item):
 				_write_page_objects_rec(w_stream, item, indent)
 			else:
-				w_stream.write(tabs + _obj_and_type_to_str(item) + "\n")
+				line = tabs + _obj_and_type_to_str(item)
+				w_stream.write(line + "\n")
 
-	w_stream.write(tabs + str(obj_to_write) + "\n")
+	else:
+		line = tabs + str(obj_to_write)
+		w_stream.write(line + "\n")
 
 
 try:
