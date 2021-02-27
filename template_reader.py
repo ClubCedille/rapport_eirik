@@ -1,19 +1,13 @@
+from dict_util import print_dictionary
 from PyPDF2 import PdfFileReader
 from PyPDF2.generic import BooleanObject, IndirectObject, NameObject
 from pypdf2_util import make_writer_from_reader, set_need_appearances
-
-
-def print_dictionary(d):
-	for key, value in d.items():
-		print(str(key) + ": " + str(value))
-
 
 input_stream = open("rapport_depenses.pdf", "rb")
 template = PdfFileReader(input_stream)
 
 template_info = template.getDocumentInfo()
-print("Template document info")
-print_dictionary(template_info)
+print_dictionary(template_info, "Template document info")
 
 writer = make_writer_from_reader(template, False)
 
