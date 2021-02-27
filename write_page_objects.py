@@ -1,3 +1,9 @@
+# Exlores recursively the objects in a PDF file's pages and records their
+# hierachy in a .txt file.
+# argv[1]: path to the PDF file to explore
+# argv[2]: (optional) path to the .txt output file
+
+
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from PyPDF2.generic import PdfObject
