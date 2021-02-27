@@ -12,7 +12,7 @@ def _obj_and_type_to_str(obj):
 	return str(obj) + " " + str(type(obj))
 
 
-def _write_page_objs_rec(w_stream, obj_to_write, indent=0):
+def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 	tabs = _make_tabs(indent)
 	indent += 1
 
@@ -26,7 +26,7 @@ def _write_page_objs_rec(w_stream, obj_to_write, indent=0):
 			item = obj_to_write[i]
 
 			if isinstance(item, (dict, list, set, tuple)):
-				_write_page_objs_rec(w_stream, item, indent)
+				_write_page_objects_rec(w_stream, item, indent)
 			else:
 				w_stream.write(tabs + "[" + str(i) + "]: " + _obj_and_type_to_str(item) + "\n")
 
@@ -35,7 +35,7 @@ def _write_page_objs_rec(w_stream, obj_to_write, indent=0):
 			line = tabs + str(key) + ":"
 
 			if isinstance(value, dict):
-				_write_page_objs_rec(w_stream, value, indent)
+				_write_page_objects_rec(w_stream, value, indent)
 			else:
 				line += " " + _obj_and_type_to_str(value)
 
@@ -44,7 +44,7 @@ def _write_page_objs_rec(w_stream, obj_to_write, indent=0):
 	elif isinstance(obj_to_write, set):
 		for item in obj_to_write:
 			if isinstance(item, (dict, list, set, tuple)):
-				_write_page_objs_rec(w_stream, item, indent)
+				_write_page_objects_rec(w_stream, item, indent)
 			else:
 				w_stream.write(tabs + _obj_and_type_to_str(item) + "\n")
 
@@ -71,4 +71,4 @@ with output_path.open("w") as output_stream:
 	for i in range(len(pages)):
 		page = pages[i]
 		output_stream.write("\nPage " + str(i) + "\n")
-		_write_page_objs_rec(output_stream, page)
+		_write_page_objects_rec(output_stream, page)
