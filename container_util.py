@@ -39,15 +39,18 @@ def print_container(a_container, title=None):
 		print(line)
 
 
-def write_dict_in_stream(a_dict, w_stream, before_line=None, after_line=None):
+def write_container_in_stream(a_container, w_stream,
+		after_item=None, before_item=None):
 	assert(w_stream.mode in _STREAM_WRITING_MODES)
 
-	key_val_lines = dict_to_lines(a_dict)
-	for line in key_val_lines:
-		if before_line is not None:
-			line = before_line + line
+	container_to_lines_fnc = _container_to_lines_fnc(a_container)
 
-		if after_line is not None:
-			line += after_line
+	lines = container_to_lines_fnc(a_container)
+	for line in lines:
+		if before_item is not None:
+			line = before_item + line
+
+		if after_item is not None:
+			line += after_item
 
 		w_stream.write(line)
