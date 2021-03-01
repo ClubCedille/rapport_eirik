@@ -1,6 +1,5 @@
 from container_util import print_container
 from PyPDF2 import PdfFileReader
-from PyPDF2.generic import BooleanObject, IndirectObject, NameObject
 from pypdf2_util import make_writer_from_reader, set_need_appearances
 
 input_stream = open("rapport_depenses.pdf", "rb")
