@@ -88,5 +88,5 @@ with output_path.open("w") as output_stream:
 
 	for i in range(len(pages)):
 		page = pages[i]
-		output_stream.write("\nPage " + str(i) + "\n")
+		output_stream.write("\n\nPAGE " + str(i) + "\n")
 		_write_page_objects_rec(output_stream, page)
