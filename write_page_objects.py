@@ -78,13 +78,13 @@ except IndexError:
 try:
 	output_path = Path(argv[2])
 except IndexError:
-	output_path = input_path.parents[0]/(input_path.stem + ".txt")
+	output_path = input_path.parents[0]/(input_path.stem + "_object_hierarchy.txt")
 
 reader = PdfFileReader(input_path.open("rb"))
 pages = reader.pages
 
 with output_path.open("w") as output_stream:
-	output_stream.write("Content of " + str(input_path) + "\n")
+	output_stream.write("Object hierachy of " + str(input_path) + "\n")
 
 	for i in range(len(pages)):
 		page = pages[i]
