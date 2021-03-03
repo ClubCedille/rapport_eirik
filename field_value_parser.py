@@ -3,11 +3,11 @@ from sys import argv
 from yaml import FullLoader, load
 
 
-def filter_nones_from_dict(a_dict):
+def filter_values_from_dict(a_dict, unwanted_vals):
 	no_nones = dict()
 
 	for key, value in a_dict.items():
-		if value is not None:
+		if value not in unwanted_vals:
 			no_nones[key] = value
 
 	return no_nones
@@ -22,7 +22,7 @@ def parse_field_values(field_setting_path, allow_nones=False):
 		field_values = load(field_setting_stream, FullLoader)
 
 		if not allow_nones:
-			field_values = filter_nones_from_dict(field_values)
+			field_values = filter_values_from_dict(field_values, (None,))
 
 	return field_values
 
