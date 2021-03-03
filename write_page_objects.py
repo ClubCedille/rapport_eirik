@@ -22,7 +22,11 @@ _OUTPUT_EXTENSION_LIST = [_OUTPUT_EXTENSION]
 
 
 def _make_default_output_file_name(input_path):
-	return input_path.stem + "_object_hierarchy" + _OUTPUT_EXTENSION
+	return _make_default_output_file_stem(input_path) + _OUTPUT_EXTENSION
+
+
+def _make_default_output_file_stem(input_path):
+	return input_path.stem + "_object_hierarchy"
 
 
 def _make_tabs(n):
@@ -35,10 +39,6 @@ def _obj_and_type_to_str(obj):
 
 def _obj_is_a_dlst(obj):
 	return isinstance(obj, _DLST)
-
-
-def _replace_extension(a_path, extension):
-	return a_path.parents[0]/(a_path.stem + extension)
 
 
 def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
@@ -95,6 +95,7 @@ except IndexError:
 if not input_path.exists():
 	print("ERROR! Path " + str(input_path) + " does not exist.")
 	exit()
+
 elif input_path.suffixes != _INPUT_EXTENSION_LIST:
 	print("ERROR! The first argument must be the path to a "
 		+ _INPUT_EXTENSION + " file.")
@@ -102,12 +103,15 @@ elif input_path.suffixes != _INPUT_EXTENSION_LIST:
 
 try:
 	output_path = Path(argv[2])
+
 	if output_path.is_dir():
 		output_path = output_path/_make_default_output_file_name(input_path)
+
 	elif output_path.suffixes != _OUTPUT_EXTENSION_LIST:
-		output_path = _replace_extension(output_path, _OUTPUT_EXTENSION)
+		output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
+
 except IndexError:
-	output_path = input_path.parents[0]/_make_default_output_file_name(input_path)
+	output_path = input_path.with_name(_make_default_output_file_name(input_path))
 
 reader = PdfFileReader(input_path.open("rb"))
 pages = reader.pages
