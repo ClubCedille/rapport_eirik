@@ -70,7 +70,7 @@ except IndexError:
 	output_path = input_path.with_name(
 		_make_default_output_file_name(input_path))
 
-# Actual work
+# Real work
 reader = PdfFileReader(input_path.open(mode="rb"))
 writer = make_writer_from_reader(reader, False)
 

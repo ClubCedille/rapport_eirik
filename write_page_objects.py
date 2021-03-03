@@ -94,10 +94,10 @@ except IndexError:
 	exit()
 
 if not input_path.exists():
-	print("ERROR! Path " + str(input_path) + " does not exist.")
+	print("ERROR! " + str(input_path) + " does not exist.")
 	exit()
 
-elif input_path.suffixes != _INPUT_EXTENSION_LIST:
+elif input_path.suffixes != _INPUT_EXTENSION_LIST: # False if not a file
 	print("ERROR! The first argument must be the path to a "
 		+ _INPUT_EXTENSION + " file.")
 	exit()
@@ -116,10 +116,10 @@ except IndexError:
 	output_path = input_path.with_name(
 		_make_default_output_file_name(input_path))
 
+# Real work
 reader = PdfFileReader(input_path.open("rb"))
 pages = reader.pages
 
-# Actual work
 with output_path.open("w") as output_stream:
 	output_stream.write("Object hierachy of " + str(input_path) + "\n")
 
