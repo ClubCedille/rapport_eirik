@@ -27,11 +27,11 @@ Courriel:
 Group4:
 
 # 60 caractères maximum
-Description: Description
-Destination: Destination
+Description:
+Destination:
 # Préiode de l'activité
-DébutActivité: DébutActivité
-FinActivité: FinActivité
+DébutActivité:
+FinActivité:
 # Date de départ
 Départ: Départ
 # Date de retour
