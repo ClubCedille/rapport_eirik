@@ -85,6 +85,7 @@ def _write_page_objects_rec(w_stream, obj_to_write, indent=0):
 		w_stream.write(line + "\n")
 
 
+# Input path checks
 try:
 	input_path = Path(argv[1])
 except IndexError:
@@ -101,6 +102,7 @@ elif input_path.suffixes != _INPUT_EXTENSION_LIST:
 		+ _INPUT_EXTENSION + " file.")
 	exit()
 
+# Output path checks
 try:
 	output_path = Path(argv[2])
 
@@ -111,11 +113,13 @@ try:
 		output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
 
 except IndexError:
-	output_path = input_path.with_name(_make_default_output_file_name(input_path))
+	output_path = input_path.with_name(
+		_make_default_output_file_name(input_path))
 
 reader = PdfFileReader(input_path.open("rb"))
 pages = reader.pages
 
+# Actual work
 with output_path.open("w") as output_stream:
 	output_stream.write("Object hierachy of " + str(input_path) + "\n")
 
