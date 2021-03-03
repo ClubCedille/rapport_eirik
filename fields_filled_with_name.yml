@@ -1,18 +1,15 @@
-Valider-HAUT: None
-Initialisation: None
-
-# None: aucun choix
+# "": aucun choix
 # /Choix1: remboursement de frais de voyage
 # /Choix2: autre remboursement
-Group1: None
+Group1:
 
 NoRef: NoRef
 NoDoc: NoDoc
 
-# None: aucun choix
+# "": aucun choix
 # /Choix1: Employé(e)
 # /Choix2: Étudiant(e)
-Group2: None
+Group2:
 Matricule: Matricule
 CodePermanent: CodePermanent
 Date: Date
@@ -27,7 +24,7 @@ Ville: Ville
 CodePostal: CodePostal
 Province: Province
 Courriel: Courriel
-Group4: None
+Group4:
 
 # 60 caractères maximum
 Description: Description
@@ -41,13 +38,13 @@ Départ: Départ
 Retour: Retour
 
 # Boîte cochée: /Oui
-# Boîte non cochée: None
-Boite1: None
+# Boîte non cochée: ""
+Boite1:
 Présentation: Présentation
-Boite2: None
+Boite2:
 Conférence: Conférence
-Boite3: None
-Boite4: None
+Boite3:
+Boite4:
 Autres: Autres
 
 # Détails des dépenses
@@ -99,11 +96,6 @@ CBS5: CBS5
 ccMontant$5: ccMontant$5
 TotalccMontant$: TotalccMontant$
 
-UBR: None
-Compte: None
-DemFin: None
-CBS: None
-
 Verifié C/P: Verifié C/P
 Date vérifié C/P: Date vérifié C/P
 autorisation budgétaire: autorisation budgétaire
@@ -128,5 +120,3 @@ SignatureRequérant: SignatureRequérant
 NomRequérant: NomRequérant
 SignatureSupHiérarchique: SignatureSupHiérarchique
 NomSupHiérarchique: NomSupHiérarchique
-
-Valider-BAS: None

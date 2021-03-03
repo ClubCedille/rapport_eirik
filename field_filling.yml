@@ -1,6 +1,3 @@
-Valider-HAUT:
-Initialisation:
-
 # "": aucun choix
 # /Choix1: remboursement de frais de voyage
 # /Choix2: autre remboursement
@@ -41,7 +38,7 @@ Départ: Départ
 Retour: Retour
 
 # Boîte cochée: /Oui
-# Boîte non cochée: None
+# Boîte non cochée: ""
 Boite1:
 Présentation:
 Boite2:
@@ -99,11 +96,6 @@ CBS5:
 ccMontant$5:
 TotalccMontant$:
 
-UBR:
-Compte:
-DemFin:
-CBS:
-
 Verifié C/P:
 Date vérifié C/P:
 autorisation budgétaire:
@@ -128,5 +120,3 @@ SignatureRequérant:
 NomRequérant:
 SignatureSupHiérarchique:
 NomSupHiérarchique:
-
-Valider-BAS:
