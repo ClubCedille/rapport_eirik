@@ -32,15 +32,6 @@ def list_or_tuple_to_lines(a_tuplist):
 	return index_item_lines
 
 
-def set_to_lines(a_set):
-	item_lines = list()
-
-	for item in a_set:
-		item_lines.append(str(item))
-
-	return item_lines
-
-
 def print_container(a_container, title=None):
 	container_to_lines_fnc = _container_to_lines_fnc(a_container)
 
@@ -50,6 +41,15 @@ def print_container(a_container, title=None):
 	lines = container_to_lines_fnc(a_container)
 	for line in lines:
 		print(line)
+
+
+def set_to_lines(a_set):
+	item_lines = list()
+
+	for item in a_set:
+		item_lines.append(str(item))
+
+	return item_lines
 
 
 def write_container_in_stream(a_container, w_stream,
