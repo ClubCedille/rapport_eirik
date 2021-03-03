@@ -4,13 +4,13 @@ from yaml import FullLoader, load
 
 
 def filter_values_from_dict(a_dict, unwanted_vals):
-	no_nones = dict()
+	wanted_items = dict()
 
 	for key, value in a_dict.items():
 		if value not in unwanted_vals:
-			no_nones[key] = value
+			wanted_items[key] = value
 
-	return no_nones
+	return wanted_items
 
 
 def parse_field_values(field_setting_path, allow_nones=False):
