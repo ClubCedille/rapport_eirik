@@ -1,2 +1,2 @@
 # pdf-autofiller
-Automatisation de remplissages de PDF de demandes de remboursement.
+Automatisation du remplissage des fichiers PDF de demande de remboursement.
