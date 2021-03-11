@@ -14,6 +14,36 @@ from sys import argv
 from yaml import FullLoader, load
 
 
+def _dict_key_val_str(key, value):
+	"""
+	Creates a string representing a dictionary item. The string fits this
+	format: "<key>: <value>".
+
+	Args:
+		key: the key from the dictionary item
+		value: the value from the dictionary item
+
+	Returns:
+		str: a string representing the dictionary item
+	"""
+	return str(key) + ": " + str(value)
+
+
+def _dict_key_val_type_str(key, value):
+	"""
+	Creates a string representing a dictionary item. The string fits this
+	format: "<key>: <value> <type(value)>".
+
+	Args:
+		key: the key from the dictionary item
+		value: the value from the dictionary item
+
+	Returns:
+		str: a string representing the dictionary item
+	"""
+	return _dict_key_val_str(key, value) + " " + str(type(value))
+
+
 def filter_values_from_dict(a_dict, unwanted_vals):
 	"""
 	Creates a dictionary containing the items from a_dict minus those whose
@@ -59,16 +89,20 @@ def parse_field_values(field_setting_path, allow_nones=False):
 	return field_values
 
 
-def print_dictionary(a_dict):
+def print_dictionary(a_dict, print_val_type):
 	"""
 	Prints a dictionary's items in the console in the following format.
 	Key: value
 
 	Args:
 		a_dict (dict): any dictionary
+		print_val_type (bool): if True, the type of each value is also printed.
 	"""
+	item_to_str_fnc = _dict_key_val_type_str if print_val_type\
+		else _dict_key_val_str
+
 	for key, value in a_dict.items():
-		print(str(key) + ": " + str(value))
+		print(item_to_str_fnc(key, value))
 
 
 if __name__ == "__main__":
@@ -79,4 +113,4 @@ if __name__ == "__main__":
 		exit()
 
 	field_values = parse_field_values(field_setting_path)
-	print_dictionary(field_values)
+	print_dictionary(field_values, True)
