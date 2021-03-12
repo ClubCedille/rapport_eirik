@@ -3,9 +3,19 @@ Given a YAML file, this module allows to extract the name-value pairs that
 define the content of a PDF file's fields. If this module is executed with the
 path to a YAML file as its argument, it will print those pairs in the console.
 In the YAML file, the fields' name and value must be stated as follows.
+
 field1: value1
+
 field2: value2
+
 ...
+
+Args:
+	1: the path to a YAML file
+	2: a string matching a Boolean value. If True, the type of the fields'
+		value will be printed.
+		False: "0", "f", "false", "n" or "no"
+		True: "1", "t", "true", "y" or "yes"
 """
 
 
@@ -91,8 +101,8 @@ def parse_field_values(field_setting_path, allow_nones=False):
 
 def print_dictionary(a_dict, print_val_type):
 	"""
-	Prints a dictionary's items in the console in the following format.
-	Key: value
+	Prints a dictionary's items in the console in the following format:
+	"<key>: <value>".
 
 	Args:
 		a_dict (dict): any dictionary
@@ -105,6 +115,31 @@ def print_dictionary(a_dict, print_val_type):
 		print(item_to_str_fnc(key, value))
 
 
+def str_to_bool(bool_str):
+	"""
+	Converts a string to a Boolean value.
+
+	False: "0", "f", "false", "n" or "no"
+
+	True: "1", "t", "true", "y" or "yes"
+
+	Args:
+		bool_str (str): a string corresponding to a Boolean value
+
+	Returns:
+		bool: the Boolean value matching bool_str
+
+	Raises:
+		ValueError: if bool_str does not match a boolean value
+	"""
+	if bool_str.lower() in ("0", "f", "false", "n", "no"):
+		return False
+	if bool_str.lower() in ("1", "t", "true", "y", "yes"):
+		return True
+	raise ValueError("\"" + str(bool_str)
+		+ "\" does not match a boolean value.")
+
+
 if __name__ == "__main__":
 	try:
 		field_setting_path = Path(argv[1])
@@ -112,5 +147,14 @@ if __name__ == "__main__":
 		print("The path to a field setting file must be provided as an argument.")
 		exit()
 
+	try:
+		print_val_type = str_to_bool(argv[2])
+	except IndexError:
+		print_val_type = False
+	except ValueError as ve:
+		print(ve)
+		exit()
+
+
 	field_values = parse_field_values(field_setting_path)
-	print_dictionary(field_values, True)
+	print_dictionary(field_values, print_val_type)
