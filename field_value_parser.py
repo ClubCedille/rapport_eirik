@@ -13,7 +13,7 @@ field2: value2
 Args:
 	1: the path to a YAML file
 	2: a string matching a Boolean value. If True, the type of the fields'
-		value will be printed.
+		value will be printed. Defaults to False.
 		False: "0", "f", "false", "n" or "no"
 		True: "1", "t", "true", "y" or "yes"
 """
