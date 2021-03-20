@@ -1,0 +1,122 @@
+# "": aucun choix
+# /Choix1: remboursement de frais de voyage
+# /Choix2: autre remboursement
+Group1:
+
+NoRef:
+NoDoc:
+
+# "": aucun choix
+# /Choix1: Employé(e)
+# /Choix2: Étudiant(e)
+Group2:
+Matricule:
+CodePermanent: DUPR01060901
+Date:
+
+Prenom: Raphaëlle
+Nom: Dupré
+NomUA:
+
+libelSiEtudiant:
+Adresse: 1100, rue Notre-Dame Ouest
+Ville: Montréal
+CodePostal: H3C 1K3
+Province: Québec
+Courriel:
+Group4:
+
+# 60 caractères maximum
+Description:
+Destination:
+# Préiode de l'activité
+DébutActivité:
+FinActivité:
+# Date de départ
+Départ: Départ
+# Date de retour
+Retour: Retour
+
+# Boîte cochée: /Oui
+# Boîte non cochée: ""
+Boite1:
+Présentation:
+Boite2:
+Conférence:
+Boite3:
+Boite4:
+Autres:
+
+# Détails des dépenses
+Détails1: Hôtel
+Montant$1: 999.99
+Détails2:
+Montant$2:
+Détails3:
+Montant$3:
+Détails4:
+Montant$4:
+Détails5:
+Montant$5:
+Détails6:
+Montant$6:
+Détails7:
+Montant$7:
+Détails8:
+Montant$8:
+TotalMontant:
+Avance:
+Réclamation$:
+KM: 42
+
+UBR1:
+CC1:
+DF1:
+CBS1:
+ccMontant$1:
+UBR2:
+CC2:
+DF2:
+CBS2:
+ccMontant$2:
+UBR3:
+CC3:
+DF3:
+CBS3:
+ccMontant$3:
+UBR4:
+CC4:
+DF4:
+CBS4:
+ccMontant$4:
+UBR5:
+CC5:
+DF5:
+CBS5:
+ccMontant$5:
+TotalccMontant$:
+
+Verifié C/P:
+Date vérifié C/P:
+autorisation budgétaire:
+Date autorisation budgétaire:
+
+# Non classé
+aaaa-mm-jj:
+aaaa-mm-jj-1:
+aaaa-mm-jj-2:
+aaaa-mm-jj-3:
+aaaa-mm-jj-4:
+barreH1:
+barreH2:
+barreV1:
+barreV2:
+barreV3:
+
+# Signatures
+SignatureDemandeur:
+TelDemandeur:
+SignatureRequérant:
+NomRequérant:
+SignatureSupHiérarchique:
+NomSupHiérarchique:
