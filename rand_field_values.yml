@@ -1,5 +1,5 @@
 # Valeurs possibles: «voyage» et «autre»
-Raison: autre
+RaisonDépenses: autre
 
 NoRef: -1
 
@@ -32,16 +32,17 @@ Départ: 2021-03-04
 # Date de retour
 Retour: 2021-03-05
 
-Présentation:
-  cochée: true
-  sujet: plate
-Conférence:
-  cochée: true
-  nom: anonyme
-Sabbatique: false
-Autres:
-  cochée: true
-  précision: aliaj # «autres» en esperanto
+RaisonVoyage:
+  Présentation:
+    Cochée: true
+    Sujet: plate
+  Conférence:
+    Cochée: true
+    Nom: anonyme
+  Sabbatique: false
+  Autres:
+    Cochée: true
+    Précision: aliaj # «autres» en esperanto
 
 # Limite de 8 dépenses
 Dépenses:
