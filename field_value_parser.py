@@ -141,16 +141,9 @@ def parse_yaml_content(yaml_content):
 				_error_for_unexpected_value(key, value)
 		elif key == "Chèque ou dépôt":
 			if value.lower() == "dépôt":
-				field_values["Group4"] = "UNDEFINED"
+				field_values["Group4"] = "/D#E9p#F4t"
 			elif value.lower() == "chèque":
 				field_values["Group4"] = "/Ch#E8que"
-			else:
-				_error_for_unexpected_value(key, value)
-		elif key == "":
-			if value.lower() == "":
-				field_values["Group1"] = _CHOICE1
-			elif value.lower() == "":
-				field_values["Group1"] = _CHOICE2
 			else:
 				_error_for_unexpected_value(key, value)
 		elif key == "Distance":
