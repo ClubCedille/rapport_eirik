@@ -34,14 +34,14 @@ Retour: 2021-03-05
 
 RaisonVoyage:
   Présentation:
-    Cochée: true
+    #Cochée: true
     Sujet: plate
   Conférence:
-    Cochée: true
+    #Cochée: true
     Nom: anonyme
-  Sabbatique: false
+  #Sabbatique: false
   Autres:
-    Cochée: true
+    #Cochée: true
     Précision: aliaj # «autres» en esperanto
 
 # Limite de 8 dépenses

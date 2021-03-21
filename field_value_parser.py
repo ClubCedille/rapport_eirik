@@ -165,7 +165,7 @@ def _parse_travel_reasons(travel_reason_dict):
 		presentation_checked = presentation.get(_KEY_CHECKED)
 		if presentation_checked:
 			fields["Boite1"] = _CHECKBOX_YES
-		presentation_subject = presentation.get("Subject")
+		presentation_subject = presentation.get("Sujet")
 		if presentation_subject is not None:
 			fields["Présentation"] = presentation_subject
 
