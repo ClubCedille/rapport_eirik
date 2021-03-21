@@ -1,15 +1,10 @@
-# "": aucun choix
-# /Choix1: remboursement de frais de voyage
-# /Choix2: autre remboursement
-Group1:
+# Valeurs possibles: «voyage» et «autre»
+RaisonDépenses: autre
 
 NoRef:
-NoDoc:
 
-# "": aucun choix
-# /Choix1: Employé(e)
-# /Choix2: Étudiant(e)
-Group2:
+# Valeurs possibles: «employé(e)» et «étudiant(e)»
+Étudiant(e) ou employé(e):
 Matricule:
 CodePermanent: DUPR01060901
 Date:
@@ -18,13 +13,13 @@ Prenom: Raphaëlle
 Nom: Dupré
 NomUA:
 
-libelSiEtudiant:
 Adresse: 1100, rue Notre-Dame Ouest
 Ville: Montréal
 CodePostal: H3C 1K3
 Province: Québec
 Courriel:
-Group4:
+# Valeurs possibles: «chèque» et «dépôt»
+Chèque ou dépôt:
 
 # 60 caractères maximum
 Description:
@@ -33,87 +28,78 @@ Destination:
 DébutActivité:
 FinActivité:
 # Date de départ
-Départ: Départ
+Départ:
 # Date de retour
-Retour: Retour
+Retour:
 
-# Boîte cochée: /Oui
-# Boîte non cochée: ""
-Boite1:
-Présentation:
-Boite2:
-Conférence:
-Boite3:
-Boite4:
-Autres:
+RaisonVoyage:
+  Présentation:
+    Cochée:
+    Sujet:
+  Conférence:
+    Cochée:
+    Nom:
+  Sabbatique:
+  Autres:
+    Cochée:
+    Précision:
 
-# Détails des dépenses
-Détails1: Hôtel
-Montant$1: 999.99
-Détails2:
-Montant$2:
-Détails3:
-Montant$3:
-Détails4:
-Montant$4:
-Détails5:
-Montant$5:
-Détails6:
-Montant$6:
-Détails7:
-Montant$7:
-Détails8:
-Montant$8:
-TotalMontant:
+# Limite de 8 dépenses
+Dépenses:
+  - Description: Hôtel
+    Montant: 999.99
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
 Avance:
-Réclamation$:
-KM: 42
+# Distance en kilomètres
+Distance: 42
 
-UBR1:
-CC1:
-DF1:
-CBS1:
-ccMontant$1:
-UBR2:
-CC2:
-DF2:
-CBS2:
-ccMontant$2:
-UBR3:
-CC3:
-DF3:
-CBS3:
-ccMontant$3:
-UBR4:
-CC4:
-DF4:
-CBS4:
-ccMontant$4:
-UBR5:
-CC5:
-DF5:
-CBS5:
-ccMontant$5:
-TotalccMontant$:
+# Limite de 5 codes comptables
+Codes comptables:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
 
 Verifié C/P:
 Date vérifié C/P:
 autorisation budgétaire:
 Date autorisation budgétaire:
 
-# Non classé
-aaaa-mm-jj:
-aaaa-mm-jj-1:
-aaaa-mm-jj-2:
-aaaa-mm-jj-3:
-aaaa-mm-jj-4:
-barreH1:
-barreH2:
-barreV1:
-barreV2:
-barreV3:
-
-# Signatures
+# Signatures et numéros de téléphone
 SignatureDemandeur:
 TelDemandeur:
 SignatureRequérant:
