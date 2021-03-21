@@ -9,9 +9,9 @@ from sys import argv, exit
 
 
 _INPUT_EXTENSION = ".pdf"
-_INPUT_EXTENSION_AS_LIST = [_INPUT_EXTENSION]
+_INPUT_EXTENSION_IN_LIST = [_INPUT_EXTENSION]
 _OUTPUT_EXTENSION = ".txt"
-_OUTPUT_EXTENSION_AS_LIST = [_OUTPUT_EXTENSION]
+_OUTPUT_EXTENSION_IN_LIST = [_OUTPUT_EXTENSION]
 
 
 class PdfField:
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 		print("ERROR! " + str(input_path) + " does not exist.")
 		exit()
 
-	if input_path.suffixes != _INPUT_EXTENSION_AS_LIST: # False if not a file
+	if input_path.suffixes != _INPUT_EXTENSION_IN_LIST: # False if not a file
 		print("ERROR! The first argument must be the path to a "
 			+ _INPUT_EXTENSION + " file.")
 		exit()
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 		if output_path.is_dir():
 			output_path = output_path/_make_default_output_file_name(input_path)
 
-		elif output_path.suffixes != _OUTPUT_EXTENSION_LIST:
+		elif output_path.suffixes != _OUTPUT_EXTENSION_IN_LIST:
 			output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
 
 	except IndexError:
