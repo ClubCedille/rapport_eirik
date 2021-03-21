@@ -1,8 +1,9 @@
 """
-Given a YAML file, this module allows to extract the name-value pairs that
-define the content of a PDF file's fields. If this module is executed with the
-path to a YAML file as its argument, it will print those pairs in the console.
-In the YAML file, the fields' name and value must be stated as follows.
+This module allows to extract from a YAML file the values to write in an ÉTS
+club expanse report. The YAML file must comply with the format of those
+provided in this repository. If this module is executed with the path to a
+YAML file as its argument, it will print the name of the report's fields in
+the console with the value they are assigned as follows.
 
 field1: value1
 
@@ -86,14 +87,12 @@ def filter_values_from_dict(a_dict, unwanted_vals):
 	return wanted_items
 
 
-def get_yaml_content(field_setting_path, allow_nones=False):
+def get_yaml_content(field_setting_path):
 	"""
 	Reads a YAML file and returns its content in in a dictionary.
 
 	Args:
 		field_setting_path (pathlib.Path): the path to the YAML file
-		allow_nones (bool): if False, the returned content does not contain
-			None values. Defaults to False.
 
 	Returns:
 		dict: the YAML file's content
@@ -109,49 +108,7 @@ def get_yaml_content(field_setting_path, allow_nones=False):
 	with field_setting_path.open(encoding="utf8") as field_setting_stream:
 		yaml_content = load(field_setting_stream, FullLoader)
 
-		if not allow_nones:
-			yaml_content = filter_values_from_dict(yaml_content, (None,))
-
 	return yaml_content
-
-
-def parse_yaml_content(yaml_content):
-	field_values = dict()
-
-	for key, value in yaml_content.items():
-		if key == "RaisonVoyage":
-			field_values.update(_parse_travel_reasons(value))
-		elif key == "Dépenses":
-			field_values.update(_parse_expanse_list(value))
-		elif key == "Codes comptables":
-			field_values.update(_parse_codes_comptables(value))
-		elif key == "RaisonDépenses":
-			if value.lower() == "voyage":
-				field_values["Group1"] = _CHOICE1
-			elif value.lower() == "autre":
-				field_values["Group1"] = _CHOICE2
-			else:
-				_error_for_unexpected_value(key, value)
-		elif key == "Étudiant(e) ou employé(e)":
-			if value.lower() == "employé(e)":
-				field_values["Group2"] = _CHOICE1
-			elif value.lower() == "étudiant(e)":
-				field_values["Group2"] = _CHOICE2
-			else:
-				_error_for_unexpected_value(key, value)
-		elif key == "Chèque ou dépôt":
-			if value.lower() == "dépôt":
-				field_values["Group4"] = "/D#E9p#F4t"
-			elif value.lower() == "chèque":
-				field_values["Group4"] = "/Ch#E8que"
-			else:
-				_error_for_unexpected_value(key, value)
-		elif key == "Distance":
-			field_values["KM"] = value
-		else:
-			field_values[key] = value
-
-	return field_values
 
 
 def _parse_codes_comptables(codes_comptables):
@@ -159,17 +116,26 @@ def _parse_codes_comptables(codes_comptables):
 
 	for i in range(len(codes_comptables)):
 		cc = codes_comptables[i]
-		ubr = cc["UBR"]
-		account = cc["Compte"]
-		df = cc["DemFin"]
-		cbs = cc["CBS"]
-		amount = cc["Montant"]
 
-		fields["UBR" + str(i+1)] = ubr
-		fields["CC" + str(i+1)] = account
-		fields["DF" + str(i+1)] = df
-		fields["CBS" + str(i+1)] = cbs
-		fields["ccMontant$" + str(i+1)] = amount
+		ubr = cc.get("UBR")
+		if ubr is not None:
+			fields["UBR" + str(i+1)] = ubr
+
+		account = cc.get("Compte")
+		if account is not None:
+			fields["CC" + str(i+1)] = account
+
+		df = cc.get("DemFin")
+		if df is not None:
+			fields["DF" + str(i+1)] = df
+
+		cbs = cc.get("CBS")
+		if cbs is not None:
+			fields["CBS" + str(i+1)] = cbs
+
+		amount = cc.get("Montant")
+		if amount is not None:
+			fields["ccMontant$" + str(i+1)] = amount
 
 	return fields
 
@@ -179,11 +145,14 @@ def _parse_expanse_list(expanse_list):
 
 	for i in range(len(expanse_list)):
 		expanse = expanse_list[i]
-		description = expanse["Description"]
-		amount = expanse["Montant"]
 
-		fields["Détails" + str(i+1)] = description
-		fields["Montant$" + str(i+1)] = amount
+		description = expanse.get("Description")
+		if description is not None:
+			fields["Détails" + str(i+1)] = description
+
+		amount = expanse.get("Montant")
+		if amount is not None:
+			fields["Montant$" + str(i+1)] = amount
 
 	return fields
 
@@ -191,25 +160,84 @@ def _parse_expanse_list(expanse_list):
 def _parse_travel_reasons(travel_reason_dict):
 	fields = dict()
 
-	presentation = travel_reason_dict["Présentation"]
-	if presentation[_KEY_CHECKED]:
-		fields["Boite1"] = _CHECKBOX_YES
-	fields["Présentation"] = presentation["Sujet"]
+	presentation = travel_reason_dict.get("Présentation")
+	if presentation is not None:
+		presentation_checked = presentation.get(_KEY_CHECKED)
+		if presentation_checked:
+			fields["Boite1"] = _CHECKBOX_YES
+		presentation_subject = presentation.get("Subject")
+		if presentation_subject is not None:
+			fields["Présentation"] = presentation_subject
 
-	conference = travel_reason_dict["Conférence"]
-	if conference[_KEY_CHECKED]:
-		fields["Boite2"] = _CHECKBOX_YES
-	fields["Conférence"] = conference["Nom"]
+	conference = travel_reason_dict.get("Conférence")
+	if conference is not None:
+		conference_checked = conference.get(_KEY_CHECKED)
+		if conference_checked:
+			fields["Boite2"] = _CHECKBOX_YES
+		conference_name = conference.get("Nom")
+		if conference_name is not None:
+			fields["Conférence"] = conference_name
 
-	if travel_reason_dict["Sabbatique"]:
+	sabbatical = travel_reason_dict.get("Sabbatique")
+	if sabbatical:
 		fields["Boite3"] = _CHECKBOX_YES
 
-	others = travel_reason_dict["Autres"]
-	if others[_KEY_CHECKED]:
-		fields["Boite4"] = _CHECKBOX_YES
-	fields["Autres"] = others["Précision"]
+	others = travel_reason_dict.get("Autres")
+	if others is not None:
+		others_checked = others.get(_KEY_CHECKED)
+		if others_checked:
+			fields["Boite4"] = _CHECKBOX_YES
+		others_precision = others.get("Précision")
+		if others_precision is not None:
+			fields["Autres"] = others_precision
 
 	return fields
+
+
+def parse_yaml_content(yaml_content):
+	field_values = dict()
+
+	for key, value in yaml_content.items():
+		if key == "RaisonVoyage" and value is not None:
+			field_values.update(_parse_travel_reasons(value))
+
+		elif key == "Dépenses" and value is not None:
+			field_values.update(_parse_expanse_list(value))
+
+		elif key == "Codes comptables" and value is not None:
+			field_values.update(_parse_codes_comptables(value))
+
+		elif key == "RaisonDépenses" and value is not None:
+			if value.lower() == "voyage":
+				field_values["Group1"] = _CHOICE1
+			elif value.lower() == "autre":
+				field_values["Group1"] = _CHOICE2
+			else:
+				_error_for_unexpected_value(key, value)
+
+		elif key == "Étudiant(e) ou employé(e)" and value is not None:
+			if value.lower() == "employé(e)":
+				field_values["Group2"] = _CHOICE1
+			elif value.lower() == "étudiant(e)":
+				field_values["Group2"] = _CHOICE2
+			else:
+				_error_for_unexpected_value(key, value)
+
+		elif key == "Chèque ou dépôt" and value is not None:
+			if value.lower() == "dépôt":
+				field_values["Group4"] = "/D#E9p#F4t"
+			elif value.lower() == "chèque":
+				field_values["Group4"] = "/Ch#E8que"
+			else:
+				_error_for_unexpected_value(key, value)
+
+		elif key == "Distance" and value is not None:
+			field_values["KM"] = value
+
+		elif value is not None:
+			field_values[key] = value
+
+	return field_values
 
 
 def print_dictionary(a_dict, print_val_type):
