@@ -10,10 +10,13 @@ print_container(template_info, "Template document info")
 
 writer = make_writer_from_reader(template, False)
 
-field_update = {"Nom": "Dupré",
+field_update = {"Date": "2021-03-01",
+				"Nom": "Dupré",
 				"Prenom": "Raphaëlle",
 				"Group2": "/Choix2",
 				"CodePermanent": "DUPR01060901",
+				"Group4": "/Ch#E8que", # Values "/Ch#E8que" and "/Chèque" do not work.
+				#"Boite1": "/Oui", # Causes updatePageFormFieldValues to fail.
 				"Détails1": "Hôtel",
 				"Montant$1": 999.99,
 				"KM": 42,
