@@ -1,25 +1,23 @@
-# Explores recursively the objects in a PDF file's pages and records their
-# hierachy in a .txt file.
-# argv[1]: path to the PDF file to explore
-# argv[2]: (optional) path to the .txt output file
+"""
+Explores recursively the objects in a PDF file's pages and records their
+structure in a .txt file.
+
+Args:
+	1: the path to the PDF file to explore
+	2: (optional) the path to the .txt output file
+"""
 
 
 from pathlib import Path
 from pdf_obj_struct import write_pdf_obj_struct
 from PyPDF2 import PdfFileReader
-from PyPDF2.generic import PdfObject
 from sys import argv
 
 
-_DLST = (dict, list, set, tuple)
-
 _INPUT_EXTENSION = ".pdf"
-
-_INPUT_EXTENSION_LIST = [_INPUT_EXTENSION]
-
+_INPUT_EXTENSION_IN_LIST = [_INPUT_EXTENSION]
 _OUTPUT_EXTENSION = ".txt"
-
-_OUTPUT_EXTENSION_LIST = [_OUTPUT_EXTENSION]
+_OUTPUT_EXTENSION_IN_LIST = [_OUTPUT_EXTENSION]
 
 
 def _make_default_output_file_name(input_path):
@@ -27,7 +25,7 @@ def _make_default_output_file_name(input_path):
 
 
 def _make_default_output_file_stem(input_path):
-	return input_path.stem + "_object_hierarchy"
+	return input_path.stem + "_page_objects"
 
 
 if __name__ == "__main__":
@@ -44,7 +42,7 @@ if __name__ == "__main__":
 		print("ERROR! " + str(input_path) + " does not exist.")
 		exit()
 
-	elif input_path.suffixes != _INPUT_EXTENSION_LIST: # False if not a file
+	elif input_path.suffixes != _INPUT_EXTENSION_IN_LIST: # False if not a file
 		print("ERROR! The first argument must be the path to a "
 			+ _INPUT_EXTENSION + " file.")
 		exit()
@@ -56,7 +54,7 @@ if __name__ == "__main__":
 		if output_path.is_dir():
 			output_path = output_path/_make_default_output_file_name(input_path)
 
-		elif output_path.suffixes != _OUTPUT_EXTENSION_LIST:
+		elif output_path.suffixes != _OUTPUT_EXTENSION_IN_LIST:
 			output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
 
 	except IndexError:

@@ -1,7 +1,17 @@
+"""
+Explores recursively the objects in a PDF file's fields and records their
+structure in a .txt file.
+
+Args:
+	1: the path to the PDF file to explore
+	2: (optional) the path to the .txt output file
+"""
+
+
 from pathlib import Path
 from pdf_obj_struct import write_pdf_obj_struct
 from PyPDF2 import PdfFileReader
-from sys import argv, exit
+from sys import argv
 
 
 _INPUT_EXTENSION = ".pdf"
@@ -15,7 +25,7 @@ def _make_default_output_file_name(input_path):
 
 
 def _make_default_output_file_stem(input_path):
-	return input_path.stem + "_field_objs"
+	return input_path.stem + "_field_objects"
 
 
 if __name__ == "__main__":
