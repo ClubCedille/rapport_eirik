@@ -39,8 +39,8 @@ def obj_is_a_dlst(obj):
 
 def write_pdf_obj_struct(struct, w_stream, write_types=False):
 	"""
-	Writes a PDF object structure in a file stream. Lines of same indentation
-	represent objects in the same container. The stream's mode must be "a",
+	Writes a PDF object structure in a file stream. The indentation indicates
+	which objects are contained in others. The stream's mode must be "a",
 	"a+", "r+", "w" or "w+". It the object struct is not a dictionary, a list,
 	a set or a tuple, this method will only write one line representing that
 	object.
