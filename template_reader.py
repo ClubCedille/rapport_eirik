@@ -3,12 +3,12 @@ from PyPDF2 import PdfFileReader
 from pypdf2_util import make_writer_from_reader, set_need_appearances
 
 input_stream = open("rapport_depenses.pdf", "rb")
-template = PdfFileReader(input_stream)
+reader = PdfFileReader(input_stream)
 
-template_info = template.getDocumentInfo()
+template_info = reader.getDocumentInfo()
 print_container(template_info, "Template document info")
 
-writer = make_writer_from_reader(template, False)
+writer = make_writer_from_reader(reader, False)
 
 field_update = {"Date": "2021-03-01",
 				"Nom": "Dupré",
