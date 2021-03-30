@@ -5,7 +5,7 @@ embedded in one another and other objects.
 """
 
 
-from PyPDF2.generic import PdfObject
+from PyPDF2.generic import IndirectObject
 
 
 _DLST = (dict, list, set, tuple)
@@ -43,7 +43,20 @@ def obj_is_a_dlst(obj):
 	return isinstance(obj, _DLST)
 
 
-def write_pdf_obj_struct(struct, w_stream, write_types=False):
+def _res_pdf_ind_object(obj):
+	if isinstance(obj, IndirectObject):
+		return obj.getObject()
+
+	else:
+		return obj
+
+
+def _return_arg(obj):
+	return obj
+
+
+def write_pdf_obj_struct(struct, w_stream,
+		write_types=False, res_ind_objs=False):
 	"""
 	Writes a PDF object structure in a file stream. The indentation indicates
 	which objects are contained in others. The stream's mode must be "a",
@@ -57,8 +70,13 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False):
 			structure's representation
 		write_types (bool): If True, this method will write the contained
 			objects' type in the stream. Defaults to False.
+		res_ind_objs (bool): If True, the indirect objects found in the
+			structure will be resolved. Defaults to False. WARNING! Setting
+			this parameter to True can make the function exceed the maximum
+			recursion depth.
 
 	Raises:
+		RecursionError: if this function exceeds the maximum recursion depth
 		ValueError: if the stream's mode in incorrect
 	"""
 	if w_stream.mode not in _STREAM_WRITING_MODES:
@@ -66,6 +84,7 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False):
 			+ "\"a\", \"a+\", \"r+\", \"w\" or \"w+\".")
 
 	obj_str_fnc = _obj_and_type_to_str if write_types else str
+	ind_obj_fnc = _res_pdf_ind_object if res_ind_objs else _return_arg
 
 	if obj_is_a_dlst(struct):
 		w_stream.write(str(type(struct)) + "\n")
@@ -74,27 +93,27 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False):
 	else:
 		indent = 0
 
-	_write_pdf_obj_struct_rec(struct, w_stream, indent, obj_str_fnc)
+	_write_pdf_obj_struct_rec(struct, w_stream, indent,
+		obj_str_fnc, ind_obj_fnc)
 
 
-def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent, obj_str_fnc):
+def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent,
+		obj_str_fnc, ind_obj_fnc):
 	tabs = _make_tabs(indent)
 	indent += 1
-
-	if isinstance(obj_to_write, PdfObject):
-		obj_to_write = obj_to_write.getObject()
 
 	if isinstance(obj_to_write, _LT):
 		length = len(obj_to_write)
 
 		for i in range(length):
-			item = obj_to_write[i]
+			item = ind_obj_fnc(obj_to_write[i])
 			line = tabs + "[" + str(i) + "]: "
 
 			if obj_is_a_dlst(item):
 				line += str(type(item))
 				w_stream.write(line + "\n")
-				_write_pdf_obj_struct_rec(item, w_stream, indent, obj_str_fnc)
+				_write_pdf_obj_struct_rec(item, w_stream, indent,
+					obj_str_fnc, ind_obj_fnc)
 
 			else:
 				line += obj_str_fnc(item)
@@ -102,12 +121,14 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent, obj_str_fnc):
 
 	elif isinstance(obj_to_write, dict):
 		for key, value in obj_to_write.items():
+			value = ind_obj_fnc(value)
 			line = tabs + str(key) + ": "
 
 			if obj_is_a_dlst(value):
 				line += str(type(value))
 				w_stream.write(line + "\n")
-				_write_pdf_obj_struct_rec(value, w_stream, indent, obj_str_fnc)
+				_write_pdf_obj_struct_rec(value, w_stream, indent,
+					obj_str_fnc, ind_obj_fnc)
 
 			else:
 				line += obj_str_fnc(value)
@@ -115,12 +136,14 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent, obj_str_fnc):
 
 	elif isinstance(obj_to_write, set):
 		for item in obj_to_write:
+			item = ind_obj_fnc(item)
 			line = tabs
 
 			if obj_is_a_dlst(item):
 				line += str(type(item))
 				w_stream.write(line + "\n")
-				_write_pdf_obj_struct_rec(item, w_stream, indent, obj_str_fnc)
+				_write_pdf_obj_struct_rec(item, w_stream, indent,
+					obj_str_fnc, ind_obj_fnc)
 
 			else:
 				line += obj_str_fnc(item)
