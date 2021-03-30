@@ -11,6 +11,9 @@ from PyPDF2.generic import PdfObject
 _DLST = (dict, list, set, tuple)
 
 
+_LT = (list, tuple)
+
+
 _STREAM_WRITING_MODES = ("a", "a+", "r+", "w", "w+")
 
 
@@ -78,7 +81,7 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent, obj_str_fnc):
 	if isinstance(obj_to_write, PdfObject):
 		obj_to_write = obj_to_write.getObject()
 
-	if isinstance(obj_to_write, (list, tuple)):
+	if isinstance(obj_to_write, _LT):
 		length = len(obj_to_write)
 
 		for i in range(length):
