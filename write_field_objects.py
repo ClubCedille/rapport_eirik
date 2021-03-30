@@ -1,5 +1,5 @@
 """
-Explores recursively the objects in a PDF file's pages and records their
+Explores recursively the objects in a PDF file's fields and records their
 structure in a .txt file.
 
 Args:
@@ -25,7 +25,7 @@ def _make_default_output_file_name(input_path):
 
 
 def _make_default_output_file_stem(input_path):
-	return input_path.stem + "_page_objects"
+	return input_path.stem + "_field_objects"
 
 
 if __name__ == "__main__":
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 		print("ERROR! " + str(input_path) + " does not exist.")
 		exit()
 
-	elif input_path.suffixes != _INPUT_EXTENSION_IN_LIST: # False if not a file
+	if input_path.suffixes != _INPUT_EXTENSION_IN_LIST: # False if not a file
 		print("ERROR! The first argument must be the path to a "
 			+ _INPUT_EXTENSION + " file.")
 		exit()
@@ -62,13 +62,11 @@ if __name__ == "__main__":
 			_make_default_output_file_name(input_path))
 
 	# Real work
-	reader = PdfFileReader(input_path.open("rb"))
-	pages = reader.pages
+	reader = PdfFileReader(input_path.open(mode="rb"))
 
-	with output_path.open("w") as output_stream:
-		output_stream.write("Object hierachy of " + str(input_path) + "\n")
+	with output_path.open(mode="w") as output_stream:
+		output_stream.write("Fields of " + str(input_path) + "\n")
 
-		for i in range(len(pages)):
-			page = pages[i]
-			output_stream.write("\n\nPAGE " + str(i) + "\n")
-			write_pdf_obj_struct(page, output_stream, True)
+		for mapping_name, field in reader.getFields().items():
+			output_stream.write("\n" + mapping_name + "\n")
+			write_pdf_obj_struct(field, output_stream, True)
