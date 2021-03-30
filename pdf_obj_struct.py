@@ -17,8 +17,11 @@ _LT = (list, tuple)
 _STREAM_WRITING_MODES = ("a", "a+", "r+", "w", "w+")
 
 
+_TAB = "\t"
+
+
 def _make_tabs(n):
-	return "\t" * n
+	return _TAB * n
 
 
 def _obj_and_type_to_str(obj):

@@ -71,4 +71,4 @@ if __name__ == "__main__":
 		for i in range(len(pages)):
 			page = pages[i]
 			output_stream.write("\n\nPAGE " + str(i) + "\n")
-			write_pdf_obj_struct(page, output_stream)
+			write_pdf_obj_struct(page, output_stream, True)
