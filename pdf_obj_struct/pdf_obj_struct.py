@@ -55,8 +55,8 @@ def _return_arg(obj):
 	return obj
 
 
-def write_pdf_obj_struct(struct, w_stream,
-		write_types=False, res_ind_objs=False):
+def write_pdf_obj_struct(struct, w_stream, write_types=False,
+		res_ind_objs=False, depth_limit=0):
 	"""
 	Writes a PDF object structure in a file stream. The indentation indicates
 	which objects are contained in others. The stream's mode must be "a",
@@ -74,6 +74,8 @@ def write_pdf_obj_struct(struct, w_stream,
 			structure will be resolved. Defaults to False. WARNING! Setting
 			this parameter to True can make the function exceed the maximum
 			recursion depth.
+		depth_limit (int): a limit to the recursion depth. If it is set to 0
+			or less, no limit is enforced. Defaults to 0.
 
 	Raises:
 		RecursionError: if this function exceeds the maximum recursion depth
@@ -88,19 +90,19 @@ def write_pdf_obj_struct(struct, w_stream,
 
 	if obj_is_a_dlst(struct):
 		w_stream.write(str(type(struct)) + "\n")
-		indent = 1
+		rec_depth = 1
 
 	else:
-		indent = 0
+		rec_depth = 0
 
-	_write_pdf_obj_struct_rec(struct, w_stream, indent,
+	_write_pdf_obj_struct_rec(struct, w_stream, rec_depth, depth_limit,
 		obj_str_fnc, ind_obj_fnc)
 
 
-def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent,
+def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth, depth_limit,
 		obj_str_fnc, ind_obj_fnc):
-	tabs = _make_tabs(indent)
-	indent += 1
+	tabs = _make_tabs(rec_depth)
+	rec_depth += 1
 
 	if isinstance(obj_to_write, _LT):
 		length = len(obj_to_write)
@@ -112,8 +114,10 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent,
 			if obj_is_a_dlst(item):
 				line += str(type(item))
 				w_stream.write(line + "\n")
-				_write_pdf_obj_struct_rec(item, w_stream, indent,
-					obj_str_fnc, ind_obj_fnc)
+
+				if depth_limit<=0 or rec_depth<=depth_limit:
+					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
+						depth_limit, obj_str_fnc, ind_obj_fnc)
 
 			else:
 				line += obj_str_fnc(item)
@@ -127,8 +131,10 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent,
 			if obj_is_a_dlst(value):
 				line += str(type(value))
 				w_stream.write(line + "\n")
-				_write_pdf_obj_struct_rec(value, w_stream, indent,
-					obj_str_fnc, ind_obj_fnc)
+
+				if depth_limit<=0 or rec_depth<=depth_limit:
+					_write_pdf_obj_struct_rec(value, w_stream, rec_depth,
+						depth_limit, obj_str_fnc, ind_obj_fnc)
 
 			else:
 				line += obj_str_fnc(value)
@@ -142,8 +148,10 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, indent,
 			if obj_is_a_dlst(item):
 				line += str(type(item))
 				w_stream.write(line + "\n")
-				_write_pdf_obj_struct_rec(item, w_stream, indent,
-					obj_str_fnc, ind_obj_fnc)
+
+				if depth_limit<=0 or rec_depth<=depth_limit:
+					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
+						depth_limit, obj_str_fnc, ind_obj_fnc)
 
 			else:
 				line += obj_str_fnc(item)
