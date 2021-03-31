@@ -1,6 +1,10 @@
-# This script writes the name and value of a PDF file's fields in a .txt file.
-# argv[1]: path to the input PDF file
-# argv[2]: (optional) path to the output .txt file
+"""
+This script writes the name and value of a PDF file's fields in a .txt file.
+
+Args:
+	1: path to a PDF file
+	2: (optional) path to the output .txt file
+"""
 
 
 from pathlib import Path
