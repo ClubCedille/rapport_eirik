@@ -33,8 +33,8 @@ _KEY_CHECKED = "Cochée"
 
 def _dict_key_val_str(key, value):
 	"""
-	Creates a string representing a dictionary item. The string fits this
-	format: "<key>: <value>".
+	Creates a string representing a dictionary item. The string fits the
+	format "<key>: <value>".
 
 	Args:
 		key: the key from the dictionary item
@@ -285,7 +285,8 @@ if __name__ == "__main__":
 	try:
 		field_setting_path = Path(argv[1])
 	except IndexError:
-		print("The path to a field setting file must be provided as an argument.")
+		print("The path to a field setting file must "
+			+ "be provided as an argument.")
 		exit()
 
 	try:
