@@ -119,6 +119,9 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth, depth_limit,
 					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
+				else:
+					w_stream.write(tabs + _TAB + "[...]\n")
+
 			else:
 				line += obj_str_fnc(item)
 				w_stream.write(line + "\n")
@@ -136,6 +139,9 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth, depth_limit,
 					_write_pdf_obj_struct_rec(value, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
+				else:
+					w_stream.write(tabs + _TAB + "[...]\n")
+
 			else:
 				line += obj_str_fnc(value)
 				w_stream.write(line + "\n")
@@ -152,6 +158,9 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth, depth_limit,
 				if depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
+
+				else:
+					w_stream.write(tabs + _TAB + "[...]\n")
 
 			else:
 				line += obj_str_fnc(item)
