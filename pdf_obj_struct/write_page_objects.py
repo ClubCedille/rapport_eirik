@@ -66,7 +66,8 @@ if __name__ == "__main__":
 	pages = reader.pages
 
 	with output_path.open("w") as output_stream:
-		output_stream.write("Object hierachy of " + str(input_path) + "\n")
+		output_stream.write("Objects in the pages of "
+			+ str(input_path) + "\n")
 
 		for i in range(len(pages)):
 			page = pages[i]

@@ -65,7 +65,8 @@ if __name__ == "__main__":
 	reader = PdfFileReader(input_path.open(mode="rb"))
 
 	with output_path.open(mode="w") as output_stream:
-		output_stream.write("Fields of " + str(input_path) + "\n")
+		output_stream.write("Objects in the fields of "
+			+ str(input_path) + "\n")
 
 		for mapping_name, field in reader.getFields().items():
 			output_stream.write("\n" + mapping_name + "\n")
