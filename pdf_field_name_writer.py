@@ -1,6 +1,11 @@
-# This script copies a PDF file and writes the name of the copy's fields in them.
-# argv[1]: path to the input PDF file
-# argv[2]: (optional) path to the output PDF file
+"""
+This script copies a PDF file and writes the name of the copy's text fields
+in them.
+
+Args:
+	1: path to the input PDF file
+	2: (optional) path to the output PDF file
+"""
 
 
 from pathlib import Path
