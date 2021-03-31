@@ -1,4 +1,4 @@
-from field_value_parser import get_yaml_content, parse_yaml_content
+from field_setting_parser import get_yaml_content, parse_yaml_content
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import make_writer_from_reader, set_need_appearances
