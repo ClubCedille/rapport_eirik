@@ -68,6 +68,10 @@ if __name__ == "__main__":
 	except IndexError:
 		depth_limit = 0
 
+	except ValueError as ve:
+		print("Argument 2: " + str(ve))
+		exit()
+
 	# Output path checks
 	try:
 		output_path = argv[3]
