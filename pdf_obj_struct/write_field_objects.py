@@ -1,13 +1,14 @@
 """
-Explores recursively the objects in a PDF file's fields and records their
-structure in a .txt file.
+Explores recursively the object structure in a PDF file's fields and records
+their structure in a .txt file.
 
 Args:
 	1: (str) the path to the PDF file to explore
 	2: (int, optional) the limit to the recursion depth that the algorithm
 		can reach. If 0 or less, no limit is set, and PyPDF2's indirect
 		objects will not be resolved. Defaults to 0.
-	3: (str, optional) the path to the .txt output file
+	3: (str, optional) the path to the .txt output file. If set to "console",
+		the object structure will be written in the console.
 """
 
 
@@ -31,6 +32,15 @@ def _make_default_output_file_stem(input_path):
 	return input_path.stem + "_field_objects"
 
 
+def _write_field_objs_in_console(pdf_path, field_dict, w_stream, depth_limit):
+	w_stream.write("Objects in the fields of " + str(pdf_path) + "\n")
+
+	for mapping_name, field in field_dict.items():
+		w_stream.write("\n" + mapping_name + "\n")
+		write_pdf_obj_struct(field, w_stream,
+			True, depth_limit>0, depth_limit)
+
+
 if __name__ == "__main__":
 
 	# Input path checks
@@ -45,7 +55,8 @@ if __name__ == "__main__":
 		print("ERROR! " + str(input_path) + " does not exist.")
 		exit()
 
-	if input_path.suffixes != _INPUT_EXTENSION_IN_LIST: # False if not a file
+	elif input_path.suffixes != _INPUT_EXTENSION_IN_LIST:
+		# False if not a file
 		print("ERROR! The first argument must be the path to a "
 			+ _INPUT_EXTENSION + " file.")
 		exit()
@@ -59,13 +70,20 @@ if __name__ == "__main__":
 
 	# Output path checks
 	try:
-		output_path = Path(argv[3])
+		output_path = argv[3]
 
-		if output_path.is_dir():
-			output_path = output_path/_make_default_output_file_name(input_path)
+		if output_path.lower() == "console":
+			output_path = None
 
-		elif output_path.suffixes != _OUTPUT_EXTENSION_IN_LIST:
-			output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
+		else:
+			output_path = Path(output_path)
+
+			if output_path.is_dir():
+				output_path =\
+					output_path/_make_default_output_file_name(input_path)
+
+			elif output_path.suffixes != _OUTPUT_EXTENSION_IN_LIST:
+				output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
 
 	except IndexError:
 		output_path = input_path.with_name(
@@ -73,12 +91,13 @@ if __name__ == "__main__":
 
 	# Real work
 	reader = PdfFileReader(input_path.open(mode="rb"))
+	fields = reader.getFields()
 
-	with output_path.open(mode="w") as output_stream:
-		output_stream.write("Objects in the fields of "
-			+ str(input_path) + "\n")
+	if output_path is None:
+		from sys import stdout
+		_write_field_objs_in_console(input_path, fields, stdout, depth_limit)
 
-		for mapping_name, field in reader.getFields().items():
-			output_stream.write("\n" + mapping_name + "\n")
-			write_pdf_obj_struct(field, output_stream,
-				True, depth_limit>0, depth_limit)
+	else:
+		with output_path.open(mode="w") as output_stream:
+			_write_field_objs_in_console(input_path, fields,
+				output_stream, depth_limit)
