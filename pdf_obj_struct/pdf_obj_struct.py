@@ -43,7 +43,7 @@ def obj_is_a_dlst(obj):
 	return isinstance(obj, _DLST)
 
 
-def _res_pdf_ind_object(obj):
+def _rslv_pdf_ind_object(obj):
 	if isinstance(obj, IndirectObject):
 		return obj.getObject()
 
@@ -56,7 +56,7 @@ def _return_arg(obj):
 
 
 def write_pdf_obj_struct(struct, w_stream, write_types=False,
-		res_ind_objs=False, depth_limit=0):
+		rslv_ind_objs=False, depth_limit=0):
 	"""
 	Writes a PDF object structure in a file stream. The indentation indicates
 	which objects are contained in others. The stream's mode must be "a",
@@ -70,7 +70,7 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False,
 			structure's representation
 		write_types (bool): If True, this method will write the contained
 			objects' type in the stream. Defaults to False.
-		res_ind_objs (bool): If True, the indirect objects found in the
+		rslv_ind_objs (bool): If True, the indirect objects found in the
 			structure will be resolved. Defaults to False. WARNING! Setting
 			this parameter to True can make the function exceed the maximum
 			recursion depth.
@@ -86,7 +86,7 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False,
 			+ "\"a\", \"a+\", \"r+\", \"w\" or \"w+\".")
 
 	obj_str_fnc = _obj_and_type_to_str if write_types else str
-	ind_obj_fnc = _res_pdf_ind_object if res_ind_objs else _return_arg
+	ind_obj_fnc = _rslv_pdf_ind_object if rslv_ind_objs else _return_arg
 
 	if obj_is_a_dlst(struct):
 		w_stream.write(str(type(struct)) + "\n")
@@ -95,12 +95,12 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False,
 	else:
 		rec_depth = 0
 
-	_write_pdf_obj_struct_rec(struct, w_stream, rec_depth, depth_limit,
-		obj_str_fnc, ind_obj_fnc)
+	_write_pdf_obj_struct_rec(struct, w_stream, rec_depth,
+		depth_limit, obj_str_fnc, ind_obj_fnc)
 
 
-def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth, depth_limit,
-		obj_str_fnc, ind_obj_fnc):
+def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
+		depth_limit, obj_str_fnc, ind_obj_fnc):
 	tabs = _make_tabs(rec_depth)
 	rec_depth += 1
 
