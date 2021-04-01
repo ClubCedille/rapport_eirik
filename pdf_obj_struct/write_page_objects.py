@@ -5,7 +5,8 @@ structure in a .txt file.
 Args:
 	1: (str) the path to the PDF file to explore
 	2: (int, optional) the limit to the recursion depth that the algorithm
-		can reach. Defaults to 0.
+		can reach. If 0 or less, no limit is set, and PyPDF2's indirect
+		objects will not be resolved. Defaults to 0.
 	3: (str, optional) the path to the .txt output file
 """
 
