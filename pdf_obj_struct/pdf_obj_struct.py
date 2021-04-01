@@ -9,15 +9,21 @@ from PyPDF2.generic import BooleanObject, IndirectObject
 
 
 _DLST = (dict, list, set, tuple)
-
-
 _LT = (list, tuple)
-
 
 _STREAM_WRITING_MODES = ("a", "a+", "r+", "w", "w+")
 
-
+_CLOSING_BRACET_COLON_SPACE = "]: "
+_COLON_SPACE = ": "
+_NEW_LINE = "\n"
+_OPENING_BRACKET = "["
+_SPACE = " "
 _TAB = "\t"
+_UNEXPLORED_OBJS = "\t[...]\n"
+
+
+def _index_between_brackets(index):
+	return _OPENING_BRACKET + str(index) + _CLOSING_BRACET_COLON_SPACE
 
 
 def _make_tabs(n):
@@ -26,10 +32,10 @@ def _make_tabs(n):
 
 def _obj_and_type_to_str(obj):
 	if isinstance(obj, BooleanObject):
-		return str(obj.value) + " " + str(type(obj))
+		return str(obj.value) + _SPACE + str(type(obj))
 
 	else:
-		return str(obj) + " " + str(type(obj))
+		return str(obj) + _SPACE + str(type(obj))
 
 
 def obj_is_a_dlst(obj):
@@ -93,7 +99,7 @@ def write_pdf_obj_struct(struct, w_stream, write_types=False,
 	ind_obj_fnc = _rslv_pdf_ind_object if rslv_ind_objs else _return_arg
 
 	if obj_is_a_dlst(struct):
-		w_stream.write(str(type(struct)) + "\n")
+		w_stream.write(str(type(struct)) + _NEW_LINE)
 		rec_depth = 1
 
 	else:
@@ -113,42 +119,42 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 
 		for i in range(length):
 			item = ind_obj_fnc(obj_to_write[i])
-			line = tabs + "[" + str(i) + "]: "
+			line = tabs + _index_between_brackets(i)
 
 			if obj_is_a_dlst(item):
 				line += str(type(item))
-				w_stream.write(line + "\n")
+				w_stream.write(line + _NEW_LINE)
 
 				if depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
 				else:
-					w_stream.write(tabs + _TAB + "[...]\n")
+					w_stream.write(tabs + _UNEXPLORED_OBJS)
 
 			else:
 				line += obj_str_fnc(item)
-				w_stream.write(line + "\n")
+				w_stream.write(line + _NEW_LINE)
 
 	elif isinstance(obj_to_write, dict):
 		for key, value in obj_to_write.items():
 			value = ind_obj_fnc(value)
-			line = tabs + str(key) + ": "
+			line = tabs + str(key) + _COLON_SPACE
 
 			if obj_is_a_dlst(value):
 				line += str(type(value))
-				w_stream.write(line + "\n")
+				w_stream.write(line + _NEW_LINE)
 
 				if depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(value, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
 				else:
-					w_stream.write(tabs + _TAB + "[...]\n")
+					w_stream.write(tabs + _UNEXPLORED_OBJS)
 
 			else:
 				line += obj_str_fnc(value)
-				w_stream.write(line + "\n")
+				w_stream.write(line + _NEW_LINE)
 
 	elif isinstance(obj_to_write, set):
 		for item in obj_to_write:
@@ -157,19 +163,19 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 
 			if obj_is_a_dlst(item):
 				line += str(type(item))
-				w_stream.write(line + "\n")
+				w_stream.write(line + _NEW_LINE)
 
 				if depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
 				else:
-					w_stream.write(tabs + _TAB + "[...]\n")
+					w_stream.write(tabs + _UNEXPLORED_OBJS)
 
 			else:
 				line += obj_str_fnc(item)
-				w_stream.write(line + "\n")
+				w_stream.write(line + _NEW_LINE)
 
 	else:
 		line = tabs + obj_str_fnc(obj_to_write)
-		w_stream.write(line + "\n")
+		w_stream.write(line + _NEW_LINE)
