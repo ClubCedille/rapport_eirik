@@ -5,7 +5,7 @@ embedded in one another and other objects.
 """
 
 
-from PyPDF2.generic import IndirectObject
+from PyPDF2.generic import BooleanObject, IndirectObject
 
 
 _DLST = (dict, list, set, tuple)
@@ -25,7 +25,11 @@ def _make_tabs(n):
 
 
 def _obj_and_type_to_str(obj):
-	return str(obj) + " " + str(type(obj))
+	if isinstance(obj, BooleanObject):
+		return str(obj.value) + " " + str(type(obj))
+
+	else:
+		return str(obj) + " " + str(type(obj))
 
 
 def obj_is_a_dlst(obj):
