@@ -3,8 +3,10 @@ Explores recursively the objects in a PDF file's pages and records their
 structure in a .txt file.
 
 Args:
-	1: the path to the PDF file to explore
-	2: (optional) the path to the .txt output file
+	1: (str) the path to the PDF file to explore
+	2: (int, optional) the limit to the recursion depth that the algorithm
+		can reach. Defaults to 0.
+	3: (str, optional) the path to the .txt output file
 """
 
 
@@ -47,9 +49,16 @@ if __name__ == "__main__":
 			+ _INPUT_EXTENSION + " file.")
 		exit()
 
+	# Recursion depth limit check
+	try:
+		depth_limit = int(argv[2])
+
+	except IndexError:
+		depth_limit = 0
+
 	# Output path checks
 	try:
-		output_path = Path(argv[2])
+		output_path = Path(argv[3])
 
 		if output_path.is_dir():
 			output_path = output_path/_make_default_output_file_name(input_path)
@@ -72,4 +81,5 @@ if __name__ == "__main__":
 		for i in range(len(pages)):
 			page = pages[i]
 			output_stream.write("\n\nPAGE " + str(i) + "\n")
-			write_pdf_obj_struct(page, output_stream, True)
+			write_pdf_obj_struct(page, output_stream,
+				True, depth_limit>0, depth_limit)
