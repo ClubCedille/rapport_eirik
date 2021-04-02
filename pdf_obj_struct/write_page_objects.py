@@ -102,6 +102,6 @@ if __name__ == "__main__":
 		_write_page_objs_in_console(input_path, pages, stdout, depth_limit)
 
 	else:
-		with output_path.open(mode="w") as output_stream:
+		with output_path.open(mode="w", encoding="utf8") as output_stream:
 			_write_page_objs_in_console(input_path, pages,
 				output_stream, depth_limit)
