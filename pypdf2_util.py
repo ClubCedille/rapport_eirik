@@ -24,3 +24,15 @@ def set_need_appearances(pdf_writer, bool_val):
 
 	need_appearances = NameObject("/NeedAppearances")
 	pdf_writer._root_object["/AcroForm"][need_appearances] = BooleanObject(bool_val)
+
+
+def update_checkboxes(page, fields):
+	# https://stackoverflow.com/questions/35538851/how-to-check-uncheck-checkboxes-in-a-pdf-with-python-preferably-pypdf2
+	for j in range(0, len(page["/Annots"])):
+		writer_annot = page["/Annots"][j].getObject()
+		for field in fields:
+			if writer_annot.get("/T") == field:
+				writer_annot.update({
+					NameObject("/V"): NameObject(fields[field]),
+					NameObject("/AS"): NameObject(fields[field])
+				})
