@@ -5,11 +5,14 @@ embedded in one another and other objects.
 """
 
 
-from PyPDF2.generic import BooleanObject, IndirectObject
+from PyPDF2.generic import BooleanObject, DictionaryObject, IndirectObject
 
 
 _DLST = (dict, list, set, tuple)
 _LT = (list, tuple)
+
+_PAGE_KEYS = ("/Annots", "/Contents", "/CropBox", "/MediaBox",
+	"/Parent", "/Resources", "/Rotate", "/Tabs", "/Type")
 
 _STREAM_WRITING_MODES = ("a", "a+", "r+", "w", "w+")
 
@@ -17,6 +20,7 @@ _CLOSING_BRACET_COLON_SPACE = "]: "
 _COLON_SPACE = ": "
 _NEW_LINE = "\n"
 _OPENING_BRACKET = "["
+_PAGE_REF = "Circular reference to a page\n"
 _SPACE = " "
 _TAB = "\t"
 _UNEXPLORED_OBJS = "\t[...]\n"
@@ -51,6 +55,24 @@ def obj_is_a_dlst(obj):
 			otherwise.
 	"""
 	return isinstance(obj, _DLST)
+
+
+def _obj_is_a_page(obj):
+	"""
+	Indicates whether the given object is a dictionary that represents a page
+	of a PDF file.
+
+	Args:
+		obj: any object
+
+	Returns:
+		bool: True if the object represents a PDF page, False otherwise.
+	"""
+	if isinstance(obj, DictionaryObject):
+		return tuple(obj.keys()) == _PAGE_KEYS
+
+	else:
+		return False
 
 
 def _rslv_pdf_ind_object(obj):
@@ -125,7 +147,11 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 				line += str(type(item))
 				w_stream.write(line + _NEW_LINE)
 
-				if depth_limit<=0 or rec_depth<=depth_limit:
+				if _obj_is_a_page(item):
+					line = _TAB + tabs + _PAGE_REF
+					w_stream.write(line)
+
+				elif depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
@@ -145,7 +171,11 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 				line += str(type(value))
 				w_stream.write(line + _NEW_LINE)
 
-				if depth_limit<=0 or rec_depth<=depth_limit:
+				if _obj_is_a_page(value):
+					line = _TAB + tabs + _PAGE_REF
+					w_stream.write(line)
+
+				elif depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(value, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
@@ -165,7 +195,11 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 				line += str(type(item))
 				w_stream.write(line + _NEW_LINE)
 
-				if depth_limit<=0 or rec_depth<=depth_limit:
+				if _obj_is_a_page(item):
+					line = _TAB + tabs + _PAGE_REF
+					w_stream.write(line)
+
+				elif depth_limit<=0 or rec_depth<=depth_limit:
 					_write_pdf_obj_struct_rec(item, w_stream, rec_depth,
 						depth_limit, obj_str_fnc, ind_obj_fnc)
 
