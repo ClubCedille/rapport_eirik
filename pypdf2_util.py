@@ -129,8 +129,8 @@ def update_page_fields(page, fields, *radio_btn_groups):
 			if annot_name == field:
 				if field_type == 0: # Text field
 					writer_annot.update({
-                        NameObject("/V"): TextStringObject(fields[field])
-                    })
+						NameObject("/V"): TextStringObject(fields[field])
+					})
 
 				elif field_type == 2: # Checkbox
 					writer_annot.update({
