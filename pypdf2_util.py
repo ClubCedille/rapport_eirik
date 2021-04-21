@@ -18,22 +18,33 @@ class RadioBtnGroup:
 			raise ValueError("At least one button name must be provided.")
 
 		self._name = group_name
-		self._buttons = btn_names
-		self._size = len(self._buttons)
+		self._btn_names = btn_names
 
 	def __getitem__(self, index):
-		return self._buttons[index]
+		return self._btn_names[index]
 
 	def has_index(self, index):
 		return 0 <= index and index < self._size\
 			or -self._size <= index and index <= -1
 
+	def __iter__(self):
+		self._iter_index = 0
+		return self
+
 	def __len__(self):
-		return self._size
+		return len(self._btn_names)
 
 	@property
 	def name(self):
 		return self._name
+
+	def __next__(self):
+		if self._iter_index >= len(self):
+			raise StopIteration()
+
+		group = self[self._iter_index]
+		self._iter_index += 1
+		return group
 
 
 def get_field_type(pdf_field):
@@ -58,6 +69,7 @@ def get_field_type(pdf_field):
 
 def _make_radio_btn_group_dict(radio_btn_groups):
 	btn_groups = dict()
+
 	for group in radio_btn_groups:
 		btn_groups[group.name] = group
 
@@ -97,6 +109,7 @@ def update_page_fields(page, fields, *radio_btn_groups):
 	if len(radio_btn_groups) > 0:
 		radio_buttons = True
 		btn_group_dict = _make_radio_btn_group_dict(radio_btn_groups)
+
 	else:
 		radio_buttons = False
 
@@ -112,7 +125,6 @@ def update_page_fields(page, fields, *radio_btn_groups):
 		field_type = get_field_type(writer_annot)
 
 		for field in fields:
-
 			# Set text fields and checkboxes
 			if annot_name == field:
 				if field_type == 0: # Text field

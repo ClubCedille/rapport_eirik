@@ -15,6 +15,10 @@ radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "/Choix2")
 radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "/Choix2")
 radio_btn_group4 = RadioBtnGroup("Group4", "/Dépôt", "/Chèque")
 
+print("\nRadio button group 4:")
+for btn_name in radio_btn_group4:
+	print(btn_name)
+
 field_update = {"Group1": 1,
 				"Date": "2021-03-01",
 				"Nom": "Dupré",
