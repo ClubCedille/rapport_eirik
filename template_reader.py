@@ -11,15 +11,14 @@ print_container(template_info, "Template document info")
 
 writer = make_writer_from_reader(reader, False)
 
-radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "Choix2")
-radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "Choix2")
+radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "/Choix2")
+radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "/Choix2")
 
-# Error if index 1 selected for Group1 or Group2
-field_update = {"Group1": 0,
+field_update = {"Group1": 1,
 				"Date": "2021-03-01",
 				"Nom": "Dupré",
 				"Prenom": "Raphaëlle",
-				"Group2": 0,
+				"Group2": 1,
 				"CodePermanent": "DUPR01060901",
 				"Group4": "/Ch#E8que", # Values "/Ch#E8que" and "/Chèque" do not work.
 				"Boite1": "/Oui",

@@ -127,14 +127,6 @@ def update_page_fields(page, fields, *radio_btn_groups):
 
 				if annot_parent is not None:
 					annot_parent_name = annot_parent.get("/T").getObject()
-					print()
-					print(annot_parent_name)
-					print("annot_parent_name == field:",
-						annot_parent_name == field)
-					print("get_field_type(annot_parent):",
-						get_field_type(annot_parent))
-					print("annot_parent_name not in radio_btn_grp_names:",
-						annot_parent_name not in radio_btn_grp_names)
 
 					if annot_parent_name == field\
 							and annot_parent_name not in radio_btn_grp_names\
