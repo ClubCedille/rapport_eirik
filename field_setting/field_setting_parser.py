@@ -26,8 +26,6 @@ from yaml import FullLoader, load
 
 
 _CHECKBOX_YES = "/Oui"
-_CHOICE1 = "/Choix1"
-_CHOICE2 = "/Choix2"
 _KEY_CHECKED = "Cochée"
 
 
@@ -209,25 +207,25 @@ def parse_yaml_content(yaml_content):
 
 		elif key == "RaisonDépenses" and value is not None:
 			if value.lower() == "voyage":
-				field_values["Group1"] = _CHOICE1
+				field_values["Group1"] = 0
 			elif value.lower() == "autre":
-				field_values["Group1"] = _CHOICE2
+				field_values["Group1"] = 1
 			else:
 				_error_for_unexpected_value(key, value)
 
 		elif key == "Étudiant(e) ou employé(e)" and value is not None:
 			if value.lower() == "employé(e)":
-				field_values["Group2"] = _CHOICE1
+				field_values["Group2"] = 0
 			elif value.lower() == "étudiant(e)":
-				field_values["Group2"] = _CHOICE2
+				field_values["Group2"] = 1
 			else:
 				_error_for_unexpected_value(key, value)
 
 		elif key == "Chèque ou dépôt" and value is not None:
 			if value.lower() == "dépôt":
-				field_values["Group4"] = "/D#E9p#F4t"
+				field_values["Group4"] = 0
 			elif value.lower() == "chèque":
-				field_values["Group4"] = "/Ch#E8que"
+				field_values["Group4"] = 1
 			else:
 				_error_for_unexpected_value(key, value)
 
