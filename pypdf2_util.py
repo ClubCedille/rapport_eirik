@@ -56,9 +56,9 @@ def get_field_type(pdf_field):
 		return -1
 
 
-def _make_radio_btn_group_dict(radio_btn_tuple):
+def _make_radio_btn_group_dict(radio_btn_groups):
 	btn_groups = dict()
-	for group in radio_btn_tuple:
+	for group in radio_btn_groups:
 		btn_groups[group.name] = group
 
 	return btn_groups
@@ -103,13 +103,17 @@ def update_page_fields(page, fields, *radio_btn_groups):
 	# Names of the set radio button groups
 	radio_btn_grp_names = list()
 
-	for j in range(0, len(page["/Annots"])):
-		writer_annot = page["/Annots"][j].getObject()
+	page_annots = page["/Annots"]
+
+	for j in range(0, len(page_annots)):
+		writer_annot = page_annots[j].getObject()
 		annot_name = writer_annot.get("/T")
 
 		field_type = get_field_type(writer_annot)
 
 		for field in fields:
+
+			# Set text fields and checkboxes
 			if annot_name == field:
 				if field_type == 0: # Text field
 					writer_annot.update({
@@ -122,6 +126,7 @@ def update_page_fields(page, fields, *radio_btn_groups):
 						NameObject("/AS"): NameObject(fields[field])
 					})
 
+			# Set radio buttons
 			elif radio_buttons and annot_name is None:
 				annot_parent = writer_annot.get("/Parent").getObject()
 
@@ -132,14 +137,16 @@ def update_page_fields(page, fields, *radio_btn_groups):
 							and annot_parent_name not in radio_btn_grp_names\
 							and get_field_type(annot_parent) == 1:
 						button_index = fields[field]
-						print("\tButton index:", button_index)
 						button_group = btn_group_dict.get(field)
 
 						if button_group is not None:
 							button_name = button_group[button_index]
-							print("\tButton name:", button_name)
+
 							annot_parent[NameObject("/Kids")].getObject()\
 								[button_index].getObject()[NameObject("/AS")]\
 								= NameObject(button_name)
+
 							annot_parent[NameObject("/V")]\
 								= NameObject(button_name)
+
+							radio_btn_grp_names.append(annot_parent_name)

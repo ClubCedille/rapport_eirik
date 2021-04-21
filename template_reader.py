@@ -13,6 +13,7 @@ writer = make_writer_from_reader(reader, False)
 
 radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "/Choix2")
 radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "/Choix2")
+radio_btn_group4 = RadioBtnGroup("Group4", "/Dépôt", "/Chèque")
 
 field_update = {"Group1": 1,
 				"Date": "2021-03-01",
@@ -20,7 +21,7 @@ field_update = {"Group1": 1,
 				"Prenom": "Raphaëlle",
 				"Group2": 1,
 				"CodePermanent": "DUPR01060901",
-				"Group4": "/Ch#E8que", # Values "/Ch#E8que" and "/Chèque" do not work.
+				"Group4": 0,
 				"Boite1": "/Oui",
 				"Boite2": "/Non",
 				"Boite3": "/Oui",
@@ -29,7 +30,8 @@ field_update = {"Group1": 1,
 				"KM": 42,
 				"UBR1": "UBR1"}
 page = writer.getPage(0)
-update_page_fields(page, field_update, radio_btn_group1, radio_btn_group2)
+update_page_fields(page, field_update,
+	radio_btn_group1, radio_btn_group2, radio_btn_group4)
 set_need_appearances(writer, True) # To make field values visible
 
 output_stream = open("rapport_depenses_essai.pdf", "wb")
