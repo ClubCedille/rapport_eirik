@@ -12,8 +12,26 @@ _TEXT_TYPE = "/Tx"
 
 
 class RadioBtnGroup:
+	"""
+	This class contains the names of the radio buttons that make a radio
+	button group in a PDF file. It also contains the name of the group, which
+	should be the name of the field that corresponds to the group in the PDF
+	file. The buttons' names can be accessed with an index between brackets.
+	"""
 
 	def __init__(self, group_name, *btn_names):
+		"""
+		The constructor needs this group's name followed by the buttons'
+		names. At least one button name must be provided.
+
+		Args:
+			group_name (str): the name of this radio button group
+			*btn_names: the names of the buttons in this group, as strings. At
+				least one must be provided.
+
+		Raises:
+			ValueError: if no button name is provided
+		"""
 		if len(btn_names) < 1:
 			raise ValueError("At least one button name must be provided.")
 
@@ -24,6 +42,17 @@ class RadioBtnGroup:
 		return self._btn_names[index]
 
 	def has_index(self, index):
+		"""
+		Determines whether this group has the given index. If it does not,
+		using that number as an index would raise an IndexError.
+
+		Args:
+			index (int): an integer that could be an index of this radio
+				button group
+
+		Returns:
+			bool: True if this group has the given index, False otherwise
+		"""
 		return 0 <= index and index < self._size\
 			or -self._size <= index and index <= -1
 
@@ -36,6 +65,10 @@ class RadioBtnGroup:
 
 	@property
 	def name(self):
+		"""
+		The name of this radio button group. It should be the name of the
+		field that corresponds to the group in the PDF file.
+		"""
 		return self._name
 
 	def __next__(self):
@@ -48,6 +81,16 @@ class RadioBtnGroup:
 
 
 def get_field_type(pdf_field):
+	"""
+	Determines the type of the given PDF field: text field (0), radio button
+	group (1) or checkbox (2).
+
+	Args:
+		pdf_field (dict): a dictionary that represents a field of a PDF file
+
+	Returns:
+		int: the type of pdf_field of -1 if no type is determined
+	"""
 	type_val = pdf_field.get(_FIELD_TYPE)
 
 	if type_val == _TEXT_TYPE:
@@ -68,6 +111,17 @@ def get_field_type(pdf_field):
 
 
 def _make_radio_btn_group_dict(radio_btn_groups):
+	"""
+	Creates a dictionary that associates each given radio button group with
+	its name. The name is a property of class RadioBtnGroup.
+
+	Args:
+		radio_btn_groups: a list, set or tuple that contains instances of
+			RadioBtnGroup
+
+	Returns:
+		dict: Its keys are the groups' names; its values are the groups.
+	"""
 	btn_groups = dict()
 
 	for group in radio_btn_groups:
@@ -77,6 +131,19 @@ def _make_radio_btn_group_dict(radio_btn_groups):
 
 
 def make_writer_from_reader(pdf_reader, editable):
+	"""
+	Creates a PdfFileWriter instance from the content of a PdfFileReader
+	instance. Depending on parameter editable, it will be possible to modify
+	the fields of the file produced by the returned writer.
+
+	Args:
+		pdf_reader (PdfFileReader): an instance of PdfFileReader
+		editable (bool): If True, the fields in the file created by the
+			returned writer can be modified.
+
+	Returns:
+		PdfFileWriter: an instance that contains the pages of pdf_reader
+	"""
 	pdf_writer = PdfFileWriter()
 
 	if editable:
@@ -90,6 +157,16 @@ def make_writer_from_reader(pdf_reader, editable):
 
 
 def set_need_appearances(pdf_writer, bool_val):
+	"""
+	Sets property _root_object["/AcroForm"]["/NeedAppearances"] of the given
+	PdfFileWriter instance to a Boolean value. Setting it to True can be
+	necessary to make visible the values in the fields of the file produced by
+	pdf_writer.
+
+	Args:
+		bool_val (bool): the Boolean value to which /NeedAppearances will be
+			set
+	"""
 	# https://stackoverflow.com/questions/47288578/pdf-form-filled-with-pypdf2-does-not-show-in-print
 	catalog = pdf_writer._root_object
 
@@ -104,6 +181,23 @@ def set_need_appearances(pdf_writer, bool_val):
 
 
 def update_page_fields(page, fields, *radio_btn_groups):
+	"""
+	Sets the fields in the given PdfFileWriter page to the values contained in
+	argument fields. Every key in fields must be the name of a field in page.
+	Text fields can be set to any object, which will be converted to a string.
+	Checkboxes must be set to a string that represents their checked or
+	unchecked state. For a radio button group, the value must be the index of
+	the selected button. The index must correspond to a button name contained
+	in the RadioBtnGroup instance in argument radio_btn_groups that bears the
+	name of the group.
+
+	Args:
+		page (PyPDF2.pdf.PageObject): a page from a PdfFileWriter instance
+		fields (dict): Its keys are field names; its values are the data to
+			put in the fields.
+		*radio_btn_groups: RadioBtnGroup instances that represent the radio
+			button groups in page
+	"""
 	# This function is based on PdfFileWriter.updatePageFormFieldValues and an answer to this question:
 	# https://stackoverflow.com/questions/35538851/how-to-check-uncheck-checkboxes-in-a-pdf-with-python-preferably-pypdf2
 	if len(radio_btn_groups) > 0:

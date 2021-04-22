@@ -193,6 +193,21 @@ def _parse_travel_reasons(travel_reason_dict):
 
 
 def parse_yaml_content(yaml_content):
+	"""
+	Parses the content that function get_yaml_content has extracted from a
+	YAML file and translates it to a dictionary that matches the data with the
+	fields of expense report rapport_depenses.pdf.
+
+	Args:
+		yaml_content (dict): content of a YAML file returned by
+			get_yaml_content
+
+	Returns:
+		dict: a dictionary matching the data from the YAML file with the
+			fields of the expense report.
+	"""
+	# Function update_page_fields from module pypdf2_util must be able to
+	# process the dictionary returned by this function.
 	field_values = dict()
 
 	for key, value in yaml_content.items():
