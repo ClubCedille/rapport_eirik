@@ -19,20 +19,21 @@ print("\nRadio button group 4:")
 for btn_name in radio_btn_group4:
 	print(btn_name)
 
-field_update = {"Group1": 1,
-				"Date": "2021-03-01",
-				"Nom": "Dupré",
-				"Prenom": "Raphaëlle",
-				"Group2": 1,
-				"CodePermanent": "DUPR01060901",
-				"Group4": 0,
-				"Boite1": "/Oui",
-				"Boite2": "/Non",
-				"Boite3": "/Oui",
-				"Détails1": "Hôtel",
-				"Montant$1": 999.99,
-				"KM": 42,
-				"UBR1": "UBR1"}
+field_update = {
+	"Group1": 1,
+	"Date": "2021-03-01",
+	"Nom": "Dupré",
+	"Prenom": "Raphaëlle",
+	"Group2": 1,
+	"CodePermanent": "DUPR01060901",
+	"Group4": 0,
+	"Boite1": "/Oui",
+	"Boite2": "/Non",
+	"Boite3": "/Oui",
+	"Détails1": "Hôtel",
+	"Montant$1": 999.99,
+	"KM": 42,
+	"UBR1": "UBR1"}
 page = writer.getPage(0)
 update_page_fields(page, field_update,
 	radio_btn_group1, radio_btn_group2, radio_btn_group4)
