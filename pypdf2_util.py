@@ -218,41 +218,42 @@ def update_page_fields(page, fields, *radio_btn_groups):
 
 		field_type = get_field_type(writer_annot)
 
-		for field in fields:
-			# Set text fields and checkboxes
-			if annot_name == field:
-				if field_type == 0: # Text field
-					writer_annot.update({
-						NameObject("/V"): TextStringObject(fields[field])
-					})
+		# Set text fields and checkboxes
+		if annot_name in fields:
+			field_value = fields[annot_name]
 
-				elif field_type == 2: # Checkbox
-					writer_annot.update({
-						NameObject("/V"): NameObject(fields[field]),
-						NameObject("/AS"): NameObject(fields[field])
-					})
+			if field_type == 0: # Text field
+				writer_annot.update({
+					NameObject("/V"): TextStringObject(field_value)
+				})
 
-			# Set radio buttons
-			elif radio_buttons and annot_name is None:
-				annot_parent = writer_annot.get("/Parent").getObject()
+			elif field_type == 2: # Checkbox
+				writer_annot.update({
+					NameObject("/V"): NameObject(field_value),
+					NameObject("/AS"): NameObject(field_value)
+				})
 
-				if annot_parent is not None:
-					annot_parent_name = annot_parent.get("/T").getObject()
+		# Set radio buttons
+		elif radio_buttons and annot_name is None:
+			annot_parent = writer_annot.get("/Parent").getObject()
 
-					if annot_parent_name == field\
-							and annot_parent_name not in radio_btn_grp_names\
-							and get_field_type(annot_parent) == 1:
-						button_index = fields[field]
-						button_group = btn_group_dict.get(field)
+			if annot_parent is not None:
+				annot_parent_name = annot_parent.get("/T").getObject()
 
-						if button_group is not None:
-							button_name = button_group[button_index]
+				if annot_parent_name in fields\
+						and annot_parent_name not in radio_btn_grp_names\
+						and get_field_type(annot_parent) == 1:
+					button_index = fields[annot_parent_name]
+					button_group = btn_group_dict.get(annot_parent_name)
 
-							annot_parent[NameObject("/Kids")].getObject()\
-								[button_index].getObject()[NameObject("/AS")]\
-								= NameObject(button_name)
+					if button_group is not None:
+						button_name = button_group[button_index]
 
-							annot_parent[NameObject("/V")]\
-								= NameObject(button_name)
+						annot_parent[NameObject("/Kids")].getObject()\
+							[button_index].getObject()[NameObject("/AS")]\
+							= NameObject(button_name)
 
-							radio_btn_grp_names.append(annot_parent_name)
+						annot_parent[NameObject("/V")]\
+							= NameObject(button_name)
+
+						radio_btn_grp_names.append(annot_parent_name)
