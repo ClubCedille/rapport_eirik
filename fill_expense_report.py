@@ -15,7 +15,7 @@ from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import make_writer_from_reader, RadioBtnGroup,\
 	set_need_appearances, update_page_fields
-from sys import argv, exit
+from sys import argv
 
 
 if __name__ == "__main__":
