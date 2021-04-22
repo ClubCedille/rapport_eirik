@@ -75,9 +75,9 @@ class RadioBtnGroup:
 		if self._iter_index >= len(self):
 			raise StopIteration()
 
-		group = self[self._iter_index]
+		btn_name = self[self._iter_index]
 		self._iter_index += 1
-		return group
+		return btn_name
 
 
 def get_field_type(pdf_field):
