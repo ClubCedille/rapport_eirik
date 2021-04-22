@@ -161,18 +161,24 @@ def _parse_travel_reasons(travel_reason_dict):
 	presentation = travel_reason_dict.get("Présentation")
 	if presentation is not None:
 		presentation_checked = presentation.get(_KEY_CHECKED)
+
 		if presentation_checked:
 			fields["Boite1"] = _CHECKBOX_YES
+
 		presentation_subject = presentation.get("Sujet")
+
 		if presentation_subject is not None:
 			fields["Présentation"] = presentation_subject
 
 	conference = travel_reason_dict.get("Conférence")
 	if conference is not None:
 		conference_checked = conference.get(_KEY_CHECKED)
+
 		if conference_checked:
 			fields["Boite2"] = _CHECKBOX_YES
+
 		conference_name = conference.get("Nom")
+
 		if conference_name is not None:
 			fields["Conférence"] = conference_name
 
@@ -183,9 +189,12 @@ def _parse_travel_reasons(travel_reason_dict):
 	others = travel_reason_dict.get("Autres")
 	if others is not None:
 		others_checked = others.get(_KEY_CHECKED)
+
 		if others_checked:
 			fields["Boite4"] = _CHECKBOX_YES
+
 		others_precision = others.get("Précision")
+
 		if others_precision is not None:
 			fields["Autres"] = others_precision
 

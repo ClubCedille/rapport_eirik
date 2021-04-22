@@ -19,7 +19,7 @@ Ville: Montréal
 CodePostal: H3C 1K3
 Province: Québec
 Courriel:
-# Valeurs possibles: «chèque» et «dépôt»
+# Valeurs possibles: «dépôt» et «chèque»
 Chèque ou dépôt:
 
 # 60 caractères maximum
