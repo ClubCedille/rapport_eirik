@@ -215,7 +215,6 @@ def update_page_fields(page, fields, *radio_btn_groups):
 	for j in range(0, len(page_annots)):
 		writer_annot = page_annots[j].getObject()
 		annot_name = writer_annot.get("/T")
-
 		field_type = get_field_type(writer_annot)
 
 		# Set text fields and checkboxes
@@ -229,8 +228,8 @@ def update_page_fields(page, fields, *radio_btn_groups):
 
 			elif field_type == 2: # Checkbox
 				writer_annot.update({
-					NameObject("/V"): NameObject(field_value),
-					NameObject("/AS"): NameObject(field_value)
+					NameObject("/AS"): NameObject(field_value),
+					NameObject("/V"): NameObject(field_value)
 				})
 
 		# Set radio buttons

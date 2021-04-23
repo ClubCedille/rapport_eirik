@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	field_setting_path = Path(argv[2])
 	output_path = Path(argv[3])
 
-	template = PdfFileReader(template_path.open(mode="rb"))
+	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, False)
 
 	yaml_content = get_yaml_content(field_setting_path)
@@ -37,7 +37,6 @@ if __name__ == "__main__":
 	page = writer.getPage(0)
 	update_page_fields(page, field_values,
 		radio_btn_group1, radio_btn_group2, radio_btn_group4)
-	writer.updatePageFormFieldValues(page, field_values)
 
 	set_need_appearances(writer, True) # To make field values visible
 	writer.write(output_path.open(mode="wb"))

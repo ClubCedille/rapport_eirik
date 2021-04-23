@@ -94,7 +94,7 @@ if __name__ == "__main__":
 			_make_default_output_file_name(input_path))
 
 	# Real work
-	reader = PdfFileReader(input_path.open(mode="rb"))
+	reader = PdfFileReader(input_path.open(mode="rb"), strict=False)
 	fields = reader.getFields()
 
 	if output_path is None:
