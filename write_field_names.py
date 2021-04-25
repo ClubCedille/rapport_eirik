@@ -50,7 +50,7 @@ def make_field_name_list(pdf_reader):
 try:
 	input_path = Path(argv[1])
 except IndexError:
-	print("ERROR! The path to a " + _INPUT_EXTENSION
+	print("ERROR! The path to a " + PDF_EXTENSION
 		+ " file must be provided as the first argument.")
 	exit()
 

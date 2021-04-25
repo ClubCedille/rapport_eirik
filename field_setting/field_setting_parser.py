@@ -26,8 +26,6 @@ from yaml import FullLoader, load
 
 
 _CHECKBOX_YES = "/Oui"
-_CHOICE1 = "/Choix1"
-_CHOICE2 = "/Choix2"
 _KEY_CHECKED = "Cochée"
 
 
@@ -163,18 +161,24 @@ def _parse_travel_reasons(travel_reason_dict):
 	presentation = travel_reason_dict.get("Présentation")
 	if presentation is not None:
 		presentation_checked = presentation.get(_KEY_CHECKED)
+
 		if presentation_checked:
 			fields["Boite1"] = _CHECKBOX_YES
+
 		presentation_subject = presentation.get("Sujet")
+
 		if presentation_subject is not None:
 			fields["Présentation"] = presentation_subject
 
 	conference = travel_reason_dict.get("Conférence")
 	if conference is not None:
 		conference_checked = conference.get(_KEY_CHECKED)
+
 		if conference_checked:
 			fields["Boite2"] = _CHECKBOX_YES
+
 		conference_name = conference.get("Nom")
+
 		if conference_name is not None:
 			fields["Conférence"] = conference_name
 
@@ -185,9 +189,12 @@ def _parse_travel_reasons(travel_reason_dict):
 	others = travel_reason_dict.get("Autres")
 	if others is not None:
 		others_checked = others.get(_KEY_CHECKED)
+
 		if others_checked:
 			fields["Boite4"] = _CHECKBOX_YES
+
 		others_precision = others.get("Précision")
+
 		if others_precision is not None:
 			fields["Autres"] = others_precision
 
@@ -195,6 +202,21 @@ def _parse_travel_reasons(travel_reason_dict):
 
 
 def parse_yaml_content(yaml_content):
+	"""
+	Parses the content that function get_yaml_content has extracted from a
+	YAML file and translates it to a dictionary that matches the data with the
+	fields of expense report rapport_depenses.pdf.
+
+	Args:
+		yaml_content (dict): content of a YAML file returned by
+			get_yaml_content
+
+	Returns:
+		dict: a dictionary matching the data from the YAML file with the
+			fields of the expense report.
+	"""
+	# Function update_page_fields from module pypdf2_util must be able to
+	# process the dictionary returned by this function.
 	field_values = dict()
 
 	for key, value in yaml_content.items():
@@ -209,25 +231,25 @@ def parse_yaml_content(yaml_content):
 
 		elif key == "RaisonDépenses" and value is not None:
 			if value.lower() == "voyage":
-				field_values["Group1"] = _CHOICE1
+				field_values["Group1"] = 0
 			elif value.lower() == "autre":
-				field_values["Group1"] = _CHOICE2
+				field_values["Group1"] = 1
 			else:
 				_error_for_unexpected_value(key, value)
 
 		elif key == "Étudiant(e) ou employé(e)" and value is not None:
 			if value.lower() == "employé(e)":
-				field_values["Group2"] = _CHOICE1
+				field_values["Group2"] = 0
 			elif value.lower() == "étudiant(e)":
-				field_values["Group2"] = _CHOICE2
+				field_values["Group2"] = 1
 			else:
 				_error_for_unexpected_value(key, value)
 
 		elif key == "Chèque ou dépôt" and value is not None:
 			if value.lower() == "dépôt":
-				field_values["Group4"] = "/D#E9p#F4t"
+				field_values["Group4"] = 0
 			elif value.lower() == "chèque":
-				field_values["Group4"] = "/Ch#E8que"
+				field_values["Group4"] = 1
 			else:
 				_error_for_unexpected_value(key, value)
 

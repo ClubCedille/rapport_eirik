@@ -4,10 +4,10 @@ RaisonDépenses: autre
 NoRef:
 
 # Valeurs possibles: «employé(e)» et «étudiant(e)»
-Étudiant(e) ou employé(e):
+Étudiant(e) ou employé(e): étudiant(e)
 Matricule:
 CodePermanent: DUPR01060901
-Date:
+Date: 2021-03-01
 
 Prenom: Raphaëlle
 Nom: Dupré
@@ -19,8 +19,8 @@ Ville: Montréal
 CodePostal: H3C 1K3
 Province: Québec
 Courriel:
-# Valeurs possibles: «chèque» et «dépôt»
-Chèque ou dépôt:
+# Valeurs possibles: «dépôt» et «chèque»
+Chèque ou dépôt: dépôt
 
 # 60 caractères maximum
 Description:
@@ -35,12 +35,12 @@ Retour:
 
 RaisonVoyage:
   Présentation:
-    Cochée:
-    Sujet:
+    Cochée: true
+    Sujet: plate
   Conférence:
-    Cochée:
+    Cochée: false
     Nom:
-  Sabbatique:
+  Sabbatique: true
   Autres:
     Cochée:
     Précision:
@@ -69,7 +69,7 @@ Distance: 42
 
 # Limite de 5 codes comptables
 Codes comptables:
-  - UBR:
+  - UBR: UBR1
     Compte:
     DemFin:
     CBS:

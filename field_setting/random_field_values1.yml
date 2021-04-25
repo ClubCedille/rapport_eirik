@@ -19,7 +19,7 @@ Ville: Montréal
 CodePostal: H3C 1K3
 Province: Québec
 Courriel: raphaelle.dupre.1@ens.etsmtl.ca
-# Valeurs possibles: «chèque» et «dépôt»
+# Valeurs possibles: «dépôt» et «chèque»
 Chèque ou dépôt: chèque
 
 # 60 caractères maximum
@@ -35,14 +35,14 @@ Retour: 2021-03-05
 
 RaisonVoyage:
   Présentation:
-    #Cochée: true
+    Cochée: true
     Sujet: plate
   Conférence:
-    #Cochée: true
+    Cochée: true
     Nom: anonyme
-  #Sabbatique: false
+  Sabbatique: false
   Autres:
-    #Cochée: true
+    Cochée: true
     Précision: aliaj # «autres» en esperanto
 
 # Limite de 8 dépenses
