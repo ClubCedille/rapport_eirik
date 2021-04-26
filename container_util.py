@@ -1,13 +1,16 @@
-_STREAM_WRITING_MODES = ("r+", "w", "w+", "a", "a+")
+_STREAM_WRITING_MODES = ("a", "a+", "r+", "w", "w+")
 
 
 def _container_to_lines_fnc(a_container):
 	if isinstance(a_container, dict):
 		return dict_to_lines
+
 	elif isinstance(a_container, (list, tuple)):
 		return list_or_tuple_to_lines
+
 	elif isinstance(a_container, set):
 		return set_to_lines
+
 	else:
 		raise TypeError(
 			"The argument must be of type dict, list, set or tuple.")
@@ -53,8 +56,10 @@ def set_to_lines(a_set):
 
 
 def write_container_in_stream(a_container, w_stream,
-		after_item=None, before_item=None):
-	assert(w_stream.mode in _STREAM_WRITING_MODES)
+		before_item=None, after_item=None):
+	if w_stream.mode not in _STREAM_WRITING_MODES:
+		raise ValueError("The stream's mode must be "
+			+ "\"a\", \"a+\", \"r+\", \"w\" or \"w+\".")
 
 	container_to_lines_fnc = _container_to_lines_fnc(a_container)
 
