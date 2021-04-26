@@ -53,8 +53,9 @@ class RadioBtnGroup:
 		Returns:
 			bool: True if this group has the given index, False otherwise
 		"""
-		return 0 <= index and index < self._size\
-			or -self._size <= index and index <= -1
+		size = len(self)
+		return 0 <= index and index < size\
+			or -size <= index and index <= -1
 
 	def __iter__(self):
 		self._iter_index = 0
@@ -246,6 +247,11 @@ def update_page_fields(page, fields, *radio_btn_groups):
 					button_group = btn_group_dict.get(annot_parent_name)
 
 					if button_group is not None:
+						if not button_group.has_index(button_index):
+							raise IndexError(annot_parent_name
+								+ " does not have index "
+								+ str(button_index) + ".")
+
 						button_name = button_group[button_index]
 
 						annot_parent[NameObject("/Kids")].getObject()\
