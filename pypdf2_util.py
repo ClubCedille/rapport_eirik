@@ -198,6 +198,10 @@ def update_page_fields(page, fields, *radio_btn_groups):
 			put in the fields.
 		*radio_btn_groups: RadioBtnGroup instances that represent the radio
 			button groups in page
+
+	Raises:
+		IndexError: if argument fields sets a radio button group to an
+			incorrect index
 	"""
 	# This function is based on PdfFileWriter.updatePageFormFieldValues and an answer to this question:
 	# https://stackoverflow.com/questions/35538851/how-to-check-uncheck-checkboxes-in-a-pdf-with-python-preferably-pypdf2
