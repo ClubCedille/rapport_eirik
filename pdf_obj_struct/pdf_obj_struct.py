@@ -1,7 +1,8 @@
 """
 This module allows to write a PDF object structure in a file stream. An object
 structure consists of containers (dictionaries, lists, sets and tuples)
-embedded in one another and other objects.
+embedded in one another and other objects. This module also works on
+structures that do not contain PDF objects.
 """
 
 
@@ -16,18 +17,18 @@ _PAGE_KEYS = ("/Annots", "/Contents", "/CropBox", "/MediaBox",
 
 _STREAM_WRITING_MODES = ("a", "a+", "r+", "w", "w+")
 
-_CLOSING_BRACET_COLON_SPACE = "]: "
+_CLOSING_BRACKET_COLON_SPACE = "]: "
 _COLON_SPACE = ": "
 _NEW_LINE = "\n"
 _OPENING_BRACKET = "["
-_PAGE_REF = "Reference to a page\n"
+_PAGE_REF = "\tReference to a page\n"
 _SPACE = " "
 _TAB = "\t"
 _UNEXPLORED_OBJS = "\t[...]\n"
 
 
 def _index_between_brackets(index):
-	return _OPENING_BRACKET + str(index) + _CLOSING_BRACET_COLON_SPACE
+	return _OPENING_BRACKET + str(index) + _CLOSING_BRACKET_COLON_SPACE
 
 
 def _make_tabs(n):
@@ -52,7 +53,7 @@ def obj_is_a_dlst(obj):
 
 	Returns:
 		bool: True if the object's type is dict, list, set or tuple, False
-			otherwise.
+			otherwise
 	"""
 	return isinstance(obj, _DLST)
 
@@ -148,7 +149,7 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 				w_stream.write(line + _NEW_LINE)
 
 				if _obj_is_a_page(item):
-					line = _TAB + tabs + _PAGE_REF
+					line = tabs + _PAGE_REF
 					w_stream.write(line)
 
 				elif depth_limit<=0 or rec_depth<=depth_limit:
@@ -172,7 +173,7 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 				w_stream.write(line + _NEW_LINE)
 
 				if _obj_is_a_page(value):
-					line = _TAB + tabs + _PAGE_REF
+					line = tabs + _PAGE_REF
 					w_stream.write(line)
 
 				elif depth_limit<=0 or rec_depth<=depth_limit:
@@ -196,7 +197,7 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 				w_stream.write(line + _NEW_LINE)
 
 				if _obj_is_a_page(item):
-					line = _TAB + tabs + _PAGE_REF
+					line = tabs + _PAGE_REF
 					w_stream.write(line)
 
 				elif depth_limit<=0 or rec_depth<=depth_limit:
