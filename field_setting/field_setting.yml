@@ -1,0 +1,109 @@
+# Valeurs possibles: «voyage» et «autre»
+RaisonDépenses: autre
+
+NoRef:
+
+# Valeurs possibles: «employé(e)» et «étudiant(e)»
+Étudiant(e) ou employé(e): étudiant(e)
+Matricule:
+CodePermanent: DUPR01060901
+Date: 2021-03-01
+
+Prenom: Raphaëlle
+Nom: Dupré
+# Nom de l'unité administrative
+NomUA:
+
+Adresse: 1100, rue Notre-Dame Ouest
+Ville: Montréal
+CodePostal: H3C 1K3
+Province: Québec
+Courriel:
+# Valeurs possibles: «dépôt» et «chèque»
+Chèque ou dépôt: dépôt
+
+# 60 caractères maximum
+Description:
+Destination:
+# Préiode de l'activité
+DébutActivité:
+FinActivité:
+# Date de départ
+Départ:
+# Date de retour
+Retour:
+
+RaisonVoyage:
+  Présentation:
+    Cochée: true
+    Sujet: plate
+  Conférence:
+    Cochée: false
+    Nom:
+  Sabbatique: true
+  Autres:
+    Cochée:
+    Précision:
+
+# Limite de 8 dépenses
+Dépenses:
+  - Description: Hôtel
+    Montant: 999.99
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+  - Description:
+    Montant:
+Avance:
+# Distance en kilomètres
+Distance: 42
+
+# Limite de 5 codes comptables
+Codes comptables:
+  - UBR: UBR1
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+  - UBR:
+    Compte:
+    DemFin:
+    CBS:
+    Montant:
+
+Verifié C/P:
+Date vérifié C/P:
+autorisation budgétaire:
+Date autorisation budgétaire:
+
+# Signatures et numéros de téléphone
+SignatureDemandeur:
+TelDemandeur:
+SignatureRequérant:
+NomRequérant:
+SignatureSupHiérarchique:
+NomSupHiérarchique:
