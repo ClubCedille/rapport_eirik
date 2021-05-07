@@ -1,6 +1,6 @@
 """
 This script copies a PDF file and writes the name of the copy's text fields
-in them.
+in them. The original file is not modified.
 
 Args:
 	1: path to the input PDF file
