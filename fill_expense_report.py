@@ -1,15 +1,4 @@
-"""
-This script creates a PDF file by copying a template file and filling the
-copy's fields. The template is not modified.
-
-Args:
-	1: the path to the template. It must be a PDF file.
-	2: the path to a YAML file that defines the information to put in the
-		fields
-	3: the path to the PDF file created by this script
-"""
-
-
+from argparse import ArgumentParser
 from field_setting import get_yaml_content, parse_yaml_content
 from pathlib import Path
 from PyPDF2 import PdfFileReader
@@ -18,11 +7,28 @@ from pypdf2_util import make_writer_from_reader, RadioBtnGroup,\
 from sys import argv
 
 
-if __name__ == "__main__":
+parser = ArgumentParser(description=
+	"This script creates a PDF expense report for ÉTS clubs by copying a\
+	template file and filling the copy's fields. The template is not\
+	modified.")
 
-	template_path = Path(argv[1])
-	field_setting_path = Path(argv[2])
-	output_path = Path(argv[3])
+parser.add_argument("-o", "--output", type=Path, required=True,
+	help="Path to the filled PDF report created by this script")
+
+parser.add_argument("-s", "--setting", type=Path, required=True,
+	help="Path to the field setting file. It must be a YAML file.")
+
+parser.add_argument("-t", "--template", type=Path,
+	default=Path("rapport_depenses.pdf"),
+	help="Path to the report template. It must be a PDF file.")
+
+args = parser.parse_args()
+
+
+if __name__ == "__main__":
+	template_path = args.template
+	field_setting_path = args.setting
+	output_path = args.output
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, False)
