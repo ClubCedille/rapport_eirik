@@ -12,6 +12,9 @@ parser = ArgumentParser(description=
 	template file and filling the copy's fields. The template is not\
 	modified.")
 
+parser.add_argument("-e", "--editable", action="store_true",
+	help="Makes the filled report editable.")
+
 parser.add_argument("-o", "--output", type=Path, required=True,
 	help="Path to the filled PDF report created by this script")
 
@@ -31,7 +34,7 @@ if __name__ == "__main__":
 	output_path = args.output
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
-	writer = make_writer_from_reader(template, False)
+	writer = make_writer_from_reader(template, args.editable)
 
 	yaml_content = get_yaml_content(field_setting_path)
 	field_values = parse_yaml_content(yaml_content)
