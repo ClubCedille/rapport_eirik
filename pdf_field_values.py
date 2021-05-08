@@ -1,5 +1,6 @@
 """
-This script writes the name and value of a PDF file's fields in a .txt file.
+This module allows to make simplified representations of a PDF file's fields.
+If it is executed in command line, it writes them in a .txt file.
 
 Args:
 	1: path to a PDF file
@@ -111,8 +112,12 @@ if __name__ == "__main__":
 	# Real work
 	reader = PdfFileReader(input_path.open(mode="rb"))
 	field_list = get_pdf_field_list(reader)
-	field_str = str()
 
+	if field_list is None:
+		print(str(input_path) + " does not have fields.")
+		exit()
+
+	field_str = str()
 	for field in field_list:
 		field_str += str(field) + "\n"
 
