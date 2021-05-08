@@ -19,16 +19,44 @@ _OUTPUT_EXTENSION_IN_LIST = [_OUTPUT_EXTENSION]
 
 
 class PdfField:
-	def __init__(self, name, val_type, value):
+	"""
+	This class is a simplified representation of a PDF file field. It contains
+	the field's name, type and value. The string representation matches the
+	format "<name> (<type>): <value>".
+	"""
+
+	def __init__(self, name, type, value):
+		"""
+		The constructor needs the field's name, type and value. name and type
+		can be instances of str or one of its subclasses. value can be an
+		instance of any class.
+
+		Args:
+			name (str): the field's name
+			type (str): the field's type
+			value: the field's value
+		"""
 		self.name = name
-		self.val_type = val_type
+		self.type = type
 		self.value = value
 
 	def __str__(self):
-		return self.name + " (" + str(self.val_type) + "): " + str(self.value)
+		return self.name + " (" + self.type + "): " + str(self.value)
 
 
 def get_pdf_field_list(pdf_reader):
+	"""
+	Makes representations of a PDF file's fields.
+
+	Args:
+		pdf_reader (PyPDF2.PdfFileReader): a reader that contains a PDF file's
+			representation
+
+	Returns:
+		list: contains PdfField instances that represent the fields from the
+			file read by pdf_reader
+		None: if the file does not have fields
+	"""
 	pdf_fields = pdf_reader.getFields()
 	if pdf_fields is None:
 		return None
@@ -49,7 +77,6 @@ def _make_default_output_file_stem(input_path):
 
 
 if __name__ == "__main__":
-
 	# Input path checks
 	try:
 		input_path = Path(argv[1])
