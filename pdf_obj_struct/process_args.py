@@ -28,7 +28,7 @@ def make_parser(struct_type):
 		struct_type (int): 0 for fields, 1 for pages
 
 	Returns:
-		argparse.ArgumentParser: a parser designed specifically for these
+		argparse.ArgumentParser: a parser designed specifically for the above
 			scripts
 
 	Raises:
