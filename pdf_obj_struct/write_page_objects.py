@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
+from arg_processing import make_parser, process_arguments
 from pathlib import Path
 from pdf_obj_struct import write_pdf_obj_struct
-from process_args import make_parser, process_arguments
 from PyPDF2 import PdfFileReader
 
 
