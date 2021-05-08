@@ -1,27 +1,14 @@
 """
 This module allows to extract from a YAML file the values to write in an ÉTS
-club expanse report. The YAML file must comply with the format of those
-provided in this repository. If this module is executed with the path to a
-YAML file as its argument, it will print the name of the report's fields in
-the console with the value they are assigned as follows.
-
-field1: value1
-
-field2: value2
-
-...
-
-Args:
-	1: the path to a YAML file
-	2: (optional) a string matching a Boolean value. If True, the type of the
-		fields' value will be printed. Defaults to False.
-		False: "0", "f", "false", "n" or "no"
-		True: "1", "t", "true", "y" or "yes"
+club expense report. The YAML file must comply with the format of those
+provided in this repository. If this module is executed and given the path to
+a YAML file as an argument, it will print the name of the report's fields in
+the console with the value they are assigned. For more information, run this
+module in the console with argument -h.
 """
 
 
 from pathlib import Path
-from sys import argv
 from yaml import FullLoader, load
 
 
@@ -138,17 +125,17 @@ def _parse_codes_comptables(codes_comptables):
 	return fields
 
 
-def _parse_expanse_list(expanse_list):
+def _parse_expense_list(expense_list):
 	fields = dict()
 
-	for i in range(len(expanse_list)):
-		expanse = expanse_list[i]
+	for i in range(len(expense_list)):
+		expense = expense_list[i]
 
-		description = expanse.get("Description")
+		description = expense.get("Description")
 		if description is not None:
 			fields["Détails" + str(i+1)] = description
 
-		amount = expanse.get("Montant")
+		amount = expense.get("Montant")
 		if amount is not None:
 			fields["Montant$" + str(i+1)] = amount
 
@@ -224,7 +211,7 @@ def parse_yaml_content(yaml_content):
 			field_values.update(_parse_travel_reasons(value))
 
 		elif key == "Dépenses" and value is not None:
-			field_values.update(_parse_expanse_list(value))
+			field_values.update(_parse_expense_list(value))
 
 		elif key == "Codes comptables" and value is not None:
 			field_values.update(_parse_codes_comptables(value))
@@ -297,27 +284,37 @@ def str_to_bool(bool_str):
 	"""
 	if bool_str.lower() in ("0", "f", "false", "n", "no"):
 		return False
+
 	if bool_str.lower() in ("1", "t", "true", "y", "yes"):
 		return True
+
 	raise ValueError("\"" + str(bool_str)
 		+ "\" does not match a boolean value.")
 
 
 if __name__ == "__main__":
-	try:
-		field_setting_path = Path(argv[1])
-	except IndexError:
-		print("The path to a field setting file must "
-			+ "be provided as an argument.")
-		exit()
+	from argparse import ArgumentParser
 
-	try:
-		print_val_type = str_to_bool(argv[2])
-	except IndexError:
-		print_val_type = False
-	except ValueError as ve:
-		print(ve)
-		exit()
+	parser = ArgumentParser(description=
+		"This module allows to extract from a YAML file the values to write\
+		in an ÉTS club expense report. The YAML file must comply with the\
+		format of those provided in this repository. If this module is\
+		executed and given the path to a YAML file as an argument, it will\
+		print the name of the report's fields in the console with the value\
+		they are assigned.")
+
+	parser.add_argument("-f", "--file", type=Path, required=True,
+		help="path to a YAML file that defines values to put in the fields of\
+		an expense report")
+
+	parser.add_argument("-t", "--types", action="store_true",
+		help="If this argument is given, the type of the fields' value will\
+		be printed.")
+
+	args = parser.parse_args()
+
+	field_setting_path = args.file
+	print_val_type = args.types
 
 	yaml_content = get_yaml_content(field_setting_path)
 	field_values = parse_yaml_content(yaml_content)
