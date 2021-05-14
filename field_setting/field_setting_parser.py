@@ -3,8 +3,7 @@ This module allows to extract from a YAML file the values to write in an ÉTS
 club expense report. The YAML file must comply with the format of those
 provided in this repository. If this module is executed and given the path to
 a YAML file as an argument, it will print the name of the report's fields in
-the console with the value they are assigned. For more information, run this
-module in the console with argument -h.
+the console with the value they are assigned.
 """
 
 
@@ -128,11 +127,9 @@ def _parse_codes_comptables(codes_comptables):
 def _parse_expense_list(expense_list):
 	fields = dict()
 
-	for i in range(len(expense_list)):
-		expense = expense_list[i]
-
-		description = expense.get("Description")
-		if description is not None:
+	for i, expense in enumerate(expense_list):
+		#description = expense.get("Description")
+		if (description := expense.get("Description")) is not None:
 			fields["Détails" + str(i+1)] = description
 
 		amount = expense.get("Montant")
@@ -295,17 +292,11 @@ def str_to_bool(bool_str):
 if __name__ == "__main__":
 	from argparse import ArgumentParser
 
-	parser = ArgumentParser(description=
-		"This module allows to extract from a YAML file the values to write\
-		in an ÉTS club expense report. The YAML file must comply with the\
-		format of those provided in this repository. If this module is\
-		executed and given the path to a YAML file as an argument, it will\
-		print the name of the report's fields in the console with the value\
-		they are assigned.")
+	parser = ArgumentParser(description=__doc__)
 
 	parser.add_argument("-f", "--file", type=Path, required=True,
-		help="path to a YAML file that defines values to put in the fields of\
-		an expense report")
+		help="the path to a YAML file that defines values to put in the\
+		fields of an expense report")
 
 	parser.add_argument("-t", "--types", action="store_true",
 		help="If this argument is given, the type of the fields' value will\

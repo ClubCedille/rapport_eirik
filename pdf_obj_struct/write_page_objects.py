@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from arg_processing import make_parser, process_arguments
+from arg_processing import make_parser, process_arguments, StructureType
 from pathlib import Path
 from pdf_obj_struct import write_pdf_obj_struct
 from PyPDF2 import PdfFileReader
@@ -16,7 +16,7 @@ def _write_page_objs_in_stream(pdf_path, pages, w_stream, depth_limit):
 
 if __name__ == "__main__":
 	try:
-		struct_type = 1
+		struct_type = StructureType.PAGE
 		parser = make_parser(struct_type)
 		args = parser.parse_args()
 		input_path, depth_limit, output_path\

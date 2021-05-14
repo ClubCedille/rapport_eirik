@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from enum import Enum
 from pathlib import Path
 from pdf_obj_struct import write_pdf_obj_struct
 from PyPDF2 import PdfFileReader
@@ -8,6 +9,15 @@ _INPUT_EXTENSION = ".pdf"
 _INPUT_EXTENSION_IN_LIST = [_INPUT_EXTENSION]
 _OUTPUT_EXTENSION = ".txt"
 _OUTPUT_EXTENSION_IN_LIST = [_OUTPUT_EXTENSION]
+
+
+class StructureType(Enum):
+	"""
+	This enumeration contains the types of PDF object structure that this
+	package can explore: PDF fields and PDF pages.
+	"""
+	FIELD = 0
+	PAGE = 1
 
 
 def _make_default_output_file_name(input_path, after_stem):
@@ -25,23 +35,18 @@ def make_parser(struct_type):
 	write_page_objects.py.
 
 	Args:
-		struct_type (int): 0 for fields, 1 for pages
+		struct_type (StructureType): The type of structure to explore slightly
+			changes the help.
 
 	Returns:
 		argparse.ArgumentParser: a parser designed specifically for the above
 			scripts
-
-	Raises:
-		ValueError: if argument struct_type is incorrect
 	"""
-	if struct_type == 0:
+	if struct_type == StructureType.FIELD:
 		struct_word = "fields"
 
-	elif struct_type == 1:
+	elif struct_type == StructureType.PAGE:
 		struct_word = "pages"
-
-	else:
-		raise ValueError(str(struct_type) + " is not a structure type.")
 
 	parser = ArgumentParser(description=
 		"This script explores recursively the object structure in a PDF\
@@ -74,24 +79,24 @@ def process_arguments(args, struct_type):
 	Args:
 		args (argparse.Namespace): the object returned when parse_args is
 			called on the parser instantiated by make_parser
-		struct_type (int): 0 for fields, 1 for pages
+		struct_type (StructureType): The type of structure to explore
+			determines the default output file name.
 
 	Returns:
-		tuple: It contains the path to the file to explore [0], the recusion
-			depth limit [1] and the path to the output file [2].
+		tuple:
+			[0]: (pathlib.Path) the path to the file to explore
+			[1]: (int) the recusion depth limit
+			[2]: (pathlib.Path) the path to the output file
 
 	Raises:
 		ValueError: if the path to the file to explore or struct_type is
 			incorrect
 	"""
-	if struct_type == 0: # Fields
-		input_path_suffix = "_field_objects"
+	if struct_type == StructureType.FIELD:
+		o_file_stem_end = "_field_objects"
 
-	elif struct_type == 1: # Pages
-		input_path_suffix = "_page_objects"
-
-	else:
-		raise ValueError(str(struct_type) + " is not a structure type.")
+	elif struct_type == StructureType.PAGE:
+		o_file_stem_end = "_page_objects"
 
 	# Input path checks
 	input_path = args.file
@@ -112,14 +117,14 @@ def process_arguments(args, struct_type):
 
 	if output_path is None:
 		output_path = input_path.with_name(
-			_make_default_output_file_name(input_path, input_path_suffix))
+			_make_default_output_file_name(input_path, o_file_stem_end))
 
 	elif str(output_path).lower() == "console":
 			output_path = None
 
 	elif output_path.is_dir():
 		output_path = output_path/\
-			_make_default_output_file_name(input_path, input_path_suffix)
+			_make_default_output_file_name(input_path, o_file_stem_end)
 
 	elif output_path.suffixes != _OUTPUT_EXTENSION_IN_LIST:
 		output_path = output_path.with_suffix(_OUTPUT_EXTENSION)

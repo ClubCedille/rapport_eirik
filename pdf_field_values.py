@@ -114,12 +114,10 @@ if __name__ == "__main__":
 	field_list = get_pdf_field_list(reader)
 
 	if field_list is None:
-		print(str(input_path) + " does not have fields.")
+		print(str(input_path) + " does not contain fields.")
 		exit()
 
-	field_str = str()
-	for field in field_list:
-		field_str += str(field) + "\n"
+	field_str = "\n".join(map(str, field_list))
 
 	header = "Fields in file " + str(input_path) + "\n\n"
 	output_path.write_text(header + field_str)
