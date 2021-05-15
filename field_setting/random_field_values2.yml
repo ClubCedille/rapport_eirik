@@ -2,6 +2,7 @@
 RaisonDépenses: voyage
 
 NoRef: -1
+NoDoc: 38
 
 # Valeurs possibles: «employé(e)» et «étudiant(e)»
 Étudiant(e) ou employé(e): employé(e)
