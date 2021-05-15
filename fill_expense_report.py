@@ -1,33 +1,42 @@
+"""
+This script creates a PDF expense report for ÉTS clubs by copying a template
+file and filling the copy's fields. The template is not modified.
+"""
+
+
 from argparse import ArgumentParser
 from field_setting import get_yaml_content, parse_yaml_content
 from pathlib import Path
 from PyPDF2 import PdfFileReader
-from pypdf2_util import make_writer_from_reader, RadioBtnGroup,\
-	set_need_appearances, update_page_fields
+from pypdf2_util import\
+	make_writer_from_reader,\
+	RadioBtnGroup,\
+	set_need_appearances,\
+	update_page_fields
 
 
-parser = ArgumentParser(description=
-	"This script creates a PDF expense report for ÉTS clubs by copying a\
-	template file and filling the copy's fields. The template is not\
-	modified.")
+def _make_parser():
+	parser = ArgumentParser(description=__doc__)
 
-parser.add_argument("-e", "--editable", action="store_true",
-	help="Makes the filled report editable.")
+	parser.add_argument("-e", "--editable", action="store_true",
+		help="Makes the filled report editable.")
 
-parser.add_argument("-o", "--output", type=Path, required=True,
-	help="Path to the filled PDF report created by this script")
+	parser.add_argument("-o", "--output", type=Path, required=True,
+		help="Path to the filled PDF report created by this script")
 
-parser.add_argument("-s", "--setting", type=Path, required=True,
-	help="Path to the field setting file. It must be a YAML file.")
+	parser.add_argument("-s", "--setting", type=Path, required=True,
+		help="Path to the field setting file. It must be a YAML file.")
 
-parser.add_argument("-t", "--template", type=Path,
-	default=Path("rapport_depenses.pdf"),
-	help="Path to the report template. It must be a PDF file.")
+	parser.add_argument("-t", "--template", type=Path,
+		default=Path("rapport_depenses.pdf"),
+		help="Path to the report template. It must be a PDF file.")
 
-args = parser.parse_args()
+	return parser
 
 
 if __name__ == "__main__":
+	parser = _make_parser()
+	args = parser.parse_args()
 	template_path = args.template
 	field_setting_path = args.setting
 	output_path = args.output
