@@ -217,8 +217,8 @@ def update_page_fields(page, fields, *radio_btn_groups):
 
 	page_annots = page["/Annots"]
 
-	for j in range(0, len(page_annots)):
-		writer_annot = page_annots[j].getObject()
+	for writer_annot in page_annots:
+		writer_annot = writer_annot.getObject()
 		annot_name = writer_annot.get("/T")
 		field_type = get_field_type(writer_annot)
 

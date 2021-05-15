@@ -140,8 +140,7 @@ def _write_pdf_obj_struct_rec(obj_to_write, w_stream, rec_depth,
 	if isinstance(obj_to_write, _LT):
 		length = len(obj_to_write)
 
-		for i in range(length):
-			item = ind_obj_fnc(obj_to_write[i])
+		for i, item in enumerate(obj_to_write):
 			line = tabs + _index_between_brackets(i)
 
 			if obj_is_a_dlst(item):

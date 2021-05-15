@@ -28,8 +28,8 @@ def dict_to_lines(a_dict):
 def list_or_tuple_to_lines(a_tuplist):
 	index_item_lines = list()
 
-	for i in range(len(a_tuplist)):
-		line = "[" + str(i) + "]: " + str(a_tuplist[i])
+	for i, item in enumerate(a_tuplist):
+		line = "[" + str(i) + "]: " + str(item)
 		index_item_lines.append(line)
 
 	return index_item_lines
