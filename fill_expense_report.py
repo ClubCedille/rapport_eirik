@@ -15,6 +15,14 @@ from pypdf2_util import\
 	update_page_fields
 
 
+_ADVANCE_FIELD = "Avance"
+_CLAIM_FIELD = "Réclamation$"
+_AMOUNT_FIELD = "Montant$"
+_ccAMOUNT_FIELD = "ccMontant$"
+_AMOUNT_TOTAL_FIELD = "TotalMontant"
+_ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
+
+
 def _make_parser():
 	parser = ArgumentParser(description=__doc__)
 
@@ -34,6 +42,39 @@ def _make_parser():
 	return parser
 
 
+def _set_automatic_field_vals(field_dict):
+	_set_total_montant(field_dict, False)
+	_set_reclamation(field_dict)
+	_set_total_montant(field_dict, True)
+
+
+def _set_reclamation(field_dict):
+	reclamation = field_dict.get(_AMOUNT_TOTAL_FIELD, 0)\
+		- field_dict.get(_ADVANCE_FIELD, 0)
+	field_dict[_CLAIM_FIELD] = reclamation
+
+
+def _set_total_montant(field_dict, cc):
+	total_montant = 0
+
+	if cc:
+		loop_limit = 6
+		amount_field = _ccAMOUNT_FIELD
+		total_amount_field = _ccAMOUNT_TOTAL_FIELD
+
+	else:
+		loop_limit = 9
+		amount_field = _AMOUNT_FIELD
+		total_amount_field = _AMOUNT_TOTAL_FIELD
+
+	for i in range(1, loop_limit):
+		amount = field_dict.get(amount_field + str(i), 0)
+		total_montant += amount
+
+	if total_montant > 0:
+		field_dict[total_amount_field] = total_montant
+
+
 if __name__ == "__main__":
 	parser = _make_parser()
 	args = parser.parse_args()
@@ -46,6 +87,7 @@ if __name__ == "__main__":
 
 	yaml_content = get_yaml_content(field_setting_path)
 	field_values = parse_yaml_content(yaml_content)
+	_set_automatic_field_vals(field_values)
 
 	radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "/Choix2")
 	radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "/Choix2")
