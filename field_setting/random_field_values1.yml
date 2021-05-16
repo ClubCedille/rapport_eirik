@@ -2,6 +2,7 @@
 RaisonDépenses: autre
 
 NoRef: -1
+NoDoc: 0
 
 # Valeurs possibles: «employé(e)» et «étudiant(e)»
 Étudiant(e) ou employé(e): étudiant(e)
