@@ -1,1 +1,0 @@
-from .pdf_obj_struct import write_pdf_obj_struct
