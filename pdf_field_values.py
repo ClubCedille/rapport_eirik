@@ -8,15 +8,17 @@ Args:
 """
 
 
+from jazal import\
+	MissingPathArgWarner,\
+	make_altered_name,\
+	make_altered_path
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from sys import argv, exit
 
 
-_INPUT_EXTENSION = ".pdf"
-_INPUT_EXTENSION_IN_LIST = [_INPUT_EXTENSION]
-_OUTPUT_EXTENSION = ".txt"
-_OUTPUT_EXTENSION_IN_LIST = [_OUTPUT_EXTENSION]
+DFLT_OUTPUT_TERMINATION = "_field_values"
+ERROR_INTRO = "ERROR! "
 
 
 class PdfField:
@@ -69,45 +71,48 @@ def get_pdf_field_list(pdf_reader):
 	return field_list
 
 
-def _make_default_output_file_name(input_path):
-	return _make_default_output_file_stem(input_path) + _OUTPUT_EXTENSION
-
-
-def _make_default_output_file_stem(input_path):
-	return input_path.stem + "_field_values"
-
-
 if __name__ == "__main__":
 	# Input path checks
+	missing_input_warner = MissingPathArgWarner("Input file", (".pdf",))
 	try:
 		input_path = Path(argv[1])
+		input_path_checker =\
+			missing_input_warner.make_reactive_path_checker(input_path)
+		input_path_checker.check_path_exists()
+		input_path_checker.check_extension_correct()
+
 	except IndexError:
-		print("ERROR! The path to a " + _INPUT_EXTENSION
-			+ " file must be provided as the first argument.")
+		print(ERROR_INTRO + missing_input_warner.make_missing_arg_msg())
 		exit()
 
-	if not input_path.exists():
-		print("ERROR! " + str(input_path) + " does not exist.")
-		exit()
-
-	if input_path.suffixes != _INPUT_EXTENSION_IN_LIST: # False if not a file
-		print("ERROR! The first argument must be the path to a "
-			+ _INPUT_EXTENSION + " file.")
+	except Exception as e:
+		print(ERROR_INTRO + str(e))
 		exit()
 
 	# Output path checks
+	missing_output_warner = MissingPathArgWarner("Output file", (".txt",))
 	try:
 		output_path = Path(argv[2])
 
-		if output_path.is_dir():
-			output_path = output_path/_make_default_output_file_name(input_path)
+		output_path_checker =\
+			missing_output_warner.make_reactive_path_checker(output_path)
 
-		elif output_path.suffixes != _OUTPUT_EXTENSION_IN_LIST:
-			output_path = output_path.with_suffix(_OUTPUT_EXTENSION)
+		if output_path_checker.path_is_dir():
+			output_path = output_path/make_altered_name(
+				input_path, after_stem=DFLT_OUTPUT_TERMINATION,
+				extension=output_path_checker.extension_to_str())
+		else:
+			output_path_checker.check_extension_correct()
 
 	except IndexError:
-		output_path = input_path.with_name(
-			_make_default_output_file_name(input_path))
+		output_path = make_altered_path(
+		input_path,
+		after_stem=DFLT_OUTPUT_TERMINATION,
+		extension=missing_output_warner.extension_to_str())
+
+	except Exception as e:
+		print(ERROR_INTRO + str(e))
+		exit()
 
 	# Real work
 	reader = PdfFileReader(input_path.open(mode="rb"))
