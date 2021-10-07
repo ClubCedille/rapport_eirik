@@ -4,11 +4,10 @@ from PyPDF2.generic import BooleanObject,\
 
 
 _FIELD_TYPE = "/FT"
-
-_KIDS_KEY = "/Kids"
-
 _BUTTON_TYPE = "/Btn"
 _TEXT_TYPE = "/Tx"
+
+_KIDS_KEY = "/Kids"
 
 
 class RadioBtnGroup:
