@@ -8,10 +8,7 @@ Args:
 """
 
 
-from jazal import\
-	MissingPathArgWarner,\
-	make_altered_name,\
-	make_altered_path
+from io_path_pair import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from sys import argv, exit
@@ -72,49 +69,21 @@ def get_pdf_field_list(pdf_reader):
 
 
 if __name__ == "__main__":
-	# Input path checks
-	missing_input_warner = MissingPathArgWarner("Input file", (".pdf",))
 	try:
 		input_path = Path(argv[1])
-		input_path_checker =\
-			missing_input_warner.make_reactive_path_checker(input_path)
-		input_path_checker.check_path_exists()
-		input_path_checker.check_extension_correct()
-
 	except IndexError:
-		print(ERROR_INTRO + missing_input_warner.make_missing_arg_msg())
-		exit()
+		input_path = None
 
-	except Exception as e:
-		print(ERROR_INTRO + str(e))
-		exit()
-
-	# Output path checks
-	missing_output_warner = MissingPathArgWarner("Output file", (".txt",))
 	try:
 		output_path = Path(argv[2])
-
-		output_path_checker =\
-			missing_output_warner.make_reactive_path_checker(output_path)
-
-		if output_path_checker.path_is_dir():
-			output_path = output_path/make_altered_name(
-				input_path, after_stem=DFLT_OUTPUT_TERMINATION,
-				extension=output_path_checker.extension_to_str())
-		else:
-			output_path_checker.check_extension_correct()
-
 	except IndexError:
-		output_path = make_altered_path(
-		input_path,
-		after_stem=DFLT_OUTPUT_TERMINATION,
-		extension=missing_output_warner.extension_to_str())
+		output_path = None
 
-	except Exception as e:
-		print(ERROR_INTRO + str(e))
-		exit()
+	output_path = check_io_path_pair(
+		input_path, "Input file", (".pdf",),
+		output_path, "Output file", (".txt",),
+		"_field_values")
 
-	# Real work
 	reader = PdfFileReader(input_path.open(mode="rb"))
 	field_list = get_pdf_field_list(reader)
 
