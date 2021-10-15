@@ -7,25 +7,28 @@ from jazal import\
 ERROR_INTRO = "ERROR! "
 
 
-def check_io_path_pair(input_path, input_path_name, input_path_exten,
-		output_path, output_path_name, output_path_exten, dflt_output_termin):
-	# Input path checks
-	missing_input_warner = MissingPathArgWarner(
-		input_path_name, input_path_exten)
+def check_mandatory_path(path_obj, path_name, path_exten):
+	missing_path_warner = MissingPathArgWarner(
+		path_name, path_exten)
 
-	if input_path is None:
-		print(ERROR_INTRO + missing_input_warner.make_missing_arg_msg())
+	if path_obj is None:
+		print(ERROR_INTRO + missing_path_warner.make_missing_arg_msg())
 		exit()
 
 	try:
-		input_path_checker =\
-			missing_input_warner.make_reactive_path_checker(input_path)
-		input_path_checker.check_path_exists()
-		input_path_checker.check_extension_correct()
+		path_checker =\
+			missing_path_warner.make_reactive_path_checker(path_obj)
+		path_checker.check_path_exists()
+		path_checker.check_extension_correct()
 
 	except Exception as e:
 		print(ERROR_INTRO + str(e))
 		exit()
+
+
+def check_io_path_pair(input_path, input_path_name, input_path_exten,
+		output_path, output_path_name, output_path_exten, dflt_output_termin):
+	check_mandatory_path(input_path, input_path_name, input_path_exten)
 
 	# Output path checks
 	missing_output_warner = MissingPathArgWarner(
