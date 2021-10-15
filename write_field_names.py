@@ -7,7 +7,7 @@ Args:
 	2: (optional) path to the output PDF file
 """
 
-from io_path_pair import check_io_path_pair
+from path_checks import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
