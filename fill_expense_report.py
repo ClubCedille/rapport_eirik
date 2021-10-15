@@ -6,7 +6,7 @@ file and filling the copy's fields. The template is not modified.
 
 from argparse import ArgumentParser
 from field_setting import get_yaml_content, parse_yaml_content
-from path_checks import check_mandatory_path
+from path_checks import check_mandatory_path, check_optional_path
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
@@ -22,6 +22,8 @@ _AMOUNT_FIELD = "Montant$"
 _ccAMOUNT_FIELD = "ccMontant$"
 _AMOUNT_TOTAL_FIELD = "TotalMontant"
 _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
+
+_DFLT_TEMPLATE_PATH = Path("rapport_depenses.pdf")
 
 _PDF_EXTEN_TUPLE = (".pdf",)
 
@@ -39,7 +41,7 @@ def _make_parser():
 		help="Path to the field setting file. It must be a YAML file.")
 
 	parser.add_argument("-t", "--template", type=Path,
-		default=Path("rapport_depenses.pdf"),
+		default=_DFLT_TEMPLATE_PATH,
 		help="Path to the report template. It must be a PDF file.")
 
 	return parser
@@ -85,8 +87,11 @@ if __name__ == "__main__":
 	field_setting_path = args.setting # -s
 	template_path = args.template # -t
 
+	check_optional_path(
+		output_path, "-o/--output", _PDF_EXTEN_TUPLE, None, None)
 	check_mandatory_path(field_setting_path, "-s/--setting", (".yml",))
-	check_mandatory_path(template_path, "-t/--template", _PDF_EXTEN_TUPLE)
+	if template_path != _DFLT_TEMPLATE_PATH:
+		check_mandatory_path(template_path, "-t/--template", _PDF_EXTEN_TUPLE)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
