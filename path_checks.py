@@ -38,6 +38,9 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 		output_path_exten (str tuple): the output path's extension
 		dflt_output_termin (str): a string appended to input_path's file name
 			to make a default output file name if necessary
+
+	Returns:
+		pathlib.Path: the output path, since it can have been modified
 	"""
 	check_mandatory_path(input_path, input_path_name, input_path_exten)
 
