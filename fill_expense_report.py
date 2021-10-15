@@ -6,6 +6,7 @@ file and filling the copy's fields. The template is not modified.
 
 from argparse import ArgumentParser
 from field_setting import get_yaml_content, parse_yaml_content
+from path_checks import check_mandatory_path
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
@@ -22,6 +23,8 @@ _ccAMOUNT_FIELD = "ccMontant$"
 _AMOUNT_TOTAL_FIELD = "TotalMontant"
 _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
 
+_PDF_EXTEN_TUPLE = (".pdf",)
+
 
 def _make_parser():
 	parser = ArgumentParser(description=__doc__)
@@ -29,10 +32,10 @@ def _make_parser():
 	parser.add_argument("-e", "--editable", action="store_true",
 		help="Makes the filled report editable.")
 
-	parser.add_argument("-o", "--output", type=Path, required=True,
+	parser.add_argument("-o", "--output", type=Path, default=None,
 		help="Path to the filled PDF report created by this script")
 
-	parser.add_argument("-s", "--setting", type=Path, required=True,
+	parser.add_argument("-s", "--setting", type=Path, default=None,
 		help="Path to the field setting file. It must be a YAML file.")
 
 	parser.add_argument("-t", "--template", type=Path,
@@ -78,9 +81,12 @@ def _set_total_montant(field_dict, cc):
 if __name__ == "__main__":
 	parser = _make_parser()
 	args = parser.parse_args()
-	template_path = args.template
-	field_setting_path = args.setting
-	output_path = args.output
+	output_path = args.output # -o
+	field_setting_path = args.setting # -s
+	template_path = args.template # -t
+
+	check_mandatory_path(field_setting_path, "-s/--setting", (".yml",))
+	check_mandatory_path(template_path, "-t/--template", _PDF_EXTEN_TUPLE)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
