@@ -5,8 +5,12 @@ file and filling the copy's fields. The template is not modified.
 
 
 from argparse import ArgumentParser
-from field_setting import get_yaml_content, parse_yaml_content
-from path_checks import check_mandatory_path, check_optional_path
+from field_setting import\
+	get_yaml_content,\
+	parse_yaml_content
+from path_arg_checks import\
+	check_mandatory_path,\
+	check_optional_path
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\

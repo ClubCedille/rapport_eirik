@@ -8,7 +8,7 @@ Args:
 """
 
 
-from path_checks import check_io_path_pair
+from path_arg_checks import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from sys import argv, exit

@@ -291,7 +291,7 @@ def str_to_bool(bool_str):
 
 if __name__ == "__main__":
 	from argparse import ArgumentParser
-	from path_checks import check_mandatory_path
+	from path_arg_checks import check_mandatory_path
 
 	parser = ArgumentParser(description=__doc__)
 
