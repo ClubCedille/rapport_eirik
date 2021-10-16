@@ -18,10 +18,11 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 	"""
 	Performs verifications for a pair of path arguments provided to a script.
 	The first one, the input path, points to a file from which the script
-	extracts data. It is verified by function check_mandatory_path. The second
-	path argument, the output path, is optional. It points to a file in which
-	the script writes a result. It is verified by function check_optional_path.
-	Argument input_path serves as the base for the default output path value.
+	extracts data. It is verified by function check_mandatory_path with
+	must_exist set to True. The second path argument, the output path, is
+	optional. It points to a file in which the script writes a result. It is
+	verified by function check_optional_path. Argument input_path serves as the
+	base for the default output path value.
 
 	The first three arguments are given to function check_mandatory_path. The
 	next three arguments are given to function check_optional_path along
@@ -48,7 +49,7 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 		ValueError: if dflt_output_termin is None while output_path is None or
 			points to a directory
 	"""
-	check_mandatory_path(input_path, input_path_name, input_path_exten)
+	check_mandatory_path(input_path, input_path_name, input_path_exten, True)
 
 	try:
 		dflt_output_path = check_optional_path(
@@ -62,12 +63,12 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 	return dflt_output_path
 
 
-def check_mandatory_path(path_obj, path_arg_name, path_exten):
+def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 	"""
 	Performs verifications with library Jazal on a path argument that must be
 	provided to a script. An error message is printed in the console and the
 	script is interrupted if the path is omitted, if it points to an inexistent
-	file or if it has an incorrect extension.
+	file while must_exist is True or if it has an incorrect extension.
 
 	Args:
 		path_obj (pathlib.Path): the path argument being checked. Set this
@@ -75,6 +76,8 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten):
 		path_arg_name (str): the name of the path argument
 		path_exten (str tuple): the extension that path_obj is supposed to
 			have. It must conform to the specification of the Jazal library.
+		must_exist (bool): If it is set to True, the existence of the file to
+			which the path argument points is verified.
 	"""
 	missing_path_warner = MissingPathArgWarner(
 		path_arg_name, path_exten)
@@ -86,7 +89,10 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten):
 	try:
 		path_checker =\
 			missing_path_warner.make_reactive_path_checker(path_obj)
-		path_checker.check_path_exists()
+
+		if must_exist:
+			path_checker.check_path_exists()
+
 		path_checker.check_extension_correct()
 
 	except Exception as e:

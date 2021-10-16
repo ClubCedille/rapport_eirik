@@ -91,11 +91,13 @@ if __name__ == "__main__":
 	field_setting_path = args.setting # -s
 	template_path = args.template # -t
 
-	check_optional_path(
-		output_path, "-o/--output", _PDF_EXTEN_TUPLE, None, None)
-	check_mandatory_path(field_setting_path, "-s/--setting", (".yml",))
+	check_mandatory_path(output_path, "-o/--output", _PDF_EXTEN_TUPLE, False)
+
+	check_mandatory_path(field_setting_path, "-s/--setting", (".yml",), True)
+
 	if template_path != _DFLT_TEMPLATE_PATH:
-		check_mandatory_path(template_path, "-t/--template", _PDF_EXTEN_TUPLE)
+		check_optional_path(
+			template_path, "-t/--template", _PDF_EXTEN_TUPLE, None, None)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
