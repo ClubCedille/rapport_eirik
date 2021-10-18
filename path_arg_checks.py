@@ -161,7 +161,7 @@ def check_optional_path(
 			try:
 				path_checker.check_extension_correct()
 
-			except Exception as e:
+			except ValueError as e:
 				print(_ERROR_INTRO + str(e))
 				exit(1)
 
