@@ -132,14 +132,8 @@ def check_optional_path(
 		ValueError: if base_path or termination is None while path_obj is None
 			or points to a directory
 	"""
-	path_provided = True
-	path_is_dir = False
-
-	if path_obj is None:
-		path_provided = False
-
-	elif path_obj.is_dir():
-		path_is_dir = True
+	path_provided = path_obj is not None
+	path_is_dir = path_obj.is_dir()
 
 	if (base_path is None or termination is None)\
 			and (not path_provided or path_is_dir):
