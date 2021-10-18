@@ -308,7 +308,8 @@ if __name__ == "__main__":
 	field_setting_path = args.file
 	print_val_type = args.types
 
-	check_mandatory_path(field_setting_path, "-f/--file", (".yml",), True)
+	check_mandatory_path(
+		field_setting_path, "-f/--file", (".yml",), must_exist=True)
 
 	yaml_content = get_yaml_content(field_setting_path)
 	field_values = parse_yaml_content(yaml_content)
