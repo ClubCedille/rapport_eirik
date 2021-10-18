@@ -128,7 +128,6 @@ def _parse_expense_list(expense_list):
 	fields = dict()
 
 	for i, expense in enumerate(expense_list):
-		#description = expense.get("Description")
 		if (description := expense.get("Description")) is not None:
 			fields["Détails" + str(i+1)] = description
 
