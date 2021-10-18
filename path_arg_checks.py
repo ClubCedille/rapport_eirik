@@ -146,7 +146,7 @@ def check_optional_path(
 		path_checker =\
 			missing_path_warner.make_reactive_path_checker(path_obj)
 
-		if path_is_dir and len(path_exten) == 0:
+		if path_is_dir:
 			path_obj = path_obj/make_altered_name(
 				base_path, after_stem=termination,
 				extension=path_checker.extension_to_str())
