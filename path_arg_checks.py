@@ -9,6 +9,8 @@ from jazal import\
 	make_altered_name,\
 	make_altered_path
 
+from sys import exit
+
 
 _ERROR_INTRO = "ERROR! "
 
@@ -84,7 +86,7 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 
 	if path_obj is None:
 		print(_ERROR_INTRO + missing_path_warner.make_missing_arg_msg())
-		exit()
+		exit(1)
 
 	try:
 		path_checker =\
@@ -97,7 +99,7 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 
 	except Exception as e:
 		print(_ERROR_INTRO + str(e))
-		exit()
+		exit(1)
 
 
 def check_optional_path(
@@ -161,7 +163,7 @@ def check_optional_path(
 
 			except Exception as e:
 				print(_ERROR_INTRO + str(e))
-				exit()
+				exit(1)
 
 	else:
 		path_obj = make_altered_path(
