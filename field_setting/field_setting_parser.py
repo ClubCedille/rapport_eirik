@@ -295,12 +295,10 @@ if __name__ == "__main__":
 	parser = ArgumentParser(description=__doc__)
 
 	parser.add_argument("-f", "--file", type=Path, required=True,
-		help="the path to a YAML file that defines values to put in the\
-		fields of an expense report")
+		help="the path to a YAML file that defines values to put in the fields of an expense report")
 
 	parser.add_argument("-t", "--types", action="store_true",
-		help="If this argument is given, the type of the fields' value will\
-		be printed.")
+		help="If this argument is given, the type of the fields' value will be printed.")
 
 	args = parser.parse_args()
 
