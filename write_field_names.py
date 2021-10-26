@@ -8,29 +8,16 @@ Args:
 """
 
 
+from path_arg_checks import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
-from pypdf2_util import make_writer_from_reader, set_need_appearances
-from sys import argv, exit
+from pypdf2_util import\
+	make_writer_from_reader,\
+	set_need_appearances
+from sys import argv
 
 
-PDF_EXTENSION = ".pdf"
-PDF_EXTENSION_AS_LIST = [PDF_EXTENSION]
 TEXT_FIELD_TYPE = "/Tx"
-
-
-def check_path_existence(path):
-	if not path.exists():
-		print("ERROR! " + str(path) + " does not exist.")
-		exit()
-
-
-def _make_default_output_file_name(input_path):
-	return _make_default_output_file_stem(input_path) + PDF_EXTENSION
-
-
-def _make_default_output_file_stem(input_path):
-	return input_path.stem + "_field_names"
 
 
 def make_field_name_list(pdf_reader):
@@ -45,37 +32,22 @@ def make_field_name_list(pdf_reader):
 
 	return name_list
 
-
-# Input path checks
 try:
 	input_path = Path(argv[1])
 except IndexError:
-	print("ERROR! The path to a " + PDF_EXTENSION
-		+ " file must be provided as the first argument.")
-	exit()
+	input_path = None
 
-check_path_existence(input_path)
-
-if input_path.suffixes != PDF_EXTENSION_AS_LIST: # False if not a file
-	print("ERROR! The first argument must be the path to a "
-		+ PDF_EXTENSION + " file.")
-	exit()
-
-# Output path checks
 try:
 	output_path = Path(argv[2])
-
-	if output_path.is_dir():
-		output_path = output_path/_make_default_output_file_name(input_path)
-
-	elif output_path.suffixes != PDF_EXTENSION_AS_LIST:
-		output_path = output_path.with_suffix(PDF_EXTENSION)
-
 except IndexError:
-	output_path = input_path.with_name(
-		_make_default_output_file_name(input_path))
+	output_path = None
 
-# Real work
+pdf_extension = (".pdf",)
+output_path = check_io_path_pair(
+	input_path, "Input file", pdf_extension,
+	output_path, "Output file", pdf_extension,
+	"_field_names")
+
 reader = PdfFileReader(input_path.open(mode="rb"))
 writer = make_writer_from_reader(reader, False)
 

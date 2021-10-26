@@ -128,7 +128,6 @@ def _parse_expense_list(expense_list):
 	fields = dict()
 
 	for i, expense in enumerate(expense_list):
-		#description = expense.get("Description")
 		if (description := expense.get("Description")) is not None:
 			fields["Détails" + str(i+1)] = description
 
@@ -291,21 +290,23 @@ def str_to_bool(bool_str):
 
 if __name__ == "__main__":
 	from argparse import ArgumentParser
+	from path_arg_checks import check_mandatory_path
 
 	parser = ArgumentParser(description=__doc__)
 
 	parser.add_argument("-f", "--file", type=Path, required=True,
-		help="the path to a YAML file that defines values to put in the\
-		fields of an expense report")
+		help="the path to a YAML file that defines values to put in the fields of an expense report")
 
 	parser.add_argument("-t", "--types", action="store_true",
-		help="If this argument is given, the type of the fields' value will\
-		be printed.")
+		help="If this argument is given, the type of the fields' value will be printed.")
 
 	args = parser.parse_args()
 
 	field_setting_path = args.file
 	print_val_type = args.types
+
+	check_mandatory_path(
+		field_setting_path, "-f/--file", (".yml",), must_exist=True)
 
 	yaml_content = get_yaml_content(field_setting_path)
 	field_values = parse_yaml_content(yaml_content)

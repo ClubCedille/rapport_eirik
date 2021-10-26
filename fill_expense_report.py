@@ -5,7 +5,12 @@ file and filling the copy's fields. The template is not modified.
 
 
 from argparse import ArgumentParser
-from field_setting import get_yaml_content, parse_yaml_content
+from field_setting import\
+	get_yaml_content,\
+	parse_yaml_content
+from path_arg_checks import\
+	check_mandatory_path,\
+	check_optional_path
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
@@ -22,6 +27,10 @@ _ccAMOUNT_FIELD = "ccMontant$"
 _AMOUNT_TOTAL_FIELD = "TotalMontant"
 _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
 
+_DFLT_TEMPLATE_PATH = Path("rapport_depenses.pdf")
+
+_PDF_EXTEN_TUPLE = (".pdf",)
+
 
 def _make_parser():
 	parser = ArgumentParser(description=__doc__)
@@ -29,14 +38,14 @@ def _make_parser():
 	parser.add_argument("-e", "--editable", action="store_true",
 		help="Makes the filled report editable.")
 
-	parser.add_argument("-o", "--output", type=Path, required=True,
+	parser.add_argument("-o", "--output", type=Path, default=None,
 		help="Path to the filled PDF report created by this script")
 
-	parser.add_argument("-s", "--setting", type=Path, required=True,
+	parser.add_argument("-s", "--setting", type=Path, default=None,
 		help="Path to the field setting file. It must be a YAML file.")
 
 	parser.add_argument("-t", "--template", type=Path,
-		default=Path("rapport_depenses.pdf"),
+		default=_DFLT_TEMPLATE_PATH,
 		help="Path to the report template. It must be a PDF file.")
 
 	return parser
@@ -78,9 +87,19 @@ def _set_total_montant(field_dict, cc):
 if __name__ == "__main__":
 	parser = _make_parser()
 	args = parser.parse_args()
-	template_path = args.template
-	field_setting_path = args.setting
-	output_path = args.output
+	output_path = args.output # -o
+	field_setting_path = args.setting # -s
+	template_path = args.template # -t
+
+	check_mandatory_path(
+		output_path, "-o/--output", _PDF_EXTEN_TUPLE, must_exist=False)
+
+	check_mandatory_path(
+		field_setting_path, "-s/--setting", (".yml",), must_exist=True)
+
+	if template_path != _DFLT_TEMPLATE_PATH:
+		check_mandatory_path(
+			template_path, "-t/--template", _PDF_EXTEN_TUPLE, must_exist=True)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
