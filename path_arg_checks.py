@@ -81,8 +81,7 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 		must_exist (bool): If it is set to True, the existence of the file to
 			which the path argument points is verified.
 	"""
-	missing_path_warner = MissingPathArgWarner(
-		path_arg_name, path_exten)
+	missing_path_warner = MissingPathArgWarner(path_arg_name, path_exten)
 
 	if path_obj is None:
 		print(_ERROR_INTRO + missing_path_warner.make_missing_arg_msg())
