@@ -80,8 +80,8 @@ if __name__ == "__main__":
 		output_path = None
 
 	output_path = check_io_path_pair(
-		input_path, "Input file", (".pdf",),
-		output_path, "Output file", (".txt",),
+		input_path, "Input file", ".pdf",
+		output_path, "Output file", ".txt",
 		"_field_values")
 
 	reader = PdfFileReader(input_path.open(mode="rb"))
