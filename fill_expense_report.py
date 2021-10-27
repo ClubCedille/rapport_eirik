@@ -28,7 +28,7 @@ _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
 
 _DFLT_TEMPLATE_PATH = Path("rapport_depenses.pdf")
 
-_PDF_EXTEN_TUPLE = (".pdf",)
+_PDF_EXTENSION = ".pdf"
 
 
 def _make_parser():
@@ -91,14 +91,14 @@ if __name__ == "__main__":
 	template_path = args.template # -t
 
 	check_mandatory_path(
-		output_path, "-o/--output", _PDF_EXTEN_TUPLE, must_exist=False)
+		output_path, "-o/--output", _PDF_EXTENSION, must_exist=False)
 
 	check_mandatory_path(
-		field_setting_path, "-s/--setting", (".yml",), must_exist=True)
+		field_setting_path, "-s/--setting", ".yml", must_exist=True)
 
 	if template_path != _DFLT_TEMPLATE_PATH:
 		check_mandatory_path(
-			template_path, "-t/--template", _PDF_EXTEN_TUPLE, must_exist=True)
+			template_path, "-t/--template", _PDF_EXTENSION, must_exist=True)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
