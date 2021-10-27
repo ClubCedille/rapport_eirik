@@ -35,12 +35,12 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 	Args:
 		input_path (pathlib.Path): the input path
 		input_path_name (str): the input path argument's name
-		input_path_exten (str tuple): the extension that the input path is
-			supposed to have
+		input_path_exten (str): the extension that the input path is supposed
+			to have
 		output_path (pathlib.Path): the output path
 		output_path_name (str): the output path argument's name
-		output_path_exten (str tuple): the extension that the output path is
-			supposed to have
+		output_path_exten (str): the extension that the output path is supposed
+			to have
 		dflt_output_termin (str): a string appended to input_path's file name
 			to make a default output file name if necessary
 
@@ -76,8 +76,8 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 		path_obj (pathlib.Path): the path argument being checked. Set this
 			parameter to None to indicate that the path was not provided.
 		path_arg_name (str): the name of the path argument
-		path_exten (str tuple): the extension that path_obj is supposed to
-			have. It must conform to the specification of the Jazal library.
+		path_exten (str): the extension that path_obj is supposed to have. It
+			must conform to the specification of the Jazal library.
 		must_exist (bool): If it is set to True, the existence of the file to
 			which the path argument points is verified.
 	"""
@@ -118,8 +118,8 @@ def check_optional_path(
 		path_obj (pathlib.Path): the path argument being checked. Set this
 			parameter to None to indicate that the path was not provided.
 		path_arg_name (str): the name of the path argument
-		path_exten (str tuple): the extension that path_obj is supposed to
-			have. It must conform to the specification of the Jazal library.
+		path_exten (str): the extension that path_obj is supposed to have. It
+			must conform to the specification of the Jazal library.
 		base_path (pathlib.Path): this path can serve as a base to generate a
 			default value for the checked path.
 		termination (str): a string appended to base_path's file name to make a
