@@ -28,6 +28,7 @@ _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
 _DFLT_TEMPLATE_PATH = Path("rapport_depenses.pdf")
 
 _PDF_EXTENSION = ".pdf"
+_YML_EXTENSION = ".yml"
 
 
 def _make_parser():
@@ -93,7 +94,7 @@ if __name__ == "__main__":
 		output_path, "-o/--output", _PDF_EXTENSION, must_exist=False)
 
 	check_mandatory_path(
-		field_setting_path, "-s/--setting", ".yml", must_exist=True)
+		field_setting_path, "-s/--setting", _YML_EXTENSION, must_exist=True)
 
 	if template_path != _DFLT_TEMPLATE_PATH:
 		check_mandatory_path(
