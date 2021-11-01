@@ -1,5 +1,5 @@
 certifi==2020.12.5
-jazal==1.0.0
+jazal==2.0.0
 pathlib==1.0.1
 PyPDF2==1.26.0
 PyYAML==5.4.1
