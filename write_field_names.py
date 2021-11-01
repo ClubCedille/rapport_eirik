@@ -17,6 +17,8 @@ from pypdf2_util import\
 from sys import argv
 
 
+_PDF_EXTENSION = ".pdf"
+
 TEXT_FIELD_TYPE = "/Tx"
 
 
@@ -42,10 +44,9 @@ try:
 except IndexError:
 	output_path = None
 
-pdf_extension = (".pdf",)
 output_path = check_io_path_pair(
-	input_path, "Input file", pdf_extension,
-	output_path, "Output file", pdf_extension,
+	input_path, "Input file", _PDF_EXTENSION,
+	output_path, "Output file", _PDF_EXTENSION,
 	"_field_names")
 
 reader = PdfFileReader(input_path.open(mode="rb"))
