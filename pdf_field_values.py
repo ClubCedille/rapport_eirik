@@ -32,12 +32,24 @@ class PdfField:
 			type (str): the field's type
 			value: the field's value
 		"""
-		self.name = name
-		self.type = type
-		self.value = value
+		self._name = name
+		self._type = type
+		self._value = value
 
 	def __str__(self):
-		return self.name + " (" + self.type + "): " + str(self.value)
+		return self._name + " (" + self._type + "): " + str(self._value)
+
+	@property
+	def name(self):
+		return self._name
+
+	@property
+	def type(self):
+		return self._type
+
+	@property
+	def value(self):
+		return self._value
 
 
 def get_pdf_field_list(pdf_reader):
