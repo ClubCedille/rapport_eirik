@@ -19,7 +19,7 @@ from sys import argv
 
 _PDF_EXTENSION = ".pdf"
 
-TEXT_FIELD_TYPE = "/Tx"
+_TEXT_FIELD_TYPE = "/Tx"
 
 
 def make_field_name_list(pdf_reader):
@@ -29,7 +29,7 @@ def make_field_name_list(pdf_reader):
 
 	name_list = list()
 	for name, field in pdf_fields.items():
-		if field.fieldType == TEXT_FIELD_TYPE:
+		if field.fieldType == _TEXT_FIELD_TYPE:
 			name_list.append(name)
 
 	return name_list

@@ -1,6 +1,6 @@
 """
-This module allows to make simplified representations of a PDF file's fields.
-If it is executed in command line, it writes them in a .txt file.
+This script writes simplified representations of a PDF file's fields in a text
+file.
 
 Args:
 	1: path to a PDF file
@@ -12,10 +12,6 @@ from path_arg_checks import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from sys import argv, exit
-
-
-DFLT_OUTPUT_TERMINATION = "_field_values"
-ERROR_INTRO = "ERROR! "
 
 
 class PdfField:
