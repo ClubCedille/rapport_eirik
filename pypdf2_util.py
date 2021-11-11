@@ -71,8 +71,7 @@ class RadioBtnGroup:
 			or -size <= index and index <= -1
 
 	def __iter__(self):
-		self._iter_index = 0
-		return self
+		return iter(self._btn_names)
 
 	def __len__(self):
 		return len(self._btn_names)
@@ -84,14 +83,6 @@ class RadioBtnGroup:
 		field that corresponds to the group in the PDF file.
 		"""
 		return self._name
-
-	def __next__(self):
-		if self._iter_index >= len(self):
-			raise StopIteration()
-
-		btn_name = self[self._iter_index]
-		self._iter_index += 1
-		return btn_name
 
 
 def get_field_type(pdf_field):
