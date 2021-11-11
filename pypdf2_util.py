@@ -1,3 +1,4 @@
+from enum import Enum
 from PyPDF2 import PdfFileWriter
 from PyPDF2.generic import BooleanObject,\
 	IndirectObject, NameObject, TextStringObject
@@ -15,6 +16,12 @@ _KEY_V = "/V"
 _TYPE_FIELD = "/FT"
 _TYPE_BUTTON = "/Btn"
 _TYPE_TEXT = "/Tx"
+
+
+class PdfFieldType(Enum):
+	TEXT_FIELD = 0
+	CHECKBOX = 1
+	RADIO_BTN_GROUP = 2
 
 
 class RadioBtnGroup:
@@ -89,32 +96,29 @@ class RadioBtnGroup:
 
 def get_field_type(pdf_field):
 	"""
-	Determines the type of the given PDF field: text field (0), radio button
-	group (1) or checkbox (2).
+	Determines the type of the given PDF field: text field, checkbox or radio
+	button group.
 
 	Args:
 		pdf_field (dict): a dictionary that represents a field of a PDF file
 
 	Returns:
-		int: the type of pdf_field of -1 if no type is determined
+		PdfFieldType: the type of pdf_field of None if no type is determined
 	"""
 	type_val = pdf_field.get(_TYPE_FIELD)
 
 	if type_val == _TYPE_TEXT:
-		# Text field
-		return 0
+		return PdfFieldType.TEXT_FIELD
 
 	elif type_val == _TYPE_BUTTON:
 		if _KEY_KIDS in pdf_field:
-			# Radio button group
-			return 1
+			return PdfFieldType.RADIO_BTN_GROUP
 
 		else:
-			# Checkbox
-			return 2
+			return PdfFieldType.CHECKBOX
 
 	else:
-		return -1
+		return None
 
 
 def _make_radio_btn_group_dict(radio_btn_groups):
@@ -232,12 +236,12 @@ def update_page_fields(page, fields, *radio_btn_groups):
 		if annot_name in fields:
 			field_value = fields[annot_name]
 
-			if field_type == 0: # Text field
+			if field_type == PdfFieldType.TEXT_FIELD:
 				writer_annot.update({
 					NameObject(_KEY_V): TextStringObject(field_value)
 				})
 
-			elif field_type == 2: # Checkbox
+			elif field_type == PdfFieldType.CHECKBOX:
 				writer_annot.update({
 					NameObject(_KEY_AS): NameObject(field_value),
 					NameObject(_KEY_V): NameObject(field_value)
@@ -249,10 +253,11 @@ def update_page_fields(page, fields, *radio_btn_groups):
 
 			if annot_parent is not None:
 				annot_parent_name = annot_parent.get(_KEY_T).getObject()
+				annot_parent_type = get_field_type(annot_parent)
 
 				if annot_parent_name in fields\
 						and annot_parent_name not in radio_btn_grp_names\
-						and get_field_type(annot_parent) == 1:
+						and annot_parent_type == PdfFieldType.RADIO_BTN_GROUP:
 					button_index = fields[annot_parent_name]
 					button_group = btn_group_dict.get(annot_parent_name)
 
