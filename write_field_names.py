@@ -3,8 +3,8 @@ This script copies a PDF file and writes the name of the copy's text fields
 in them. The original file is not modified.
 
 Args:
-	1: path to the input PDF file
-	2: (optional) path to the output PDF file
+	1: the path to the input PDF file
+	2: (optional) the path to the output PDF file
 """
 
 
@@ -19,7 +19,7 @@ from sys import argv
 
 _PDF_EXTENSION = ".pdf"
 
-TEXT_FIELD_TYPE = "/Tx"
+_TEXT_FIELD_TYPE = "/Tx"
 
 
 def make_field_name_list(pdf_reader):
@@ -29,7 +29,7 @@ def make_field_name_list(pdf_reader):
 
 	name_list = list()
 	for name, field in pdf_fields.items():
-		if field.fieldType == TEXT_FIELD_TYPE:
+		if field.fieldType == _TEXT_FIELD_TYPE:
 			name_list.append(name)
 
 	return name_list

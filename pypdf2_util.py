@@ -1,13 +1,27 @@
+from enum import Enum
 from PyPDF2 import PdfFileWriter
 from PyPDF2.generic import BooleanObject,\
 	IndirectObject, NameObject, TextStringObject
 
 
-_FIELD_TYPE = "/FT"
-_BUTTON_TYPE = "/Btn"
-_TEXT_TYPE = "/Tx"
+_KEY_ACROFORM = "/AcroForm"
+_KEY_ANNOTS = "/Annots"
+_KEY_AS = "/AS"
+_KEY_KIDS = "/Kids"
+_KEY_NEED_APPEARANCES = "/NeedAppearances"
+_KEY_PARENT = "/Parent"
+_KEY_T = "/T"
+_KEY_V = "/V"
 
-_KIDS_KEY = "/Kids"
+_TYPE_FIELD = "/FT"
+_TYPE_BUTTON = "/Btn"
+_TYPE_TEXT = "/Tx"
+
+
+class PdfFieldType(Enum):
+	TEXT_FIELD = 0
+	CHECKBOX = 1
+	RADIO_BTN_GROUP = 2
 
 
 class RadioBtnGroup:
@@ -57,8 +71,7 @@ class RadioBtnGroup:
 			or -size <= index and index <= -1
 
 	def __iter__(self):
-		self._iter_index = 0
-		return self
+		return iter(self._btn_names)
 
 	def __len__(self):
 		return len(self._btn_names)
@@ -71,43 +84,32 @@ class RadioBtnGroup:
 		"""
 		return self._name
 
-	def __next__(self):
-		if self._iter_index >= len(self):
-			raise StopIteration()
-
-		btn_name = self[self._iter_index]
-		self._iter_index += 1
-		return btn_name
-
 
 def get_field_type(pdf_field):
 	"""
-	Determines the type of the given PDF field: text field (0), radio button
-	group (1) or checkbox (2).
+	Determines the type of the given PDF field: text field, checkbox or radio
+	button group.
 
 	Args:
 		pdf_field (dict): a dictionary that represents a field of a PDF file
 
 	Returns:
-		int: the type of pdf_field of -1 if no type is determined
+		PdfFieldType: the type of pdf_field of None if no type is determined
 	"""
-	type_val = pdf_field.get(_FIELD_TYPE)
+	type_val = pdf_field.get(_TYPE_FIELD)
 
-	if type_val == _TEXT_TYPE:
-		# Text field
-		return 0
+	if type_val == _TYPE_TEXT:
+		return PdfFieldType.TEXT_FIELD
 
-	elif type_val == _BUTTON_TYPE:
-		if _KIDS_KEY in pdf_field:
-			# Radio button group
-			return 1
+	elif type_val == _TYPE_BUTTON:
+		if _KEY_KIDS in pdf_field:
+			return PdfFieldType.RADIO_BTN_GROUP
 
 		else:
-			# Checkbox
-			return 2
+			return PdfFieldType.CHECKBOX
 
 	else:
-		return -1
+		return None
 
 
 def _make_radio_btn_group_dict(radio_btn_groups):
@@ -171,12 +173,12 @@ def set_need_appearances(pdf_writer, bool_val):
 	catalog = pdf_writer._root_object
 
 	# Get the AcroForm tree and add /NeedAppearances attribute
-	if "/AcroForm" not in catalog:
-		pdf_writer._root_object.update({NameObject("/AcroForm"):
+	if _KEY_ACROFORM not in catalog:
+		pdf_writer._root_object.update({NameObject(_KEY_ACROFORM):
 			IndirectObject(len(pdf_writer._objects), 0, pdf_writer)})
 
-	need_appearances = NameObject("/NeedAppearances")
-	pdf_writer._root_object["/AcroForm"][need_appearances]\
+	need_appearances = NameObject(_KEY_NEED_APPEARANCES)
+	pdf_writer._root_object[_KEY_ACROFORM][need_appearances]\
 		= BooleanObject(bool_val)
 
 
@@ -214,38 +216,39 @@ def update_page_fields(page, fields, *radio_btn_groups):
 	# Names of the set radio button groups
 	radio_btn_grp_names = list()
 
-	page_annots = page["/Annots"]
+	page_annots = page[_KEY_ANNOTS]
 
 	for writer_annot in page_annots:
 		writer_annot = writer_annot.getObject()
-		annot_name = writer_annot.get("/T")
+		annot_name = writer_annot.get(_KEY_T)
 		field_type = get_field_type(writer_annot)
 
 		# Set text fields and checkboxes
 		if annot_name in fields:
 			field_value = fields[annot_name]
 
-			if field_type == 0: # Text field
+			if field_type == PdfFieldType.TEXT_FIELD:
 				writer_annot.update({
-					NameObject("/V"): TextStringObject(field_value)
+					NameObject(_KEY_V): TextStringObject(field_value)
 				})
 
-			elif field_type == 2: # Checkbox
+			elif field_type == PdfFieldType.CHECKBOX:
 				writer_annot.update({
-					NameObject("/AS"): NameObject(field_value),
-					NameObject("/V"): NameObject(field_value)
+					NameObject(_KEY_AS): NameObject(field_value),
+					NameObject(_KEY_V): NameObject(field_value)
 				})
 
 		# Set radio buttons
 		elif radio_buttons and annot_name is None:
-			annot_parent = writer_annot.get("/Parent").getObject()
+			annot_parent = writer_annot.get(_KEY_PARENT).getObject()
 
 			if annot_parent is not None:
-				annot_parent_name = annot_parent.get("/T").getObject()
+				annot_parent_name = annot_parent.get(_KEY_T).getObject()
+				annot_parent_type = get_field_type(annot_parent)
 
 				if annot_parent_name in fields\
 						and annot_parent_name not in radio_btn_grp_names\
-						and get_field_type(annot_parent) == 1:
+						and annot_parent_type == PdfFieldType.RADIO_BTN_GROUP:
 					button_index = fields[annot_parent_name]
 					button_group = btn_group_dict.get(annot_parent_name)
 
@@ -257,11 +260,11 @@ def update_page_fields(page, fields, *radio_btn_groups):
 
 						button_name = button_group[button_index]
 
-						annot_parent[NameObject("/Kids")].getObject()\
-							[button_index].getObject()[NameObject("/AS")]\
+						annot_parent[NameObject(_KEY_KIDS)].getObject()\
+							[button_index].getObject()[NameObject(_KEY_AS)]\
 							= NameObject(button_name)
 
-						annot_parent[NameObject("/V")]\
+						annot_parent[NameObject(_KEY_V)]\
 							= NameObject(button_name)
 
 						radio_btn_grp_names.append(annot_parent_name)

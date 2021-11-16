@@ -1,10 +1,10 @@
 """
-This module allows to make simplified representations of a PDF file's fields.
-If it is executed in command line, it writes them in a .txt file.
+This script writes simplified representations of a PDF file's fields in a text
+file.
 
 Args:
-	1: path to a PDF file
-	2: (optional) path to the output .txt file
+	1: the path to a PDF file
+	2: (optional) the path to the output .txt file
 """
 
 
@@ -12,10 +12,6 @@ from path_arg_checks import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
 from sys import argv, exit
-
-
-DFLT_OUTPUT_TERMINATION = "_field_values"
-ERROR_INTRO = "ERROR! "
 
 
 class PdfField:
@@ -36,12 +32,24 @@ class PdfField:
 			type (str): the field's type
 			value: the field's value
 		"""
-		self.name = name
-		self.type = type
-		self.value = value
+		self._name = name
+		self._type = type
+		self._value = value
 
 	def __str__(self):
-		return self.name + " (" + self.type + "): " + str(self.value)
+		return self._name + " (" + self._type + "): " + str(self._value)
+
+	@property
+	def name(self):
+		return self._name
+
+	@property
+	def type(self):
+		return self._type
+
+	@property
+	def value(self):
+		return self._value
 
 
 def get_pdf_field_list(pdf_reader):
