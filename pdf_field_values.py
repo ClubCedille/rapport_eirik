@@ -3,8 +3,8 @@ This script writes simplified representations of a PDF file's fields in a text
 file.
 
 Args:
-	1: path to a PDF file
-	2: (optional) path to the output .txt file
+	1: the path to a PDF file
+	2: (optional) the path to the output .txt file
 """
 
 

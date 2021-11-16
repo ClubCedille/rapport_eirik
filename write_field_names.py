@@ -3,8 +3,8 @@ This script copies a PDF file and writes the name of the copy's text fields
 in them. The original file is not modified.
 
 Args:
-	1: path to the input PDF file
-	2: (optional) path to the output PDF file
+	1: the path to the input PDF file
+	2: (optional) the path to the output PDF file
 """
 
 
