@@ -26,11 +26,15 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 	verified by function check_optional_path. Argument input_path serves as the
 	base for the default output path value.
 
-	The first three arguments are given to function check_mandatory_path. The
-	next three arguments are given to function check_optional_path along
-	input_path as base_path and dflt_output_termin as termination. Read those
-	functions' documentation to get the full information about the expected
-	arguments.
+	This function performs the following calls.
+
+	check_mandatory_path(input_path, input_path_name, input_path_exten, True)
+
+	check_optional_path(output_path, output_path_name,
+		output_path_exten, input_path, dflt_output_termin)
+
+	Read those functions' documentation to get the full information about the
+	expected arguments.
 
 	Args:
 		input_path (pathlib.Path): the input path
@@ -77,7 +81,7 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 			parameter to None to indicate that the path was not provided.
 		path_arg_name (str): the name of the path argument
 		path_exten (str): the extension that path_obj is supposed to have. It
-			must conform to the specification of the Jazal library.
+			must start with a '.'.
 		must_exist (bool): If it is set to True, the existence of the file to
 			which the path argument points is verified.
 	"""
@@ -118,7 +122,7 @@ def check_optional_path(
 			parameter to None to indicate that the path was not provided.
 		path_arg_name (str): the name of the path argument
 		path_exten (str): the extension that path_obj is supposed to have. It
-			must conform to the specification of the Jazal library.
+			must start with a '.'.
 		base_path (pathlib.Path): this path can serve as a base to generate a
 			default value for the checked path.
 		termination (str): a string appended to base_path's file name to make a
