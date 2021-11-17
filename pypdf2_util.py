@@ -29,7 +29,8 @@ class RadioBtnGroup:
 	This class contains the names of the radio buttons that make a radio
 	button group in a PDF file. It also contains the name of the group, which
 	should be the name of the field that corresponds to the group in the PDF
-	file. The buttons' names can be accessed with an index between brackets.
+	file. The buttons' names can be accessed through an index between brackets
+	or this class's iterator.
 	"""
 
 	def __init__(self, group_name, *btn_names):
@@ -57,7 +58,7 @@ class RadioBtnGroup:
 	def has_index(self, index):
 		"""
 		Determines whether this group has the given index. If it does not,
-		using that number as an index would raise an IndexError.
+		using that number as an index will raise an IndexError.
 
 		Args:
 			index (int): an integer that could be an index of this radio
