@@ -54,15 +54,15 @@ python fill_expense_report.py -h
 
 ### Fichiers de données
 
-Le dossier `field_setting` contient des exemples de fichier de données. Ils
-prescrivent la structure du fichier spécifié par l'argument `-s`. Pour omettre
-une information, on peut effacer une ligne entière ou seulement la partie qui
-suit un deux-points. Il est aussi permis de supprimer des éléments des listes.
-Certaines clés n'admettent qu'un ensemble déterminé de valeurs. Toutes les
-dates doivent être de format `aaaa-mm-jj`. Des valeurs booléennes servent à
-cocher ou non des cases. Par défaut, les cases ne sont pas cochées. Ne changez
-jamais le nom des clés. Des indications additionnelles sont écrites en
-commentaire dans les fichiers de données modèles.
+Le dossier `field_setting` contient des exemples de fichier de données en YAML.
+Ils prescrivent la structure du fichier spécifié par l'argument `-s`. Pour
+omettre une information, on peut effacer une ligne entière ou seulement la
+partie qui suit un deux-points. Il est aussi permis de supprimer des éléments
+des listes. Certaines clés n'admettent qu'un ensemble déterminé de valeurs.
+Toutes les dates doivent être de format `aaaa-mm-jj`. Des valeurs booléennes
+servent à cocher ou non des cases. Par défaut, les cases ne sont pas cochées.
+Ne changez jamais le nom des clés. Des indications additionnelles sont écrites
+en commentaire dans les fichiers de données modèles.
 
 ## Contenu supplémentaire
 
