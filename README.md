@@ -20,7 +20,9 @@ code source ou utilisez `git clone`.
 Ensuite, installez les dépendances de l'application en lançant la commande
 suivante dans le dossier de l'application.
 
-```pip install -r requirements.txt```
+```
+pip install -r requirements.txt
+```
 
 Le fichier `requirements.txt` est une liste de toutes les dépendances.
 
@@ -40,11 +42,15 @@ avoir l'exentsion `.yml`. Le modèle de rapport par défaut est
 
 Exemple:
 
-```python fill_expense_report.py -s abc.yml -o def.pdf -e```
+```
+python fill_expense_report.py -s field_setting\random_field_values1.yml -o succès.pdf -e
+```
 
 L'argument `-h` (*help*) affiche la définition de tous les autres.
 
-```python fill_expense_report.py -h```
+```
+python fill_expense_report.py -h
+```
 
 ### Fichiers de données
 
