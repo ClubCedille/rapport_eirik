@@ -17,8 +17,8 @@ dont la documentation est disponible [ici](https://pythonhosted.org/PyPDF2/).
 Pour installer pdf-autofiller, téléchargez le dossier compressé contenant le
 code source ou utilisez `git clone`.
 
-Ensuite, installez les dépendances de l'application en lançant la commande
-suivante dans le dossier de l'application.
+Ensuite, installez les dépendances en lançant la commande suivante dans le
+dossier de l'application.
 
 ```
 pip install -r requirements.txt
