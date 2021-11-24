@@ -1,4 +1,4 @@
-# pdf-autofiller
+# Rapport Eirik
 
 La présente application remplit le rapport de dépenses que les clubs étudiant
 de l'ÉTS peuvent soumettre pour obtenir un remboursement. Les données à
@@ -8,13 +8,15 @@ utiliser dans plusieurs rapports produits sur une longue période. Elle élimine
 ainsi les erreurs humaines susceptibles de survenir pendant la copie de
 données.
 
-pdf-autofiller dépend de la bibliothèque
+Rapport Eirik dépend de la bibliothèque
 [PyPDF2](https://github.com/mstamy2/PyPDF2),
 dont la documentation est disponible [ici](https://pythonhosted.org/PyPDF2/).
+Son nom est tiré de la chanson norvégienne
+[*Eirik Jarl*](https://www.youtube.com/watch?v=WQ3C-1C5XuU).
 
 ## Installation
 
-Pour installer pdf-autofiller, téléchargez le dossier compressé contenant le
+Pour installer Rapport Eirik, téléchargez le dossier compressé contenant le
 code source ou utilisez `git clone`.
 
 Ensuite, installez les dépendances en lançant la commande suivante dans le
@@ -28,7 +30,7 @@ Le fichier `requirements.txt` est une liste de toutes les dépendances.
 
 ## Utilisation
 
-pdf-autofiller doit être lancée en ligne de commande. Le script à exécuter est
+Rapport Eirik doit être lancée en ligne de commande. Le script à exécuter est
 `fill_expense_report.py`. Il peut recevoir les quatre arguments suivants.
 
 * `-e`/`--editable`: un drapeau qui rend modifiable le rapport généré
@@ -68,6 +70,6 @@ modèles.
 ## Contenu supplémentaire
 
 Les scripts `pdf_field_values.py` et `write_field_names.py` ne font pas partie
-de pdf-autofiller. Ils sont sauvegardés dans ce dépôt parce qu'ils ont aidé au
+de Rapport Eirik. Ils sont sauvegardés dans ce dépôt parce qu'ils ont aidé au
 développement de l'application en révélant des informations sur les champs du
 modèle de rapport de dépenses.
