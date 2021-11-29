@@ -28,8 +28,15 @@ _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
 
 _DFLT_TEMPLATE_PATH = Path("rapport_depenses.pdf")
 
-_PDF_EXTENSION = ".pdf"
-_YML_EXTENSION = ".yml"
+_EXTENSION_PDF = ".pdf"
+_EXTENSION_YML = ".yml"
+
+_NAME_CHOICE1 = "/Choix1"
+_NAME_CHOICE2 = "/Choix2"
+
+_NAME_GROUP1 = "Group1"
+_NAME_GROUP2 = "Group2"
+_NAME_GROUP4 = "Group4"
 
 
 def _get_fields_from_pdf(pdf_data_path, radio_btn_group1, radio_btn_group2):
@@ -38,20 +45,20 @@ def _get_fields_from_pdf(pdf_data_path, radio_btn_group1, radio_btn_group2):
 	field_values = pdf_field_name_val_dict(pdf_data_source.getFields(), True)
 
 	try:
-		group1_index = radio_btn_group1.index(field_values.get("Group1"))
-		field_values["Group1"] = group1_index
+		group1_index = radio_btn_group1.index(field_values.get(_NAME_GROUP1))
+		field_values[_NAME_GROUP1] = group1_index
 	except ValueError:
 		pass
 
 	try:
-		group2_index = radio_btn_group2.index(field_values.get("Group2"))
-		field_values["Group2"] = group2_index
+		group2_index = radio_btn_group2.index(field_values.get(_NAME_GROUP2))
+		field_values[_NAME_GROUP2] = group2_index
 	except ValueError:
 		pass
 
-	group4_index = _index_from_btn_group4(field_values.get("Group4"))
+	group4_index = _index_from_btn_group4(field_values.get(_NAME_GROUP4))
 	if group4_index >= 0:
-		field_values["Group4"] = group4_index
+		field_values[_NAME_GROUP4] = group4_index
 
 	return field_values
 
@@ -131,25 +138,28 @@ if __name__ == "__main__":
 	yml_data_path = args.yml_data # -y
 
 	check_mandatory_path(
-		output_path, "-o/--output", _PDF_EXTENSION, must_exist=False)
+		output_path, "-o/--output", _EXTENSION_PDF, must_exist=False)
 
 	if pdf_data_path is not None:
 		check_mandatory_path(
-			pdf_data_path, "-p/--pdf_data", _PDF_EXTENSION, must_exist=True)
+			pdf_data_path, "-p/--pdf_data", _EXTENSION_PDF, must_exist=True)
 
 	if template_path != _DFLT_TEMPLATE_PATH:
 		check_mandatory_path(
-			template_path, "-t/--template", _PDF_EXTENSION, must_exist=True)
+			template_path, "-t/--template", _EXTENSION_PDF, must_exist=True)
 
 	check_mandatory_path(
-		yml_data_path, "-y/--yml_data", _YML_EXTENSION, must_exist=True)
+		yml_data_path, "-y/--yml_data", _EXTENSION_YML, must_exist=True)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
 
-	radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "/Choix2")
-	radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "/Choix2")
-	radio_btn_group4 = RadioBtnGroup("Group4", "/Dépôt", "/Chèque")
+	radio_btn_group1 = RadioBtnGroup(
+		_NAME_GROUP1, _NAME_CHOICE1, _NAME_CHOICE2)
+	radio_btn_group2 = RadioBtnGroup(
+		_NAME_GROUP2, _NAME_CHOICE1, _NAME_CHOICE2)
+	radio_btn_group4 = RadioBtnGroup(
+		_NAME_GROUP4, "/Dépôt", "/Chèque")
 
 	if pdf_data_path is None:
 		field_values = dict()
