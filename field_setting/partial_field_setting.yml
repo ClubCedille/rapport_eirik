@@ -1,0 +1,94 @@
+# Valeurs possibles: «voyage» et «autre»
+RaisonDépenses: #voyage
+
+NoRef: -1
+NoDoc: 38
+
+# Valeurs possibles: «employé(e)» et «étudiant(e)»
+Étudiant(e) ou employé(e): #employé(e)
+Matricule: 666666
+CodePermanent: DUPR01060901
+Date: 2021-03-01
+
+Prenom:
+Nom:
+# Nom de l'unité administrative
+NomUA: club Cédille
+
+Adresse:
+Ville:
+CodePostal:
+Province:
+Courriel:
+# Valeurs possibles: «dépôt» et «chèque»
+Chèque ou dépôt:
+
+# 60 caractères maximum
+Description: Des choses
+Destination: aucune destination
+# Préiode de l'activité
+DébutActivité: 2021-03-02
+FinActivité: 2021-03-03
+# Date de départ
+Départ: 2021-03-04
+# Date de retour
+Retour: 2021-03-05
+
+RaisonVoyage:
+  Présentation:
+    Cochée: true
+    Sujet: plate
+  Conférence:
+    Cochée: false
+    Nom:
+  Sabbatique: true
+  Autres:
+    Cochée: false
+    Précision:
+
+# Limite de 8 dépenses
+Dépenses:
+  - Description: Dépense 1
+    Montant: 1
+  - Description: Dépense 2
+    Montant: 2
+  - Description: Dépense 3
+    Montant: 3
+  - Description: Dépense 4
+    Montant: 4
+  - Description: Dépense 5
+    Montant: 5
+Avance: 9
+# Distance en kilomètres
+Distance: 666
+
+# Limite de 5 codes comptables
+Codes comptables:
+  - UBR: 111111
+    Compte: 11111
+    DemFin: 11
+    CBS: 111
+    Montant: 11
+  - UBR: 222222
+    Compte: 22222
+    DemFin: 22
+    CBS: 222
+    Montant: 22
+  - UBR: 333333
+    Compte: 33333
+    DemFin: 33
+    CBS: 333
+    Montant: 33
+
+Verifié C/P:
+Date vérifié C/P:
+autorisation budgétaire:
+Date autorisation budgétaire:
+
+# Signatures et numéros de téléphone
+SignatureDemandeur:
+TelDemandeur: 514 666-0001
+SignatureRequérant:
+NomRequérant: Cunégonde Gonzalez
+SignatureSupHiérarchique:
+NomSupHiérarchique: Guyllaume Rousseau

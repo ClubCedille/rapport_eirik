@@ -13,6 +13,7 @@ from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
 	make_writer_from_reader,\
+	pdf_field_name_val_dict,\
 	RadioBtnGroup,\
 	set_need_appearances,\
 	update_page_fields
@@ -31,6 +32,41 @@ _PDF_EXTENSION = ".pdf"
 _YML_EXTENSION = ".yml"
 
 
+def _get_fields_from_pdf(pdf_data_path, radio_btn_group1, radio_btn_group2):
+	pdf_data_source =\
+		PdfFileReader(pdf_data_path.open(mode="rb"), strict=False)
+	field_values = pdf_field_name_val_dict(pdf_data_source.getFields(), True)
+
+	try:
+		group1_index = radio_btn_group1.index(field_values.get("Group1"))
+		field_values["Group1"] = group1_index
+	except ValueError:
+		pass
+
+	try:
+		group2_index = radio_btn_group2.index(field_values.get("Group2"))
+		field_values["Group2"] = group2_index
+	except ValueError:
+		pass
+
+	group4_index = _index_from_btn_group4(field_values.get("Group4"))
+	if group4_index >= 0:
+		field_values["Group4"] = group4_index
+
+	return field_values
+
+
+def _index_from_btn_group4(selected_btn):
+	if selected_btn == "/D#E9p#F4t":
+		return 0
+
+	elif selected_btn == "/Ch#E8que":
+		return 1
+
+	else:
+		return -1
+
+
 def _make_parser():
 	parser = ArgumentParser(description=__doc__)
 
@@ -40,12 +76,15 @@ def _make_parser():
 	parser.add_argument("-o", "--output", type=Path, default=None,
 		help="Path to the filled PDF report created by this script")
 
-	parser.add_argument("-s", "--setting", type=Path, default=None,
-		help="Path to the field setting file. It must be a YAML file.")
+	parser.add_argument("-p", "--pdf_data", type=Path, default=None,
+		help="Path to the .pdf field setting file.")
 
 	parser.add_argument("-t", "--template", type=Path,
 		default=_DFLT_TEMPLATE_PATH,
 		help="Path to the report template. It must be a PDF file.")
+
+	parser.add_argument("-y", "--yml_data", type=Path, default=None,
+		help="Path to the .yml field setting file.")
 
 	return parser
 
@@ -87,29 +126,42 @@ if __name__ == "__main__":
 	parser = _make_parser()
 	args = parser.parse_args()
 	output_path = args.output # -o
-	field_setting_path = args.setting # -s
+	pdf_data_path = args.pdf_data # -p
 	template_path = args.template # -t
+	yml_data_path = args.yml_data # -y
 
 	check_mandatory_path(
 		output_path, "-o/--output", _PDF_EXTENSION, must_exist=False)
 
-	check_mandatory_path(
-		field_setting_path, "-s/--setting", _YML_EXTENSION, must_exist=True)
+	if pdf_data_path is not None:
+		check_mandatory_path(
+			pdf_data_path, "-p/--pdf_data", _PDF_EXTENSION, must_exist=True)
 
 	if template_path != _DFLT_TEMPLATE_PATH:
 		check_mandatory_path(
 			template_path, "-t/--template", _PDF_EXTENSION, must_exist=True)
 
+	check_mandatory_path(
+		yml_data_path, "-y/--yml_data", _YML_EXTENSION, must_exist=True)
+
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)
 	writer = make_writer_from_reader(template, args.editable)
-
-	yaml_content = get_yaml_content(field_setting_path)
-	field_values = parse_yaml_content(yaml_content)
-	_set_automatic_field_vals(field_values)
 
 	radio_btn_group1 = RadioBtnGroup("Group1", "/Choix1", "/Choix2")
 	radio_btn_group2 = RadioBtnGroup("Group2", "/Choix1", "/Choix2")
 	radio_btn_group4 = RadioBtnGroup("Group4", "/Dépôt", "/Chèque")
+
+	if pdf_data_path is None:
+		field_values = dict()
+	else:
+		field_values = _get_fields_from_pdf(
+			pdf_data_path, radio_btn_group1, radio_btn_group2)
+
+	yaml_content = get_yaml_content(yml_data_path)
+	yml_data = parse_yaml_content(yaml_content)
+	_set_automatic_field_vals(yml_data)
+
+	field_values.update(yml_data)
 
 	page = writer.getPage(0)
 	update_page_fields(page, field_values,
