@@ -1,11 +1,15 @@
-# Valeurs possibles: «voyage» et «autre»
-RaisonDépenses: voyage
+# Valeurs possibles:
+# Voyage: 0
+# Autre: 1
+RaisonDépenses: 0
 
 NoRef: -1
 NoDoc: 38
 
-# Valeurs possibles: «employé(e)» et «étudiant(e)»
-Étudiant(e) ou employé(e): employé(e)
+# Valeurs possibles:
+# Employé(e): 0
+# Étudiant(e): 1
+Statut: 0
 Matricule: 666666
 CodePermanent: DUPR01060901
 Date: 2021-03-01
@@ -20,8 +24,10 @@ Ville: Montréal
 CodePostal: H3C 1K3
 Province: Québec
 Courriel: raphaelle.dupre.1@ens.etsmtl.ca
-# Valeurs possibles: «dépôt» et «chèque»
-Chèque ou dépôt: dépôt
+# Valeurs possibles:
+# Dépôt: 0
+# Chèque: 1
+ModePaiement: 0
 
 # 60 caractères maximum
 Description: Des choses
