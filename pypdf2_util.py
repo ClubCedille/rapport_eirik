@@ -19,6 +19,9 @@ _TYPE_TEXT = "/Tx"
 
 
 class PdfFieldType(Enum):
+	"""
+	This enumeration represents the field types that a PDF file can contain.
+	"""
 	TEXT_FIELD = 0
 	CHECKBOX = 1
 	RADIO_BTN_GROUP = 2
