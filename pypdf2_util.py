@@ -13,7 +13,7 @@ _KEY_PARENT = "/Parent"
 _KEY_T = "/T"
 _KEY_V = "/V"
 
-_TYPE_FIELD = "/FT"
+_FIELD_TYPE = "/FT"
 _TYPE_BUTTON = "/Btn"
 _TYPE_TEXT = "/Tx"
 
@@ -139,7 +139,7 @@ def get_field_type(pdf_field):
 	Returns:
 		PdfFieldType: the type of pdf_field of None if no type is determined
 	"""
-	type_val = pdf_field.get(_TYPE_FIELD)
+	type_val = pdf_field.get(_FIELD_TYPE)
 
 	if type_val == _TYPE_TEXT:
 		return PdfFieldType.TEXT_FIELD
