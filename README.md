@@ -31,22 +31,15 @@ Le fichier `requirements.txt` est une liste de toutes les dépendances.
 ## Utilisation
 
 Rapport Eirik doit être lancée en ligne de commande. Le script à exécuter est
-`fill_expense_report.py`. Il peut recevoir les quatre arguments suivants.
+`fill_expense_report.py`. Il peut recevoir les cinq arguments suivants.
 
 * `-e`/`--editable`: un drapeau qui rend modifiable le rapport généré
 * `-o`/`--output`: le chemin du rapport généré par l'application
-* `-s`/`--setting`: le chemin du fichier contenant les données à inscrire
+* `-p`/`--pdf_data`: (optionnel) le chemin d'un rapport existant, dont la
+valeur des champs sera copiée dans le nouveau rapport
 * `-t`/`--template`: (optionnel) le chemin du modèle de rapport
-
-Les chemins `-o` et `-t` doivent avoir l'extension `.pdf`; le chemin `-s` doit
-avoir l'exentsion `.yml`. Le modèle de rapport par défaut est
-`rapport_depenses.pdf`.
-
-Exemple:
-
-```
-python fill_expense_report.py -s field_setting\random_field_values1.yml -o succès.pdf -e
-```
+* `-y`/`--yml_data`: le chemin du fichier contenant les données en YAML à
+inscrire dans le rapport
 
 L'argument `-h` (*help*) affiche la définition de tous les autres.
 
@@ -54,10 +47,29 @@ L'argument `-h` (*help*) affiche la définition de tous les autres.
 python fill_expense_report.py -h
 ```
 
+Les chemins `-o`, `-p` et `-t` doivent avoir l'extension `.pdf`; le chemin `-y`
+doit avoir l'exentsion `.yml`. Le modèle de rapport par défaut est
+`rapport_depenses.pdf`.
+
+L'exmple suivant produit un rapport modifiable à partir de données en YAML
+uniquement.
+
+```
+python fill_expense_report.py -y field_setting\random_field_values1.yml -o succès.pdf -e
+```
+
+Le prochain exemple produit un rapport non modifiable à partir de la valeur des
+champs d'un rapport existant et de données en YAML. En cas de différence, ces
+dernières écrasent celles extraites du rapport.
+
+```
+python fill_expense_report.py -p rapport_depenses_base.pdf -y field_setting/partial_field_setting.yml -o succès.pdf
+```
+
 ### Fichiers de données
 
 Le dossier `field_setting` contient des exemples de fichier de données en YAML.
-Ils prescrivent la structure du fichier spécifié par l'argument `-s`. Pour
+Ils prescrivent la structure du fichier spécifié par l'argument `-y`. Pour
 omettre une information, on peut effacer ou mettre en commentaire une ligne
 entière ou seulement la partie qui suit un deux-points. Il est aussi permis de
 supprimer des éléments des listes. Certaines clés n'admettent qu'un ensemble
