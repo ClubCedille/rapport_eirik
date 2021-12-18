@@ -13,9 +13,9 @@ Rapport Eirik dépend de la bibliothèque
 dont la documentation est disponible [ici](https://pythonhosted.org/PyPDF2/).
 
 Son nom est tiré de la chanson norvégienne
-[*Eirik Jarl*](https://www.youtube.com/watch?v=WQ3C-1C5XuU). Nidaros, le lieu
-metionné dans le refrain, est l'ancien nom de Trondheim, qui était autrefois la
-capitale de la Norvège.
+[*Eirik Jarl*](https://www.youtube.com/watch?v=WQ3C-1C5XuU) au sujet d'Eirik
+Håkonsson. Nidaros, le lieu metionné dans le refrain, est l'ancien nom de
+Trondheim, qui était autrefois la capitale de la Norvège.
 
 ## Installation
 
