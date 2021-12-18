@@ -5,7 +5,7 @@ file and filling the copy's fields. The template is not modified.
 
 
 from argparse import ArgumentParser
-from field_setting import\
+from field_setting_parser import\
 	get_yaml_content,\
 	parse_yaml_content
 from path_arg_checks import check_mandatory_path

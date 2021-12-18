@@ -33,9 +33,11 @@ Le fichier `requirements.txt` est une liste de toutes les dépendances.
 
 ## Contenu minimal
 
+Il faut obligatoirement fournir le fichier `LICENSE` avec l'application.
+
 Les quatre modules suivants contiennent le code source de Rapport Eirik.
 
-* `field_setting\field_setting_parser.py`
+* `field_setting_parser.py`
 * `fill_expense_report.py`
 * `path_arg_checks.py`
 * `pypdf2_util.py`
