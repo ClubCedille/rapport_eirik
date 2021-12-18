@@ -31,6 +31,20 @@ pip install -r requirements.txt
 
 Le fichier `requirements.txt` est une liste de toutes les dépendances.
 
+## Contenu minimal
+
+Les quatre modules suivants contiennent le code source de Rapport Eirik.
+
+* `field_setting\field_setting_parser.py`
+* `fill_expense_report.py`
+* `path_arg_checks.py`
+* `pypdf2_util.py`
+
+À moins qu'un autre modèle de rapport soit spécifié (voir section suivante),
+`rapport_depenses.pdf` doit être présent dans le même dossier que ces modules.
+Tous ces fichiers constituent le strict minimum nécessaire au fonctionnement de
+l'application.
+
 ## Utilisation
 
 Rapport Eirik doit être lancée en ligne de commande. Le script à exécuter est
