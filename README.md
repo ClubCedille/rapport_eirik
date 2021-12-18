@@ -2,11 +2,11 @@
 
 La présente application remplit le rapport de dépenses que les clubs étudiant
 de l'ÉTS peuvent soumettre pour obtenir un remboursement. Les données à
-inscrire dans les champs du rapport sont fournies dans un fichier en YAML.
-Cette procédure permet de sauvegarder des informations générales pour les
-utiliser dans plusieurs rapports produits sur une longue période. Elle élimine
-ainsi les erreurs humaines susceptibles de survenir pendant la copie de
-données.
+inscrire dans les champs du rapport sont fournies dans un fichier en YAML et,
+accessoirement, dans un rapport existant. Cette procédure permet de sauvegarder
+des informations générales pour les utiliser dans plusieurs rapports produits
+sur une longue période. Elle élimine ainsi les erreurs humaines susceptibles de
+survenir pendant la copie de données.
 
 Rapport Eirik dépend de la bibliothèque
 [PyPDF2](https://github.com/mstamy2/PyPDF2),
