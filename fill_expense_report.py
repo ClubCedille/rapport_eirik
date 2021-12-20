@@ -5,11 +5,13 @@ file and filling the copy's fields. The template is not modified.
 
 
 from argparse import ArgumentParser
+from pathlib import Path
+from sys import exit
+
 from field_setting_parser import\
 	get_yaml_content,\
 	parse_yaml_content
 from path_arg_checks import check_mandatory_path
-from pathlib import Path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
 	make_writer_from_reader,\
@@ -144,7 +146,12 @@ if __name__ == "__main__":
 		check_mandatory_path(
 			pdf_data_path, "-p/--pdf_data", _EXTENSION_PDF, must_exist=True)
 
-	if template_path != _DFLT_TEMPLATE_PATH:
+	if template_path == _DFLT_TEMPLATE_PATH:
+		if not template_path.exists():
+			print("ERROR! Default report template '"
+				+ str(template_path) + "' not found.")
+			exit(1)
+	else:
 		check_mandatory_path(
 			template_path, "-t/--template", _EXTENSION_PDF, must_exist=True)
 
