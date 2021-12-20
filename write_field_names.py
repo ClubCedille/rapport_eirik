@@ -17,9 +17,9 @@ from pypdf2_util import\
 from sys import argv
 
 
-_PDF_EXTENSION = ".pdf"
+_EXTENSION_PDF = ".pdf"
 
-_TEXT_FIELD_TYPE = "/Tx"
+_TYPE_TEXT_FIELD = "/Tx"
 
 
 def make_field_name_list(pdf_reader):
@@ -29,7 +29,7 @@ def make_field_name_list(pdf_reader):
 
 	name_list = list()
 	for name, field in pdf_fields.items():
-		if field.fieldType == _TEXT_FIELD_TYPE:
+		if field.fieldType == _TYPE_TEXT_FIELD:
 			name_list.append(name)
 
 	return name_list
@@ -45,8 +45,8 @@ except IndexError:
 	output_path = None
 
 output_path = check_io_path_pair(
-	input_path, "Input file", _PDF_EXTENSION,
-	output_path, "Output file", _PDF_EXTENSION,
+	input_path, "Input file", _EXTENSION_PDF,
+	output_path, "Output file", _EXTENSION_PDF,
 	"_field_names")
 
 reader = PdfFileReader(input_path.open(mode="rb"))

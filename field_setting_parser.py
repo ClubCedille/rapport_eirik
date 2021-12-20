@@ -213,28 +213,13 @@ def parse_yaml_content(yaml_content):
 			field_values.update(_parse_codes_comptables(value))
 
 		elif key == "RaisonDépenses" and value is not None:
-			if value.lower() == "voyage":
-				field_values["Group1"] = 0
-			elif value.lower() == "autre":
-				field_values["Group1"] = 1
-			else:
-				_error_for_unexpected_value(key, value)
+			field_values["Group1"] = value
 
-		elif key == "Étudiant(e) ou employé(e)" and value is not None:
-			if value.lower() == "employé(e)":
-				field_values["Group2"] = 0
-			elif value.lower() == "étudiant(e)":
-				field_values["Group2"] = 1
-			else:
-				_error_for_unexpected_value(key, value)
+		elif key == "Statut" and value is not None:
+			field_values["Group2"] = value
 
-		elif key == "Chèque ou dépôt" and value is not None:
-			if value.lower() == "dépôt":
-				field_values["Group4"] = 0
-			elif value.lower() == "chèque":
-				field_values["Group4"] = 1
-			else:
-				_error_for_unexpected_value(key, value)
+		elif key == "ModePaiement" and value is not None:
+			field_values["Group4"] = value
 
 		elif key == "Distance" and value is not None:
 			field_values["KM"] = value

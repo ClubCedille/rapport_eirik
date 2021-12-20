@@ -1,10 +1,15 @@
-# Valeurs possibles: «voyage» et «autre»
-RaisonDépenses: autre
+# Valeurs possibles:
+# Voyage: 0
+# Autre: 1
+RaisonDépenses: 1
 
 NoRef:
 NoDoc:
 
-# Valeurs possibles: «employé(e)» et «étudiant(e)»
+# Valeurs possibles:
+# Employé(e): 0
+# Étudiant(e): 1
+Statut: 1
 Étudiant(e) ou employé(e): étudiant(e)
 Matricule:
 CodePermanent: DUPR01060901
@@ -20,8 +25,10 @@ Ville: Montréal
 CodePostal: H3C 1K3
 Province: Québec
 Courriel:
-# Valeurs possibles: «dépôt» et «chèque»
-Chèque ou dépôt: dépôt
+# Valeurs possibles:
+# Dépôt: 0
+# Chèque: 1
+ModePaiement: 0
 
 # 60 caractères maximum
 Description:

@@ -1,33 +1,33 @@
 # Valeurs possibles:
 # Voyage: 0
 # Autre: 1
-RaisonDépenses: 1
+RaisonDépenses: 0
 
 NoRef: -1
-NoDoc: 0
+NoDoc: 38
 
 # Valeurs possibles:
 # Employé(e): 0
 # Étudiant(e): 1
-Statut: 1
+Statut: 0
 Matricule: 666666
 CodePermanent: DUPR01060901
 Date: 2021-03-01
 
-Prenom: Raphaëlle
-Nom: Dupré
+Prenom:
+Nom:
 # Nom de l'unité administrative
 NomUA: club Cédille
 
-Adresse: 1100, rue Notre-Dame Ouest
-Ville: Montréal
-CodePostal: H3C 1K3
-Province: Québec
-Courriel: raphaelle.dupre.1@ens.etsmtl.ca
+Adresse:
+Ville:
+CodePostal:
+Province:
+Courriel:
 # Valeurs possibles:
 # Dépôt: 0
 # Chèque: 1
-ModePaiement: 1
+ModePaiement:
 
 # 60 caractères maximum
 Description: Des choses
@@ -45,12 +45,12 @@ RaisonVoyage:
     Cochée: true
     Sujet: plate
   Conférence:
-    Cochée: true
-    Nom: anonyme
-  Sabbatique: false
+    Cochée: false
+    Nom:
+  Sabbatique: true
   Autres:
-    Cochée: true
-    Précision: aliaj # «autres» en esperanto
+    Cochée: false
+    Précision:
 
 # Limite de 8 dépenses
 Dépenses:
@@ -64,15 +64,9 @@ Dépenses:
     Montant: 4
   - Description: Dépense 5
     Montant: 5
-  - Description: Dépense 6
-    Montant: 6
-  - Description: Dépense 7
-    Montant: 7
-  - Description: Dépense 8
-    Montant: 8
 Avance: 9
 # Distance en kilomètres
-Distance: 9002.321
+Distance: 666
 
 # Limite de 5 codes comptables
 Codes comptables:
@@ -91,16 +85,6 @@ Codes comptables:
     DemFin: 33
     CBS: 333
     Montant: 33
-  - UBR: 444444
-    Compte: 44444
-    DemFin: 44
-    CBS: 444
-    Montant: 44
-  - UBR: 555555
-    Compte: 55555
-    DemFin: 55
-    CBS: 555
-    Montant: 55
 
 Verifié C/P:
 Date vérifié C/P:
@@ -113,4 +97,4 @@ TelDemandeur: 514 666-0001
 SignatureRequérant:
 NomRequérant: Cunégonde Gonzalez
 SignatureSupHiérarchique:
-NomSupHiérarchique: Alexandre Robitaille
+NomSupHiérarchique: Guyllaume Rousseau

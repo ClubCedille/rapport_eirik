@@ -13,12 +13,15 @@ _KEY_PARENT = "/Parent"
 _KEY_T = "/T"
 _KEY_V = "/V"
 
-_TYPE_FIELD = "/FT"
+_FIELD_TYPE = "/FT"
 _TYPE_BUTTON = "/Btn"
 _TYPE_TEXT = "/Tx"
 
 
 class PdfFieldType(Enum):
+	"""
+	This enumeration represents the field types that a PDF file can contain.
+	"""
 	TEXT_FIELD = 0
 	CHECKBOX = 1
 	RADIO_BTN_GROUP = 2
@@ -71,6 +74,22 @@ class RadioBtnGroup:
 		return 0 <= index and index < size\
 			or -size <= index and index <= -1
 
+	def index(self, btn_name):
+		"""
+		Indicates the index of the given button name in this radio button
+		group. An exception is raised if the button name is not found.
+
+		Args:
+			btn_name (str): a radio button name in this group
+
+		Returns:
+			int: the index of the wanted button name
+
+		Raises:
+			ValueError: if btn_name is not found
+		"""
+		return self._btn_names.index(btn_name)
+
 	def __iter__(self):
 		return iter(self._btn_names)
 
@@ -86,6 +105,32 @@ class RadioBtnGroup:
 		return self._name
 
 
+def pdf_field_name_val_dict(pdf_fields, filter_none):
+	"""
+	Creates a dictionary that maps the name of a PDF file's fields to their
+	value.
+
+	Args:
+		pdf_fields (dict): It maps the name of the file's fields to an object
+			of type Field. It is obtained through PdfFileReader's method
+			getFields.
+		filter_none (bool): If this argument is True, None values are excluded
+			from the returned dictionary.
+
+	Returns:
+		dict: It maps the fields' name to their value.
+	"""
+	name_val_dict = dict()
+
+	for mapping_name, field in pdf_fields.items():
+		field_val = field.value
+
+		if not filter_none or field_val is not None:
+			name_val_dict[mapping_name] = field_val
+
+	return name_val_dict
+
+
 def get_field_type(pdf_field):
 	"""
 	Determines the type of the given PDF field: text field, checkbox or radio
@@ -97,7 +142,7 @@ def get_field_type(pdf_field):
 	Returns:
 		PdfFieldType: the type of pdf_field of None if no type is determined
 	"""
-	type_val = pdf_field.get(_TYPE_FIELD)
+	type_val = pdf_field.get(_FIELD_TYPE)
 
 	if type_val == _TYPE_TEXT:
 		return PdfFieldType.TEXT_FIELD
