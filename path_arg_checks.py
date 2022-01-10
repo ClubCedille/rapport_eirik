@@ -72,13 +72,13 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 	"""
 	Performs verifications with library Jazal on a path argument that must be
-	provided to a script. An error message is printed in the console and the
+	provided to a script. An error message is printed in the console, and the
 	script is interrupted if the path is omitted, if it points to an inexistent
 	file while must_exist is True or if it has an incorrect extension.
 
 	Args:
 		path_obj (pathlib.Path): the path argument being checked. Set this
-			parameter to None to indicate that the path was not provided.
+			parameter to None if the path was not provided.
 		path_arg_name (str): the name of the path argument
 		path_exten (str): the extension that path_obj is supposed to have. It
 			must start with a '.'.
