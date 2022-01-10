@@ -49,8 +49,8 @@ Le modèle de rapport `rapport_depenses.pdf` doit être présent dans le même
 dossier que ces modules bien qu'on peut spécifier un autre modèle (voir section
 suivante).
 
-Tous ces fichiers constituent le strict minimum nécessaire au fonctionnement de
-l'application.
+Tous ces fichiers sont les composants essentiels de l'application Rapport
+Eirik.
 
 ## Utilisation
 
