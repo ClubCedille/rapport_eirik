@@ -42,8 +42,10 @@ Les quatre modules suivants contiennent le code source de Rapport Eirik.
 * `path_arg_checks.py`
 * `pypdf2_util.py`
 
-À moins qu'un autre modèle de rapport soit spécifié (voir section suivante),
-`rapport_depenses.pdf` doit être présent dans le même dossier que ces modules.
+Le modèle de rapport `rapport_depenses.pdf` doit être présent dans le même
+dossier que ces modules bien qu'on peut spécifier un autre modèle (voir section
+suivante).
+
 Tous ces fichiers constituent le strict minimum nécessaire au fonctionnement de
 l'application.
 
