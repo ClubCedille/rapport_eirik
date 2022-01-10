@@ -33,7 +33,8 @@ Le fichier `requirements.txt` est une liste de toutes les dépendances.
 
 ## Contenu minimal
 
-Il faut obligatoirement fournir le fichier `LICENSE` avec l'application.
+Il faut obligatoirement fournir les fichiers `LICENSE` et `README.md` avec
+l'application.
 
 On a besoin de `requirements.txt` pour installer les dépendances.
 
