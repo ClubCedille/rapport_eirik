@@ -152,7 +152,7 @@ def check_optional_path(
 		if path_is_dir:
 			path_obj = path_obj/make_altered_name(
 				base_path, after_stem=termination,
-				extension=path_checker.extension_to_str())
+				extension=path_checker.extension)
 
 		else:
 			try:
@@ -166,6 +166,6 @@ def check_optional_path(
 		path_obj = make_altered_path(
 			base_path,
 			after_stem=termination,
-			extension=missing_path_warner.extension_to_str())
+			extension=missing_path_warner.extension)
 
 	return path_obj
