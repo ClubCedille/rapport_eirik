@@ -113,13 +113,13 @@ def check_optional_path(
 	generated from base_path and termination. If the path points to a
 	directory, a default name is generated from base_path's file name and
 	termination. If the path has an incorrect extension, an error message is
-	printed in the console and the script is interrupted. If path_obj is not
+	printed in the console, and the script is interrupted. If path_obj is not
 	None and points to a file rather than a directory, base_path and
 	termination are not required and can be None.
 
 	Args:
 		path_obj (pathlib.Path): the path argument being checked. Set this
-			parameter to None to indicate that the path was not provided.
+			parameter to None if the path was not provided.
 		path_arg_name (str): the name of the path argument
 		path_exten (str): the extension that path_obj is supposed to have. It
 			must start with a '.'.
