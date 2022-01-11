@@ -4,12 +4,13 @@ modules of this repository.
 """
 
 
+from pathlib import Path
+from sys import exit
+
 from jazal import\
 	MissingPathArgWarner,\
 	make_altered_name,\
 	make_altered_path
-
-from sys import exit
 
 
 _ERROR_INTRO = "ERROR! "
@@ -165,9 +166,8 @@ def check_generable_path(
 				exit(1)
 
 	else:
-		path_obj = make_altered_path(
-			base_path,
-			after_stem=termination,
+		path_obj = Path.cwd()/make_altered_name(
+			base_path, after_stem=termination,
 			extension=missing_path_warner.extension)
 
 	return path_obj
