@@ -275,7 +275,7 @@ def str_to_bool(bool_str):
 
 if __name__ == "__main__":
 	from argparse import ArgumentParser
-	from path_arg_checks import check_mandatory_path
+	from path_arg_checks import check_ungenerable_path
 
 	parser = ArgumentParser(description=__doc__)
 
@@ -290,7 +290,7 @@ if __name__ == "__main__":
 	field_setting_path = args.file
 	print_val_type = args.types
 
-	check_mandatory_path(
+	check_ungenerable_path(
 		field_setting_path, "-f/--file", ".yml", must_exist=True)
 
 	yaml_content = get_yaml_content(field_setting_path)

@@ -33,7 +33,10 @@ Le fichier `requirements.txt` est une liste de toutes les dépendances.
 
 ## Contenu minimal
 
-Il faut obligatoirement fournir le fichier `LICENSE` avec l'application.
+Il faut obligatoirement fournir les fichiers `LICENSE` et `README.md` avec
+l'application.
+
+On a besoin de `requirements.txt` pour installer les dépendances.
 
 Les quatre modules suivants contiennent le code source de Rapport Eirik.
 
@@ -42,10 +45,12 @@ Les quatre modules suivants contiennent le code source de Rapport Eirik.
 * `path_arg_checks.py`
 * `pypdf2_util.py`
 
-À moins qu'un autre modèle de rapport soit spécifié (voir section suivante),
-`rapport_depenses.pdf` doit être présent dans le même dossier que ces modules.
-Tous ces fichiers constituent le strict minimum nécessaire au fonctionnement de
-l'application.
+Le modèle de rapport `rapport_depenses.pdf` doit être présent dans le même
+dossier que ces modules bien qu'on peut spécifier un autre modèle (voir section
+suivante).
+
+Tous ces fichiers sont les composants essentiels de l'application Rapport
+Eirik.
 
 ## Utilisation
 
@@ -60,15 +65,19 @@ valeur des champs sera copiée dans le nouveau rapport
 * `-y`/`--yml_data`: le chemin du fichier contenant les données en YAML à
 inscrire dans le rapport
 
-L'argument `-h` (*help*) affiche la définition de tous les autres.
+En cas de différence, les données provenant de `-y` écrasent celles provenant
+de `-p`.
+
+Les chemins `-o`, `-p` et `-t` doivent avoir l'extension `.pdf`. Le chemin `-y`
+doit avoir l'exentsion `.yml`.
+
+Le modèle de rapport par défaut est `rapport_depenses.pdf`.
+
+L'argument `-h`/`--help` affiche la définition de tous les autres.
 
 ```
 python fill_expense_report.py -h
 ```
-
-Les chemins `-o`, `-p` et `-t` doivent avoir l'extension `.pdf`; le chemin `-y`
-doit avoir l'exentsion `.yml`. Le modèle de rapport par défaut est
-`rapport_depenses.pdf`.
 
 L'exmple suivant produit un rapport modifiable à partir de données en YAML
 uniquement.
@@ -78,8 +87,7 @@ python fill_expense_report.py -y field_setting\random_field_values1.yml -o succ�
 ```
 
 Le prochain exemple produit un rapport non modifiable à partir de la valeur des
-champs d'un rapport existant et de données en YAML. En cas de différence, ces
-dernières écrasent celles extraites du rapport.
+champs d'un rapport existant et de données en YAML.
 
 ```
 python fill_expense_report.py -p rapport_depenses_base.pdf -y field_setting/partial_field_setting.yml -o succès.pdf
