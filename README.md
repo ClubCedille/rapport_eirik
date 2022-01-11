@@ -68,15 +68,16 @@ inscrire dans le rapport
 En cas de différence, les données provenant de `-y` écrasent celles provenant
 de `-p`.
 
-L'argument `-h` (*help*) affiche la définition de tous les autres.
+Les chemins `-o`, `-p` et `-t` doivent avoir l'extension `.pdf`. Le chemin `-y`
+doit avoir l'exentsion `.yml`.
+
+Le modèle de rapport par défaut est `rapport_depenses.pdf`.
+
+L'argument `-h`/`--help` affiche la définition de tous les autres.
 
 ```
 python fill_expense_report.py -h
 ```
-
-Les chemins `-o`, `-p` et `-t` doivent avoir l'extension `.pdf`; le chemin `-y`
-doit avoir l'exentsion `.yml`. Le modèle de rapport par défaut est
-`rapport_depenses.pdf`.
 
 L'exmple suivant produit un rapport modifiable à partir de données en YAML
 uniquement.
