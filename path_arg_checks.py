@@ -27,10 +27,11 @@ def check_generable_path(
 	directory. If the checked path points to a directory, this function appends
 	the default file name to it to generate a usable file path.
 
-	If the checked path has an incorrect extension, an error message is printed
-	in the console, and the script is interrupted. If path_obj is not None and
-	points to a file rather than a directory, base_path and termination are not
-	required and can be None.
+	If the checked path points to a file with an incorrect extension, an error
+	message is printed in the console, and the script is interrupted.
+
+	If path_obj is not None and points to a file rather than a directory,
+	base_path and termination are not required and can be None.
 
 	Args:
 		path_obj (pathlib.Path): the path argument being checked. Set this
