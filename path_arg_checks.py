@@ -9,11 +9,76 @@ from sys import exit
 
 from jazal import\
 	MissingPathArgWarner,\
-	make_altered_name,\
-	make_altered_path
+	make_altered_name
 
 
 _ERROR_INTRO = "ERROR! "
+
+
+def check_generable_path(
+		path_obj, path_arg_name, path_exten, base_path, termination):
+	"""
+	Performs verifications with library Jazal on a path argument for which a
+	default value can be generated if it is omitted. The default value is made
+	by appending termination and path_exten to base_path's file stem. If the
+	path points to a directory, a default name for a file is generated the same
+	way with base_path's file stem, termination and path_exten. If the path has
+	an incorrect extension, an error message is printed in the console, and the
+	script is interrupted. If path_obj is not None and points to a file rather
+	than a directory, base_path and termination are not required and can be
+	None.
+
+	Args:
+		path_obj (pathlib.Path): the path argument being checked. Set this
+			parameter to None if the path was not provided.
+		path_arg_name (str): the name of the path argument
+		path_exten (str): the extension that path_obj is supposed to have. It
+			must start with a '.'.
+		base_path (pathlib.Path): this path can serve as a base to generate a
+			default value for the checked path.
+		termination (str): a string appended to base_path's file name to make a
+			default output file name if necessary
+
+	Returns:
+		pathlib.Path: the checked path, since it can be modified
+
+	Raises:
+		ValueError: if base_path or termination is None while path_obj is None
+			or points to a directory
+	"""
+	path_provided = path_obj is not None
+	path_is_dir = path_obj.is_dir() if path_provided else False
+
+	if (base_path is None or termination is None)\
+			and (not path_provided or path_is_dir):
+		raise ValueError(
+			"If path_obj is None or points to a directory, base_path and termination cannot be None.")
+
+	missing_path_warner = MissingPathArgWarner(path_arg_name, path_exten)
+
+	if path_provided:
+		path_checker =\
+			missing_path_warner.make_reactive_path_checker(path_obj)
+
+		if path_is_dir:
+			path_obj = path_obj/make_altered_name(
+				base_path, after_stem=termination,
+				extension=path_checker.extension)
+
+		else: # path_obj points to a file.
+			try:
+				path_checker.check_extension_correct()
+
+			except ValueError as e:
+				print(_ERROR_INTRO + str(e))
+				exit(1)
+
+	else:
+		path_obj = Path.cwd()/make_altered_name(
+			base_path, after_stem=termination,
+			extension=missing_path_warner.extension)
+
+	return path_obj
 
 
 def check_io_path_pair(input_path, input_path_name, input_path_exten,
@@ -105,69 +170,3 @@ def check_ungenerable_path(path_obj, path_arg_name, path_exten, must_exist):
 	except Exception as e:
 		print(_ERROR_INTRO + str(e))
 		exit(1)
-
-
-def check_generable_path(
-		path_obj, path_arg_name, path_exten, base_path, termination):
-	"""
-	Performs verifications with library Jazal on a path argument for which a
-	default value can be generated if it is omitted. The default value is made
-	by appending termination and path_exten to base_path's file stem. If the
-	path points to a directory, a default name for a file is generated the same
-	way with base_path's file stem, termination and path_exten. If the path has
-	an incorrect extension, an error message is printed in the console, and the
-	script is interrupted. If path_obj is not None and points to a file rather
-	than a directory, base_path and termination are not required and can be
-	None.
-
-	Args:
-		path_obj (pathlib.Path): the path argument being checked. Set this
-			parameter to None if the path was not provided.
-		path_arg_name (str): the name of the path argument
-		path_exten (str): the extension that path_obj is supposed to have. It
-			must start with a '.'.
-		base_path (pathlib.Path): this path can serve as a base to generate a
-			default value for the checked path.
-		termination (str): a string appended to base_path's file name to make a
-			default output file name if necessary
-
-	Returns:
-		pathlib.Path: the checked path, since it can be modified
-
-	Raises:
-		ValueError: if base_path or termination is None while path_obj is None
-			or points to a directory
-	"""
-	path_provided = path_obj is not None
-	path_is_dir = path_obj.is_dir() if path_provided else False
-
-	if (base_path is None or termination is None)\
-			and (not path_provided or path_is_dir):
-		raise ValueError(
-			"If path_obj is None or points to a directory, base_path and termination cannot be None.")
-
-	missing_path_warner = MissingPathArgWarner(path_arg_name, path_exten)
-
-	if path_provided:
-		path_checker =\
-			missing_path_warner.make_reactive_path_checker(path_obj)
-
-		if path_is_dir:
-			path_obj = path_obj/make_altered_name(
-				base_path, after_stem=termination,
-				extension=path_checker.extension)
-
-		else: # path_obj points to a file.
-			try:
-				path_checker.check_extension_correct()
-
-			except ValueError as e:
-				print(_ERROR_INTRO + str(e))
-				exit(1)
-
-	else:
-		path_obj = Path.cwd()/make_altered_name(
-			base_path, after_stem=termination,
-			extension=missing_path_warner.extension)
-
-	return path_obj
