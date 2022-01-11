@@ -65,6 +65,9 @@ valeur des champs sera copiée dans le nouveau rapport
 * `-y`/`--yml_data`: le chemin du fichier contenant les données en YAML à
 inscrire dans le rapport
 
+En cas de différence, les données provenant de `-y` écrasent celles provenant
+de `-p`.
+
 L'argument `-h` (*help*) affiche la définition de tous les autres.
 
 ```
@@ -83,8 +86,7 @@ python fill_expense_report.py -y field_setting\random_field_values1.yml -o succ�
 ```
 
 Le prochain exemple produit un rapport non modifiable à partir de la valeur des
-champs d'un rapport existant et de données en YAML. En cas de différence, ces
-dernières écrasent celles extraites du rapport.
+champs d'un rapport existant et de données en YAML.
 
 ```
 python fill_expense_report.py -p rapport_depenses_base.pdf -y field_setting/partial_field_setting.yml -o succès.pdf
