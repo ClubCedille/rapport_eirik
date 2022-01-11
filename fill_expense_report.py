@@ -11,7 +11,7 @@ from sys import exit
 from field_setting_parser import\
 	get_yaml_content,\
 	parse_yaml_content
-from path_arg_checks import check_mandatory_path
+from path_arg_checks import check_ungenerable_path
 from PyPDF2 import PdfFileReader
 from pypdf2_util import\
 	make_writer_from_reader,\
@@ -139,11 +139,11 @@ if __name__ == "__main__":
 	template_path = args.template # -t
 	yml_data_path = args.yml_data # -y
 
-	check_mandatory_path(
+	check_ungenerable_path(
 		output_path, "-o/--output", _EXTENSION_PDF, must_exist=False)
 
 	if pdf_data_path is not None:
-		check_mandatory_path(
+		check_ungenerable_path(
 			pdf_data_path, "-p/--pdf_data", _EXTENSION_PDF, must_exist=True)
 
 	if template_path == _DFLT_TEMPLATE_PATH:
@@ -152,10 +152,10 @@ if __name__ == "__main__":
 				+ str(template_path) + "' not found.")
 			exit(1)
 	else:
-		check_mandatory_path(
+		check_ungenerable_path(
 			template_path, "-t/--template", _EXTENSION_PDF, must_exist=True)
 
-	check_mandatory_path(
+	check_ungenerable_path(
 		yml_data_path, "-y/--yml_data", _EXTENSION_YML, must_exist=True)
 
 	template = PdfFileReader(template_path.open(mode="rb"), strict=False)

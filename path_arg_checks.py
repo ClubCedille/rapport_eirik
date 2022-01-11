@@ -20,17 +20,17 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 	"""
 	Performs verifications for a pair of path arguments provided to a script.
 	The first one, the input path, points to a file from which the script
-	extracts data. It is verified by function check_mandatory_path with
+	extracts data. It is verified by function check_ungenerable_path with
 	must_exist set to True. The second path argument, the output path, is
 	optional. It points to a file in which the script writes a result. It is
-	verified by function check_optional_path. Argument input_path serves as the
+	verified by function check_generable_path. Argument input_path serves as the
 	base for the default output path value.
 
 	This function performs the following calls.
 
-	check_mandatory_path(input_path, input_path_name, input_path_exten, True)
+	check_ungenerable_path(input_path, input_path_name, input_path_exten, True)
 
-	check_optional_path(output_path, output_path_name,
+	check_generable_path(output_path, output_path_name,
 		output_path_exten, input_path, dflt_output_termin)
 
 	Read those functions' documentation to get the full information about the
@@ -55,10 +55,10 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 		ValueError: if dflt_output_termin is None while output_path is None or
 			points to a directory
 	"""
-	check_mandatory_path(input_path, input_path_name, input_path_exten, True)
+	check_ungenerable_path(input_path, input_path_name, input_path_exten, True)
 
 	try:
-		dflt_output_path = check_optional_path(
+		dflt_output_path = check_generable_path(
 			output_path, output_path_name, output_path_exten,
 			input_path, dflt_output_termin)
 
@@ -69,12 +69,13 @@ def check_io_path_pair(input_path, input_path_name, input_path_exten,
 	return dflt_output_path
 
 
-def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
+def check_ungenerable_path(path_obj, path_arg_name, path_exten, must_exist):
 	"""
-	Performs verifications with library Jazal on a path argument that must be
-	provided to a script. An error message is printed in the console, and the
-	script is interrupted if the path is omitted, if it points to an inexistent
-	file while must_exist is True or if it has an incorrect extension.
+	Performs verifications with library Jazal on a path argument for which a
+	default value cannot be generated if it is omitted. An error message is
+	printed in the console, and the script is interrupted if the path is
+	omitted, if it points to an inexistent file while must_exist is True or if
+	it has an incorrect extension.
 
 	Args:
 		path_obj (pathlib.Path): the path argument being checked. Set this
@@ -105,17 +106,18 @@ def check_mandatory_path(path_obj, path_arg_name, path_exten, must_exist):
 		exit(1)
 
 
-def check_optional_path(
+def check_generable_path(
 		path_obj, path_arg_name, path_exten, base_path, termination):
 	"""
-	Performs verifications with library Jazal on a path argument that is
-	optionally provided to a script. If it is omitted, a default value is
-	generated from base_path and termination. If the path points to a
-	directory, a default name is generated from base_path's file name and
-	termination. If the path has an incorrect extension, an error message is
-	printed in the console, and the script is interrupted. If path_obj is not
-	None and points to a file rather than a directory, base_path and
-	termination are not required and can be None.
+	Performs verifications with library Jazal on a path argument for which a
+	default value can be generated if it is omitted. The default value is made
+	by appending termination and path_exten to base_path's file stem. If the
+	path points to a directory, a default name for a file is generated the same
+	way with base_path's file stem, termination and path_exten. If the path has
+	an incorrect extension, an error message is printed in the console, and the
+	script is interrupted. If path_obj is not None and points to a file rather
+	than a directory, base_path and termination are not required and can be
+	None.
 
 	Args:
 		path_obj (pathlib.Path): the path argument being checked. Set this
@@ -154,7 +156,7 @@ def check_optional_path(
 				base_path, after_stem=termination,
 				extension=path_checker.extension)
 
-		else:
+		else: # path_obj points to a file.
 			try:
 				path_checker.check_extension_correct()
 
