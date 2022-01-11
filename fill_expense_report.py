@@ -28,7 +28,7 @@ _ccAMOUNT_FIELD = "ccMontant$"
 _AMOUNT_TOTAL_FIELD = "TotalMontant"
 _ccAMOUNT_TOTAL_FIELD = "TotalccMontant$"
 
-_DFLT_TEMPLATE_PATH = Path("rapport_depenses.pdf")
+_DFLT_TEMPLATE_PATH = Path(__file__).parents[0]/"rapport_depenses.pdf"
 
 _EXTENSION_PDF = ".pdf"
 _EXTENSION_YML = ".yml"
