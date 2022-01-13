@@ -94,7 +94,7 @@ class RadioBtnGroup:
 			return self._btn_names.index(btn_name)
 
 		except ValueError:
-			# Sometimes, btn_name is None.
+			# btn_name can unknowingly be set to None.
 			raise ValueError("Radio button group " + self._name
 				+ " does not have button " + str(btn_name) + ".")
 
