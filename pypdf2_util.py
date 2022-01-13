@@ -88,7 +88,12 @@ class RadioBtnGroup:
 		Raises:
 			ValueError: if btn_name is not found
 		"""
-		return self._btn_names.index(btn_name)
+		try:
+			return self._btn_names.index(btn_name)
+
+		except ValueError:
+			raise ValueError("Radio button group " + self._name
+				+ " does not have button " + btn_name + ".")
 
 	def __iter__(self):
 		return iter(self._btn_names)
