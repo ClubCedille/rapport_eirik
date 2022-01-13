@@ -148,8 +148,8 @@ if __name__ == "__main__":
 
 	if template_path == _DFLT_TEMPLATE_PATH:
 		if not template_path.exists():
-			print("ERROR! Default report template '"
-				+ str(template_path) + "' not found.")
+			print("ERROR! Default report template "
+				+ str(template_path) + " not found.")
 			exit(1)
 	else:
 		check_ungenerable_path(

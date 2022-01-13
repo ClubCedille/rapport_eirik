@@ -42,7 +42,9 @@ class RadioBtnGroup:
 		names. At least one button name must be provided.
 
 		Args:
-			group_name (str): the name of this radio button group
+			group_name (str): the name of this radio button group. It should be
+				the name of the field that corresponds to the group in the PDF
+				file.
 			*btn_names: the names of the buttons in this group, as strings. At
 				least one must be provided.
 
@@ -88,7 +90,13 @@ class RadioBtnGroup:
 		Raises:
 			ValueError: if btn_name is not found
 		"""
-		return self._btn_names.index(btn_name)
+		try:
+			return self._btn_names.index(btn_name)
+
+		except ValueError:
+			# btn_name can unknowingly be set to None.
+			raise ValueError("Radio button group " + self._name
+				+ " does not have button " + str(btn_name) + ".")
 
 	def __iter__(self):
 		return iter(self._btn_names)
@@ -99,8 +107,7 @@ class RadioBtnGroup:
 	@property
 	def name(self):
 		"""
-		The name of this radio button group. It should be the name of the
-		field that corresponds to the group in the PDF file.
+		str: the name of this radio button group
 		"""
 		return self._name
 

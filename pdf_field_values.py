@@ -41,14 +41,23 @@ class PdfField:
 
 	@property
 	def name(self):
+		"""
+		str: the name of this PDF field
+		"""
 		return self._name
 
 	@property
 	def type(self):
+		"""
+		str: the type of this PDF field
+		"""
 		return self._type
 
 	@property
 	def value(self):
+		"""
+		any: the value stored in this PDF field
+		"""
 		return self._value
 
 
