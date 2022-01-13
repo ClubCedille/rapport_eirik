@@ -93,6 +93,8 @@ champs d'un rapport existant et de données en YAML.
 python fill_expense_report.py -p rapport_depenses_base.pdf -y field_setting/partial_field_setting.yml -o succès.pdf
 ```
 
+Dans ce dernier cas, on obtient le même résultat si on remplace `-p` par `-t`.
+
 ### Fichiers de données
 
 Le dossier `field_setting` contient des exemples de fichier de données en YAML.
