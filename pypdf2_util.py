@@ -58,7 +58,12 @@ class RadioBtnGroup:
 		self._btn_names = btn_names
 
 	def __getitem__(self, index):
-		return self._btn_names[index]
+		try:
+			return self._btn_names[index]
+
+		except IndexError:
+			raise IndexError("Radio button group " + self._name
+				+ " does not have index " + str(index) + ".")
 
 	def has_index(self, index):
 		"""
