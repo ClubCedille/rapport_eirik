@@ -71,12 +71,12 @@ def filter_values_from_dict(a_dict, unwanted_vals):
 	return wanted_items
 
 
-def get_yaml_content(field_setting_path):
+def get_yaml_content(yaml_file_path):
 	"""
 	Reads a YAML file and returns its content in in a dictionary.
 
 	Args:
-		field_setting_path (pathlib.Path): the path to the YAML file
+		yaml_file_path (pathlib.Path): the path to a YAML file
 
 	Returns:
 		dict: the YAML file's content
@@ -85,12 +85,14 @@ def get_yaml_content(field_setting_path):
 		ValueError: if the extension of field_setting_path is not "yaml" or
 		"yml"
 	"""
-	if field_setting_path.suffixes not in ([".yaml"], [".yml"]):
+	if yaml_file_path.suffixes not in ([".yaml"], [".yml"]):
 		raise ValueError("The file extension must be \".yaml\" or \".yml\".")
 
-	yaml_content = None
-	with field_setting_path.open(encoding="utf8") as field_setting_stream:
+	with yaml_file_path.open(encoding="utf8") as field_setting_stream:
 		yaml_content = load(field_setting_stream, FullLoader)
+
+	if yaml_content is None:
+		yaml_content = dict()
 
 	return yaml_content
 
