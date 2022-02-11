@@ -11,7 +11,7 @@ Args:
 from path_arg_checks import check_io_path_pair
 from pathlib import Path
 from PyPDF2 import PdfFileReader
-from pypdf2_util import\
+from PyPDF2_Fields import\
 	make_writer_from_reader,\
 	set_need_appearances
 from sys import argv
