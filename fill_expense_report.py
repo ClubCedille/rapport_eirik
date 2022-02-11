@@ -13,9 +13,9 @@ from field_setting_parser import\
 	parse_yaml_content
 from path_arg_checks import check_ungenerable_path
 from PyPDF2 import PdfFileReader
-from pypdf2_util import\
+from PyPDF2_Fields import\
 	make_writer_from_reader,\
-	pdf_field_name_val_dict,\
+	pair_fields_name_and_val,\
 	RadioBtnGroup,\
 	set_need_appearances,\
 	update_page_fields
@@ -44,7 +44,7 @@ _NAME_GROUP4 = "Group4"
 def _get_fields_from_pdf(pdf_data_path, radio_btn_group1, radio_btn_group2):
 	pdf_data_source =\
 		PdfFileReader(pdf_data_path.open(mode="rb"), strict=False)
-	field_values = pdf_field_name_val_dict(pdf_data_source.getFields(), True)
+	field_values = pair_fields_name_and_val(pdf_data_source.getFields(), True)
 
 	try:
 		group1_index = radio_btn_group1.index(field_values.get(_NAME_GROUP1))
