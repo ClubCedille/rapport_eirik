@@ -200,7 +200,7 @@ def parse_yaml_content(yaml_content):
 		dict: a dictionary matching the data from the YAML file with the
 			fields of the expense report.
 	"""
-	# Function update_page_fields from module pypdf2_util must be able to
+	# Function update_page_fields from library PyPDF2_Fields must be able to
 	# process the dictionary returned by this function.
 	field_values = dict()
 

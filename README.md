@@ -38,12 +38,11 @@ l'application.
 
 On a besoin de `requirements.txt` pour installer les dépendances.
 
-Les quatre modules suivants contiennent le code source de Rapport Eirik.
+Les modules suivants contiennent le code source de Rapport Eirik.
 
 * `field_setting_parser.py`
 * `fill_expense_report.py`
 * `path_arg_checks.py`
-* `pypdf2_util.py`
 
 Le modèle de rapport `rapport_depenses.pdf` doit être présent dans le même
 dossier que ces modules bien qu'on peut spécifier un autre modèle (voir section
